@@ -238,9 +238,7 @@
                                         <div class="cell">
                                             <div class="cellTop" style="height: 60%;">
                                                 <span style="color: red; ">${r.name}</span>
-                                                <button class="btn btn-default btn-xs dropdown-toggle" type="button" onclick="addRoom();">
-                                                    <span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true">New</span>
-                                                </button>
+                                                <a style="font-size: large" href="javascript:addRoom(0);" title="添加此房屋">+</a>
                                             </div>
                                             <div class="cellBottom" style="height: 40%;">
                                                 &nbsp;
