@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Wed Jun 01 10:54:56 CST 2016-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lezhi.app.mapper.StatisticsMapper">
+
+    <select id="countDealUnique">
+         select count(1) from address_unique_deal
+    </select>
+
+    <select id="countDealResolved">
+        select count(1) from resolved_address_deal
+    </select>
+
+</mapper>

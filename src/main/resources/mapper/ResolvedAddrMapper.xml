@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Wed Jun 01 10:54:56 CST 2016-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lezhi.app.mapper.ResolvedAddrMapper">
+
+    <resultMap id="ResolvedAddressMap" type="com.lezhi.app.model.ResolvedAddress">
+        <id column="id" property="id" />
+        <result column="ref_id" property="refId" />
+        <result column="ori_address" property="oriAddress" />
+        <result column="residence" property="residence" />
+        <result column="building" property="building" />
+        <result column="room" property="room" />
+        <result column="area" property="area" />
+        <result column="residence_id" property="residenceId" />
+        <result column="building_id" property="buildingId" />
+    </resultMap>
+
+    <select id="find" resultMap="ResolvedAddressMap">
+        select t.id, t.ref_id, t.ori_address, t.residence, t.building, t.room, t.residence_id
+        from `resolved_address_deal` t where
+        (
+        <foreach collection="keywords" item="keyword" separator="or">
+            t.ori_address like '%${keyword}%'
+        </foreach>
+        )
+        <if test="building != null">
+            and t.building like '%${building}%'
+        </if>
+        <if test="room != null">
+            and t.room like '%${room}%'
+        </if>
+        order by t.residence, t.building, t.room
+    </select>
+
+    <select id="findAll" resultMap="ResolvedAddressMap">
+        select t.id, t.ref_id, t.ori_address, t.residence, t.building, t.room, t.residence_id
+        from `resolved_address_deal` t
+    </select>
+
+    <select id="findAllWithBuilding" resultMap="ResolvedAddressMap">
+        select t.id, t.ref_id, t.ori_address, t.residence, t.building, t.room, t.residence_id, b.id as building_id, c.area as area
+        from `resolved_address_deal` t
+        left join t_building_dic b on b.name = t.building and b.residence_id = t.residence_id
+        left join `all_address` c on c.id = t.ref_id
+    </select>
+
+    <select id="findByResidences" resultMap="ResolvedAddressMap">
+        select t.id, t.ref_id, t.ori_address, t.residence, t.building, t.room, t.residence_id, t.area as area
+        from `resolved_address_deal` t where
+        t.residence_id IN (
+        <foreach collection="rids" item="rid" separator=",">
+            #{rid}
+        </foreach>
+        )
+        <if test="building != null">
+            and t.building like '%${building}%'
+        </if>
+        <if test="room != null">
+            and t.room like '%${room}%'
+        </if>
+        order by t.residence, t.building, t.room
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(1) from `resolved_address` t where
+        (
+        <foreach collection="keywords" item="keyword" separator="or">
+            t.resolved_address_deal like '%${keyword}%'
+        </foreach>
+        )
+        <if test="building != null">
+            and t.building like '%${building}%'
+        </if>
+        <if test="room != null">
+            and t.room like '%${room}%'
+        </if>
+    </select>
+
+    <select id="countAll" resultType="java.lang.Integer">
+        select count(1) from `resolved_address` t
+    </select>
+
+    <select id="countByResidences" resultType="java.lang.Integer">
+        select count(1) from `resolved_address_deal` t where
+        t.residence_id IN (
+        <foreach collection="rids" item="rid" separator=",">
+            #{rid}
+        </foreach>
+        )
+        <if test="building != null">
+            and t.building like '%${building}%'
+        </if>
+        <if test="room != null">
+            and t.room like '%${room}%'
+        </if>
+    </select>
+</mapper>

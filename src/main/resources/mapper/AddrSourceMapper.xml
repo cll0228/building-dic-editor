@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Wed Jun 01 10:54:56 CST 2016-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lezhi.app.mapper.AddrSourceMapper">
+
+    <resultMap id="AddrMap" type="com.lezhi.app.model.Address">
+        <id column="id" property="id" />
+        <result column="address" property="address" />
+        <result column="room_no" property="roomNo" />
+        <result column="residence_id" property="residenceId" />
+    </resultMap>
+
+
+    <select id="findAllAddress2" resultMap="AddrMap">
+        SELECT t.address as address, t.id as id, t.room_no
+        FROM address_unique t
+    </select>
+
+
+    <select id="countAll2" resultType="java.lang.Integer">
+        select count(1) from address_unique
+    </select>
+
+    <select id="findAllAddress_deal" resultMap="AddrMap">
+        SELECT t.address as address, t.id as id, t.room_no
+        FROM address_unique_deal t
+        left join sh_residence_info r on t.residence_id = r.ResidenceId
+        where r.ResidenceId is not null
+    </select>
+
+
+    <select id="countAll_deal" resultType="java.lang.Integer">
+        select count(1) from address_unique_deal t
+        left join sh_residence_info r on t.residence_id = r.ResidenceId
+        where r.ResidenceId is not null
+    </select>
+
+    <select id="findAllAddress_300w" resultMap="AddrMap">
+        SELECT t.address as address, t.id as id, t.roomnum as room_no, t.ResidenceId as residence_id
+        FROM house_deal_address300w t
+    </select>
+
+    <select id="countAll_300w" resultType="java.lang.Integer">
+        select count(1) from house_deal_address300w t
+    </select>
+</mapper>
