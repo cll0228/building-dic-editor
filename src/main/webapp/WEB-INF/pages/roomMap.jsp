@@ -176,10 +176,23 @@
                                 <c:if test="${r.real}">
                                     <td ondblclick="alert('当前房屋的ID是${r.id}');">
                                         <c:choose>
-                                            <c:when test="${r.status == 10}">
+                                            <c:when test="${r.status eq 10 or r.status eq 20 or r.status eq 30}">
                                                 <div class="cell">
                                                     <div class="cellTop" style="height: 60%;">
-                                                        <span style="color: #57a957; ">${r.name}</span>
+                                                        <c:choose>
+                                                            <c:when test="${r.status eq 10}">
+                                                                <c:set var="clr1" value="#57a957" />
+                                                            </c:when>
+                                                            <c:when test="${r.status eq 20}">
+                                                                <c:set var="clr1" value="#985f0d" />
+                                                            </c:when>
+                                                            <c:when test="${r.status eq 30}">
+                                                                <c:set var="clr1" value="#2f96b4" />
+                                                            </c:when>
+                                                        </c:choose>
+
+                                                        <span style="color: ${clr1}; ">${r.name}</span>
+
                                                         <div class="btn-group">
                                                             <button class="btn btn-default btn-xs dropdown-toggle" type="button"
                                                                     data-toggle="dropdown" aria-haspopup="true"
@@ -190,57 +203,7 @@
                                                             <ul class="dropdown-menu">
                                                                 <li><a href="#" onclick="editArea(${r.id},'${r.area}');return false;">修改面积</a>
                                                                 </li>
-                                                                    <li><a href="#" onclick="delRoom('开发中');return false;">删除</a>
-                                                                    </li>
-                                                                <li role="separator" class="divider"></li>
-                                                                <li><a href="#" onclick="approve(${r.id});return false;">锁定</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cellBottom" style="height: 40%;">
-                                                        <span style="color: #1b1b1b;font-size: 8px"><i>${r.area}</i></span>
-                                                    </div>
-                                                </div>
-                                            </c:when>
-                                            <c:when test="${r.status == 20}">
-                                                <div class="cell">
-                                                    <div class="cellTop" style="height: 60%;">
-                                                        <span style="color:#985f0d;">${r.name}</span>
-                                                        <div class="btn-group">
-                                                            <button class="btn btn-default btn-xs dropdown-toggle" type="button"
-                                                                    data-toggle="dropdown" aria-haspopup="true"
-                                                                    aria-expanded="false">
-                                                        <span class="glyphicon glyphicon glyphicon-pencil"
-                                                              aria-hidden="true">Edit</span>
-                                                            </button>
-                                                            <ul class="dropdown-menu">
-                                                                <li><a href="#" onclick="editArea(${r.id},'${r.area}');return false;">修改面积</a>
-                                                                </li>
-                                                                <li role="separator" class="divider"></li>
-                                                                <li><a href="#" onclick="approve(${r.id});return false;">锁定</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                    <div class="cellBottom" style="height: 40%;">
-                                                        <span style="color: #1b1b1b;font-size: 8px"><i>${r.area}</i></span>
-                                                    </div>
-                                                </div>
-                                            </c:when>
-                                            <c:when test="${r.status == 30}">
-                                                <div class="cell">
-                                                    <div class="cellTop" style="height: 60%;">
-                                                        <span style="color:#2f96b4;">${r.name}</span>
-                                                        <div class="btn-group">
-                                                            <button class="btn btn-default btn-xs dropdown-toggle" type="button"
-                                                                    data-toggle="dropdown" aria-haspopup="true"
-                                                                    aria-expanded="false">
-                                                        <span class="glyphicon glyphicon glyphicon-pencil"
-                                                              aria-hidden="true">Edit</span>
-                                                            </button>
-                                                            <ul class="dropdown-menu">
-                                                                <li><a href="#" onclick="editArea(${r.id},'${r.area}');return false;">修改面积</a>
+                                                                <li><a href="#" onclick="delRoom('开发中');return false;">删除</a>
                                                                 </li>
                                                                 <li role="separator" class="divider"></li>
                                                                 <li><a href="#" onclick="approve(${r.id});return false;">锁定</a>
