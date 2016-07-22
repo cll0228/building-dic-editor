@@ -26,9 +26,9 @@
         function approve(id) {
             $.get("${ctx}/approve.do", {"id":id}, function (data) {
                 if (data != undefined && data.status == 'success') {
-                    layer.msg('操作成功', {icon: 1});
+                    layer.msg('房屋已锁定！', {icon: 1});
                 } else {
-                    layer.msg('操作失败');
+                    layer.msg('锁定失败');
                 }
             });
         }
@@ -44,7 +44,17 @@
                 });
             });
         }
-
+        function editTotalFloor(id, oldTotalFloor) {
+            layer.prompt({
+                title: '输入新的总层高，并确认',
+                formType: 0, //prompt风格，支持0-2,
+                value: ''
+            }, function(){
+                layer.msg('总层高已经更新。', {icon: 1});
+            }, function(){
+                layer.msg('放弃了。', {icon: 1});
+            });
+        }
         function delRoom() {
             layer.confirm('删除此房间？', {
                 btn: ['删除','取消'] //按钮
@@ -54,15 +64,27 @@
                 layer.msg('放弃了。', {icon: 1});
             });
         }
-
+        function delBuilding() {
+            layer.confirm('删除此楼？', {
+                btn: ['删除','取消'] //按钮
+            }, function(){
+                layer.msg('删除了。', {icon: 1});
+            }, function(){
+                layer.msg('放弃了。', {icon: 1});
+            });
+        }
         function addRoom() {
             //页面层
             layer.open({
                 type: 1,
                 skin: 'layui-layer-rim', //加上边框
                 area: ['420px', '240px'], //宽高
-                content: 'html内容'
+                title: "添加房屋",
+                content: '开发中。。。'
             });
+        }
+        function viewDetail(id) {
+            layer.alert('当前房屋的ID是' + id + '<br/>原始地址是:XXX<br/>数据来源:XXX', {icon: 1, title: "房屋详情"});
         }
     </script>
 </head>
@@ -98,12 +120,14 @@
             </c:forEach>
         </div>
     </c:if>
-    <div class="tips1" style="display: none">
+    <div class="tips1" style="text-align: center; font-weight: 600">
         <span style="color:red;">红色室号表示房屋不存在</span> <br/>
         <span style="color:green;">绿色室号是从地址库中解析到的房屋</span> <br/>
         <span style="color:#985f0d;">暗黄色室号是机器自动补全的房屋</span> <br/>
         <span style="color:#2f96b4;">淡蓝色室号是人工补全的房屋</span> <br/>
-        <span style="color:#000;">黑色室号是已经确认的的房屋</span> <br/>
+        <span style="color:#000;">黑色室号是已经锁定的的房屋</span> <br/>
+        <br/>
+        <span>双击在在的房屋试试看新功能.</span>
     </div>
     <c:if test="${empty keywords}">
         <div style="text-align: center;padding-top: 180px;">
@@ -127,7 +151,7 @@
             <c:forEach items="${r.buildingBitMaps}" var="be" varStatus="s">
                 <div class="building-map" style="color: ${be.exists ? 'green' : 'red'};">
                     <c:if test="${not be.exists}">
-                        <span onclick="javascript:alert('添加')">${s.index + r.minBuilding}</span>
+                        <span onclick="layer.alert('添加')">${s.index + r.minBuilding}</span>
                     </c:if>
                     <c:if test="${be.exists}">
                         <a href="#b_${be.buildingId}">${s.index + r.minBuilding}</a>
@@ -150,16 +174,16 @@
                                     <button class="btn btn-default btn-xs dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span class="glyphicon glyphicon glyphicon-pencil"
-                                              aria-hidden="true">Edit</span>
+                                              aria-hidden="true"></span>
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#" onclick="alert('开发中');return false;">自动补全所有</a></li>
+                                        <li><a href="#" onclick="layer.alert('开发中');return false;">自动补全所有</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#" onclick="alert('开发中');return false;">全部锁定</a></li>
+                                        <li><a href="#" onclick="layer.alert('开发中');return false;">全部锁定</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#" onclick="alert('开发中');return false;">修改总层高</a></li>
+                                        <li><a href="#" onclick="editTotalFloor(12,'9');return false;">修改总层高</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#" onclick="alert('开发中');return false;">删除此楼</a></li>
+                                        <li><a href="#" onclick="delBuilding(2);return false;">删除此楼</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -174,7 +198,7 @@
                         <tr>
                             <c:forEach items="${f.rooms}" var="r">
                                 <c:if test="${r.real}">
-                                    <td ondblclick="alert('当前房屋的ID是${r.id}');">
+                                    <td ondblclick="viewDetail(${r.id});">
                                         <c:choose>
                                             <c:when test="${r.status eq 10 or r.status eq 20 or r.status eq 30}">
                                                 <div class="cell">
@@ -198,7 +222,7 @@
                                                                     data-toggle="dropdown" aria-haspopup="true"
                                                                     aria-expanded="false">
                                                         <span class="glyphicon glyphicon glyphicon-pencil"
-                                                              aria-hidden="true">Edit</span>
+                                                              aria-hidden="true"></span>
                                                             </button>
                                                             <ul class="dropdown-menu">
                                                                 <li><a href="#" onclick="editArea(${r.id},'${r.area}');return false;">修改面积</a>
@@ -238,7 +262,7 @@
                                         <div class="cell">
                                             <div class="cellTop" style="height: 60%;">
                                                 <span style="color: red; ">${r.name}</span>
-                                                <a style="font-size: large" href="javascript:addRoom(0);" title="添加此房屋">+</a>
+                                                <a style="font-size: large" href="#" onclick="addRoom(0);" title="添加此房屋">+</a>
                                             </div>
                                             <div class="cellBottom" style="height: 40%;">
                                                 &nbsp;
@@ -248,7 +272,7 @@
                                 </c:if>
                             </c:forEach>
                             <td style="text-align: center;font-size: 30px; width: 40px;min-width: 40px;">
-                                <a href="javascript:addRoom(0);" title="在此楼层添加房屋">+</a>
+                                <a href="#" onclick="addRoom(0);" title="在此楼层添加房屋">+</a>
                             </td>
                         </tr>
                     </c:if>
@@ -256,7 +280,7 @@
                         <tr>
                             <td colspan="100" class="unreal">
                                 <span style="color: #e9322d;">${f.name}</span>
-                                <a href="#" onclick="return false;">在此楼层创建房屋</a>
+                                <a href="#" onclick="addRoom();return false;">在此楼层创建房屋</a>
                             </td>
                         </tr>
                     </c:if>
