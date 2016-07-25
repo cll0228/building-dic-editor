@@ -42,7 +42,7 @@ public class Test3 {
 
     private static final File PATH = new File("D:\\房屋地址数据");
 
-    @Test
+    //@Test
     public void createBuildingDic() throws Exception {
         final int PAGE_SIZE = 1000000;
         final int count = resolvedAddrMapper.countAll();
@@ -84,8 +84,7 @@ public class Test3 {
         return null;
     }
 
-
-    @Test
+    //@Test
     public void createRoomDic() throws Exception {
         final int PAGE_SIZE = 1000000;
         final int count = resolvedAddrMapper.countAll(); //WithBuilding();
@@ -111,13 +110,13 @@ public class Test3 {
         delRepeat(outputRoom);
     }
 
-    @Test
+    //@Test
     public void manualDelRepeat() throws IOException {
         File output = new File(PATH, "t_building_dic.txt");
         delRepeat(output);
     }
 
-    @Test
+    //@Test
     public void manualDelRepeatRoom() throws IOException {
         File output = new File(PATH, "t_room_dic.txt");
         delRepeat(output);

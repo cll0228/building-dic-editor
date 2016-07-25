@@ -33,7 +33,7 @@ public class Test1 {
 
     private File exportFile = new File(PATH, "address_unique_deal.txt.gbk");
 
-    @Test
+    //@Test
     public void exportToFile() throws IOException {
         final int PAGE_SIZE = 1000000;
         int count = addrSourceMapper.countAll_300w();
@@ -56,7 +56,7 @@ public class Test1 {
         fos.close();
     }
 
-    @Test
+    //@Test
     public void matchAddress() throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(exportFile), "gbk"));
@@ -128,11 +128,10 @@ public class Test1 {
         split(sqlTabFile);
     }
 
-    @Test
+    //@Test
     public void splitManual() throws Exception {
         split(new File("D:\\房屋地址数据\\address_unique_deal.txt.import.tab"));
     }
-
 
     private void split(File input) throws Exception {
         File folder = new File(PATH, "import_" + input.getName());
@@ -160,7 +159,7 @@ public class Test1 {
         System.out.printf("文件分割完成");
     }
 
-    @Test
+    //@Test
     public void sortFile() throws IOException {
         File input = new File(PATH, "address_unique.txt.not-matched.not-matched");
         List<String> lines = FileUtils.readLines(input, "gbk");
@@ -200,7 +199,7 @@ public class Test1 {
         IOUtils.closeQuietly(fos);
     }
 
-    @Test
+    //@Test
     public void testConvert() throws IOException {
         convertEncode(new File("D:\\房屋地址数据\\address_unique_deal.txt"), "utf-8", "gbk");
     }
