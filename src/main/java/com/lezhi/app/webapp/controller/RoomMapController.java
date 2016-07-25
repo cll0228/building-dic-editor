@@ -5,9 +5,11 @@ import com.lezhi.app.mapper.BuildingDicMapper;
 import com.lezhi.app.mapper.ResidenceMapper;
 import com.lezhi.app.mapper.RoomDicMapper;
 import com.lezhi.app.model.BuildingDic;
+import com.lezhi.app.model.RoomDic;
 import com.lezhi.app.model.map.MapBuilder;
 import com.lezhi.app.model.map.Residence;
 import com.lezhi.app.model.map.StdAddr;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +69,23 @@ public class RoomMapController {
         dic.setName(buildingName);
         dic.setResidenceId(residenceId);
         boolean success = 1 == buildingDicMapper.insert(dic);
+        result.put("status", success ? "success" : "failed");
+        return result;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "newArea")
+    public Map<String, String> newArea(HttpServletRequest request, HttpServletResponse response,
+                                       @RequestParam(value = "id", required = true) int id,
+                                       @RequestParam(value = "newArea", required = true) BigDecimal newArea
+                                           ) {
+
+        Map<String, String> result = new HashMap<>();
+
+        RoomDic dic = new RoomDic();
+        dic.setId(id);
+        dic.setArea(newArea);
+        boolean success = 1 == roomDicMapper.update(dic);
         result.put("status", success ? "success" : "failed");
         return result;
     }

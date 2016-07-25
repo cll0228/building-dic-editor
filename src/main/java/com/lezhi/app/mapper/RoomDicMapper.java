@@ -1,7 +1,9 @@
 package com.lezhi.app.mapper;
 
+import com.lezhi.app.model.BuildingDic;
 import com.lezhi.app.model.RoomDic;
 import com.lezhi.app.model.map.StdAddr;
+
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -22,4 +24,6 @@ public interface RoomDicMapper {
     int updateStatus(@Param("id") int id, @Param("status") int status);
 
     int countDealUnique();
+    
+    int update(RoomDic roomDic);
 }

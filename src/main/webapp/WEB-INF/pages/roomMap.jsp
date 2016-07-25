@@ -33,13 +33,22 @@
             });
         }
 
-        function editArea(id, oldArea) {
+        function editArea(id, newArea) {
             layer.prompt({
                 title: '输入新的面积，并确认',
                 formType: 0, //prompt风格，支持0-2,
-                value: oldArea
-            }, function(){
-                layer.msg('OK...', {icon: 1});
+                value: newArea
+            }, function(val){
+            	$.post("${ctx}/newArea.do", {"id" : id, "newArea": val}, function (data) {
+            		if(data.status=="success") {
+            			layer.msg('修改成功', {icon: 1});
+            			$("#1470971")[0].innerText = val;
+            		} else {
+            			layer.msg('修改失败', {icon: 2});
+            		}
+					
+                });
+                
             }, function(){
                 layer.msg('放弃了。', {icon: 1});
             });
@@ -253,7 +262,7 @@
                                                               aria-hidden="true"></span>
                                                             </button>
                                                             <ul class="dropdown-menu">
-                                                                <li><a href="#" onclick="editArea(${r.id},'${r.area}');return false;">修改面积</a>
+                                                                <li><a href="#" onclick="editArea(${r.id},$('#1470971')[0].innerText);return false;">修改面积</a>
                                                                 </li>
                                                                 <li><a href="#" onclick="delRoom('开发中');return false;">删除</a>
                                                                 </li>
@@ -264,7 +273,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="cellBottom" style="height: 40%;">
-                                                        <span style="color: #1b1b1b;font-size: 8px"><i>${r.area}</i></span>
+                                                        <span style="color: #1b1b1b;font-size: 8px"><i id="${r.id}">${r.area}</i></span>
                                                     </div>
                                                 </div>
                                             </c:when>

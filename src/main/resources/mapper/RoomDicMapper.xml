@@ -7,12 +7,17 @@
         <id column="id" property="id"/>
         <result column="name" property="name"/>
         <result column="building_id" property="buildingId"/>
+        <result column="area" property="area"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.lezhi.app.model.RoomDic">
         insert into t_room_dic(`name`, `building_id`) VALUES (
         #{name}, #{buildingId}
         )
+    </insert>
+
+	<insert id="update" parameterType="com.lezhi.app.model.RoomDic">
+		update t_room_dic set area = #{area} where id = #{id}
     </insert>
 
     <select id="find" resultMap="RMap">
