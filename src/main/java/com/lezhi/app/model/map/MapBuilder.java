@@ -110,8 +110,13 @@ public class MapBuilder {
                     BuildingBitMap bitMap = new BuildingBitMap();
                     bitMap.setExists(bid != null);
                     bitMap.setBuildingId(bid);
-                    bitMap.setBuildingName(buildingName);
-                    bitMap.setBuildingNameInt(buildingNameInt);
+                    if (bid != null) {
+                        bitMap.setBuildingName(buildingName);
+                        bitMap.setBuildingNameInt(buildingNameInt);
+                    } else {
+                        bitMap.setBuildingName(String.valueOf(i));
+                        bitMap.setBuildingNameInt(i);
+                    }
                     buildingBitMaps.add(bitMap);
                 }
                 r.getBuildingBitMaps().addAll(buildingBitMaps);

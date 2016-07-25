@@ -1,8 +1,10 @@
 package com.lezhi.app.webapp.controller;
 
 import com.lezhi.app.enums.RoomDicStatus;
+import com.lezhi.app.mapper.BuildingDicMapper;
 import com.lezhi.app.mapper.ResidenceMapper;
 import com.lezhi.app.mapper.RoomDicMapper;
+import com.lezhi.app.model.BuildingDic;
 import com.lezhi.app.model.map.MapBuilder;
 import com.lezhi.app.model.map.Residence;
 import com.lezhi.app.model.map.StdAddr;
@@ -28,6 +30,8 @@ import java.util.Map;
 public class RoomMapController {
 
     @Autowired
+    private BuildingDicMapper buildingDicMapper;
+    @Autowired
     private RoomDicMapper roomDicMapper;
     @Autowired
     private ResidenceMapper residenceMapper;
@@ -44,6 +48,23 @@ public class RoomMapController {
 
         Map<String, String> result = new HashMap<>();
         boolean success = 1 == roomDicMapper.updateStatus(id, RoomDicStatus.CONFIRMED);
+        result.put("status", success ? "success" : "failed");
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "addBuilding")
+    public Map<String, String> addBuilding(HttpServletRequest request, HttpServletResponse response,
+                                       @RequestParam(value = "rid", required = true) int residenceId,
+                                       @RequestParam(value = "no", required = true) String buildingName
+                                           ) {
+
+        Map<String, String> result = new HashMap<>();
+
+        BuildingDic dic = new BuildingDic();
+        dic.setName(buildingName);
+        dic.setResidenceId(residenceId);
+        boolean success = 1 == buildingDicMapper.insert(dic);
         result.put("status", success ? "success" : "failed");
         return result;
     }

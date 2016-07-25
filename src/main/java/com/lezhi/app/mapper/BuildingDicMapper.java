@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface BuildingDicMapper {
 
-    void insert(BuildingDic buildingDic);
+    int insert(BuildingDic buildingDic);
 
     List<BuildingDic> find(@Param("residenceId") Integer residenceId, @Param("name") String name);
 

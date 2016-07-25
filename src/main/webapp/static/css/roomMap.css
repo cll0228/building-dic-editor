@@ -5,19 +5,23 @@ body {
 }
 
 a.backtop {
-    background: url("/static/img/scrolltop.jpg") no-repeat scroll center center rgba(0, 0, 0, 0);
+    background: url("/static/images/gototop.png")  no-repeat;
+    background-position: -68px 2px;
     bottom: 20px;
     cursor: pointer;
     display: none;
-    height: 70px;
+    height: 60px;
     position: fixed;
     right: 20px;
     text-indent: -9999px;
     width: 70px;
     z-index: 100;
-    border: solid 1px #002a80;
+  /*  border: solid 1px #002a80;*/
 }
-
+a.backtop:hover {
+    background: url("/static/images/gototop.png")  no-repeat;
+    background-position: 0 0;
+}
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
     margin-bottom: 10px;
@@ -54,7 +58,9 @@ div.building-map {
 
 .table1 thead td {
     background-color: #d59392;
-    min-width: 160px;
+    min-width: 220px;
+    height: 30px;
+    vertical-align: middle;
 }
 
 .table1 tbody td {
@@ -132,4 +138,33 @@ div.cellBottom {
     margin: 0;
     clear: both;
     text-align: right;    clear: both;    float: left;
+}
+
+a.addbuilding {
+    color: red;
+    text-decoration: none;
+}
+
+a.addbuilding:hover {
+    color: red;
+    text-decoration: none;
+}
+
+a.addbuilding:active {
+    color: red;
+    text-decoration: none;
+}
+a.plus {
+    color: #000;
+    text-decoration: none;
+}
+
+a.plus:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+a.plus:active {
+    color: #000;
+    text-decoration: none;
 }

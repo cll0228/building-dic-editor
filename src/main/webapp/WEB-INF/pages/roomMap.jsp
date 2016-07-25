@@ -38,17 +38,33 @@
                 title: '输入新的面积，并确认',
                 formType: 0, //prompt风格，支持0-2,
                 value: oldArea
-            }, function(pass){
-                layer.prompt({title: '随便写点啥，并确认', formType: 2}, function(text){
-                    layer.msg('演示完毕！您的口令：'+ pass +' 您最后写下了：'+ text);
-                });
+            }, function(){
+                layer.msg('OK...', {icon: 1});
+            }, function(){
+                layer.msg('放弃了。', {icon: 1});
             });
         }
+
+        function addBuilding(rid, no,title) {
+            layer.prompt({
+                title: title ? title : '输入楼栋号，并确认',
+                formType: 0, //prompt风格，支持0-2,
+                value: no ? no : ''
+            }, function(){
+                layer.msg('OK..。', {icon: 1});
+                $.post("${ctx}/addBuilding.do", {"rid" : rid, "no": no}, function (data) {
+
+                });
+            }, function(){
+                //layer.msg('放弃了。', {icon: 1});
+            });
+        }
+
         function editTotalFloor(id, oldTotalFloor) {
             layer.prompt({
                 title: '输入新的总层高，并确认',
                 formType: 0, //prompt风格，支持0-2,
-                value: ''
+                value: '7'
             }, function(){
                 layer.msg('总层高已经更新。', {icon: 1});
             }, function(){
@@ -119,16 +135,27 @@
                 </c:if>
             </c:forEach>
         </div>
-    </c:if>
-    <div class="tips1" style="text-align: center; font-weight: 600">
-        <span style="color:red;">红色室号表示房屋不存在</span> <br/>
-        <span style="color:green;">绿色室号是从地址库中解析到的房屋</span> <br/>
-        <span style="color:#985f0d;">暗黄色室号是机器自动补全的房屋</span> <br/>
-        <span style="color:#2f96b4;">淡蓝色室号是人工补全的房屋</span> <br/>
-        <span style="color:#000;">黑色室号是已经锁定的的房屋</span> <br/>
+
+    <div class="tips1" style="text-align: center; padding: 10px;">
+        <div style="width: 30px;height: 15px;background-color: red;float: left;margin-top: 2px;"></div>
+        <div style="width: 300px;height: 15px;float: left;text-align: left;padding-top: 0; padding-left: 10px">房屋不存在</div>
+        <div style="clear: both;width: 1px;height: 6px;"></div>
+        <div style="width: 30px;height: 15px;background-color: green;float: left;;margin-top: 2px;"></div>
+        <div style="width: 300px;height: 15px;float: left;text-align: left; padding-left: 10px">从地址库中解析到的房屋</div>
+        <div style="clear: both;width: 1px;height: 6px;"></div>
+        <div style="width: 30px;height: 15px;background-color: #985f0d;float: left;;margin-top: 2px;"></div>
+        <div style="width: 300px;height: 15px;float: left;text-align: left; padding-left:10px">机器自动补全的房屋</div>
+        <div style="clear: both;width: 1px;height: 6px;"></div>
+        <div style="width: 30px;height: 15px;background-color: #2f96b4;float: left;;margin-top: 2px;"></div>
+        <div style="width: 300px;height: 15px;float: left;text-align: left; padding-left: 10px">人工补全的房屋</div>
+        <div style="clear: both;width: 1px;height: 6px;"></div>
+        <div style="width: 30px;height: 15px;background-color: #000;float: left;margin-top: 2px;;"></div>
+        <div style="width: 300px;height: 15px;float: left;text-align: left; padding-left: 10px">已经锁定的的房屋</div>
+        <div style="clear: both;width: 1px;height: 6px;"></div>
         <br/>
-        <span>双击在在的房屋试试看新功能.</span>
+        <span>开发数据，随意编辑</span>
     </div>
+    </c:if>
     <c:if test="${empty keywords}">
         <div style="text-align: center;padding-top: 180px;">
             <img src="${ctx}/static/img/viewmag-256.png">
@@ -146,12 +173,12 @@
         <div class="myhr"></div>
         <p name="rid_${r.residenceId}" id="rid_${r.residenceId}"><span class="simpleTitle">小区:</span>:${r.name}&nbsp;
         </p>
-        <p><span>楼栋位图</span>&nbsp;&nbsp;<input type="button" class="btn btn-sm" value="添加楼栋"> </p>
+        <p><span>楼栋位图</span>&nbsp;&nbsp;<input onclick="addBuilding(${r.residenceId});" type="button" class="btn btn-sm" value="添加楼栋"> </p>
         <div style="clear: both">
             <c:forEach items="${r.buildingBitMaps}" var="be" varStatus="s">
                 <div class="building-map" style="color: ${be.exists ? 'green' : 'red'};">
                     <c:if test="${not be.exists}">
-                        <span onclick="layer.alert('添加')">${s.index + r.minBuilding}</span>
+                        <a  class="addbuilding" href="#" onclick="addBuilding(${r.residenceId}, '${be.buildingName}','添加此楼');return false">${be.buildingName}</a>
                     </c:if>
                     <c:if test="${be.exists}">
                         <a href="#b_${be.buildingId}">${s.index + r.minBuilding}</a>
@@ -167,13 +194,14 @@
                     <td colspan="100">
                         <div class="cell">
                             <div class="cellLeft" style="width: 60%;">
-                                    ${b.name}号&nbsp;总楼层:${b.totalFloor}
+                                <span style="text-indent: 4px" class="glyphicon glyphicon glyphicon-th" aria-hidden="true">${b.name}号&nbsp;${b.totalFloor}F</span>
                             </div>
                             <div class="cellRight">
+                                <a class="plus" href="#" onclick="layer.alert('以列表的形式，详细地显示此楼栋的全部信息，一目了然。');return false">数据列表</a>
                                 <div class="btn-group">
                                     <button class="btn btn-default btn-xs dropdown-toggle" type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span class="glyphicon glyphicon glyphicon-pencil"
+                                        <span class="glyphicon glyphicon glyphicon-wrench"
                                               aria-hidden="true"></span>
                                     </button>
                                     <ul class="dropdown-menu">
@@ -262,7 +290,7 @@
                                         <div class="cell">
                                             <div class="cellTop" style="height: 60%;">
                                                 <span style="color: red; ">${r.name}</span>
-                                                <a style="font-size: large" href="#" onclick="addRoom(0);" title="添加此房屋">+</a>
+                                                <a class="plus" style="font-size: large" href="#" onclick="addRoom(0);" title="添加此房屋">+</a>
                                             </div>
                                             <div class="cellBottom" style="height: 40%;">
                                                 &nbsp;
@@ -272,7 +300,7 @@
                                 </c:if>
                             </c:forEach>
                             <td style="text-align: center;font-size: 30px; width: 40px;min-width: 40px;">
-                                <a href="#" onclick="addRoom(0);" title="在此楼层添加房屋">+</a>
+                                <a class="plus" href="#" onclick="addRoom(0);" title="在此楼层添加房屋">+</a>
                             </td>
                         </tr>
                     </c:if>
@@ -280,7 +308,9 @@
                         <tr>
                             <td colspan="100" class="unreal">
                                 <span style="color: #e9322d;">${f.name}</span>
-                                <a href="#" onclick="addRoom();return false;">在此楼层创建房屋</a>
+                                <a class="plus" style="font-size: large" href="#" onclick="addRoom(0);" title="在此楼层添加房屋">+</a>
+                                <!--
+                                <a class="plus" href="#" onclick="addRoom();return false;">在此楼层创建房屋</a>-->
                             </td>
                         </tr>
                     </c:if>
