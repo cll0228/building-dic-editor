@@ -42,7 +42,7 @@
             	$.post("${ctx}/newArea.do", {"id" : id, "newArea": val}, function (data) {
             		if(data.status=="success") {
             			layer.msg('修改成功', {icon: 1});
-            			$("#1470971")[0].innerText = val;
+            			$("#"+id)[0].innerText = val;
             		} else {
             			layer.msg('修改失败', {icon: 2});
             		}
@@ -294,7 +294,7 @@
                                                               aria-hidden="true"></span>
                                                             </button>
                                                             <ul class="dropdown-menu">
-                                                                <li><a href="#" onclick="editArea(${r.id},$('#1470971')[0].innerText);return false;">修改面积</a>
+                                                                <li><a href="#" onclick="editArea(${r.id},$('#${r.id}')[0].innerText);return false;">修改面积</a>
                                                                 </li>
                                                                 <li><a href="#" onclick="delRoom(${r.id});return false;">删除</a>
                                                                 </li>
