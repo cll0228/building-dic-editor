@@ -16,6 +16,16 @@
         )
     </insert>
 
+    <insert id="insertNewRoom" parameterType="com.lezhi.app.model.RoomDic">
+        insert into t_room_dic(`name`,`area`,`status`, `building_id`) VALUES (
+        #{name},#{area},#{status}, #{buildingId}
+        )
+    </insert>
+
+    <insert id="deleteRoom" parameterType="com.lezhi.app.model.RoomDic">
+        delete from t_room_dic where id = #{id}
+    </insert>
+
 	<insert id="update" parameterType="com.lezhi.app.model.RoomDic">
 		update t_room_dic set area = #{area} where id = #{id}
     </insert>

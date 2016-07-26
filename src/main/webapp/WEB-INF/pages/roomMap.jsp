@@ -80,11 +80,17 @@
                 layer.msg('放弃了。', {icon: 1});
             });
         }
-        function delRoom() {
+        function delRoom(rid) {
             layer.confirm('删除此房间？', {
                 btn: ['删除','取消'] //按钮
             }, function(){
-                layer.msg('删除了。', {icon: 1});
+                $.post("${ctx}/deleteRoom.do", {"rid" : rid}, function (data) {
+                    if (data != undefined && data.status == 'success') {
+                        layer.msg('房屋已删除！', {icon: 1});
+                    } else {
+                        layer.msg('删除失败！');
+                    }
+                });
             }, function(){
                 layer.msg('放弃了。', {icon: 1});
             });
@@ -98,14 +104,40 @@
                 layer.msg('放弃了。', {icon: 1});
             });
         }
-        function addRoom() {
+        function addRoom(bid,rname) {
+            //页面层
+//            layer.open({
+//                type: 1,
+//                skin: 'layui-layer-rim', //加上边框
+//                area: ['420px', '240px'], //宽高
+//                title: "添加房屋",
+//                content: '开发中。。。'
+//            });
+            layer.prompt({
+                title: '输入添加房屋的面积，并确认',
+                formType: 0 //prompt风格，支持0-2,
+            }, function(text){
+                $.post("${ctx}/addRoom.do", {"bid" : bid, "rname": rname,"rarea":text}, function (data) {
+                    if (data != undefined && data.status == 'success') {
+                        layer.msg('房屋已添加！', {icon: 1});
+                    } else {
+                        layer.msg('添加失败！');
+                    }
+                });
+            }, function(){
+                layer.msg('放弃了。', {icon: 1});
+            });
+        }
+
+        function addNewRoom(bid) {
+            var data = '<div style="padding:20px;"><table><tr><td> 请输入房间号：</td><td><input id="rm" type="text" /></td></tr><tr><td>请输入面积：</td><td><input id="ra" type="text"/></td></tr></table></div>';
             //页面层
             layer.open({
                 type: 1,
-                skin: 'layui-layer-rim', //加上边框
-                area: ['420px', '240px'], //宽高
-                title: "添加房屋",
-                content: '开发中。。。'
+                area: ['600px', '300px'],
+                shadeClose: true,
+                content: data,
+                btn: ['确定', '关闭']
             });
         }
         function viewDetail(id) {
@@ -264,7 +296,7 @@
                                                             <ul class="dropdown-menu">
                                                                 <li><a href="#" onclick="editArea(${r.id},$('#1470971')[0].innerText);return false;">修改面积</a>
                                                                 </li>
-                                                                <li><a href="#" onclick="delRoom('开发中');return false;">删除</a>
+                                                                <li><a href="#" onclick="delRoom(${r.id});return false;">删除</a>
                                                                 </li>
                                                                 <li role="separator" class="divider"></li>
                                                                 <li><a href="#" onclick="approve(${r.id});return false;">锁定</a>
@@ -299,7 +331,7 @@
                                         <div class="cell">
                                             <div class="cellTop" style="height: 60%;">
                                                 <span style="color: red; ">${r.name}</span>
-                                                <a class="plus" style="font-size: large" href="#" onclick="addRoom(0);" title="添加此房屋">+</a>
+                                                <a class="plus" style="font-size: large" href="#" onclick="addRoom(${b.id},${r.name});" title="添加此房屋">+</a>
                                             </div>
                                             <div class="cellBottom" style="height: 40%;">
                                                 &nbsp;
@@ -317,7 +349,7 @@
                         <tr>
                             <td colspan="100" class="unreal">
                                 <span style="color: #e9322d;">${f.name}</span>
-                                <a class="plus" style="font-size: large" href="#" onclick="addRoom(0);" title="在此楼层添加房屋">+</a>
+                                <a class="plus" style="font-size: large" href="#" onclick="addRoom(${b.id});" title="在此楼层添加房屋">+</a>
                                 <!--
                                 <a class="plus" href="#" onclick="addRoom();return false;">在此楼层创建房屋</a>-->
                             </td>

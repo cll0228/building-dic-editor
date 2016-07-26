@@ -15,6 +15,10 @@ public interface RoomDicMapper {
 
     void insert(RoomDic roomDic);
 
+    int insertNewRoom(RoomDic roomDic);
+
+    int deleteRoom(RoomDic ric);
+
     List<RoomDic> find(@Param("buildingId") Integer buildingId, @Param("name") String name);
 
     List<StdAddr> findRoomExists(@Param("rids") int rids[]);

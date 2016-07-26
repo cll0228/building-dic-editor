@@ -10,7 +10,7 @@ public class RoomDic {
     private Integer id;
     private String name;
     private Integer buildingId;
-    private	BigDecimal area;
+    private	 BigDecimal area;
 
     public Integer getStatus() {
         return status;

@@ -72,6 +72,41 @@ public class RoomMapController {
         result.put("status", success ? "success" : "failed");
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "addRoom")
+    public Map<String, String> addRoom(HttpServletRequest request, HttpServletResponse response,
+                                       @RequestParam(value = "bid", required = true) int buildingId,
+                                       @RequestParam(value = "rname", required = true) String roomName,
+                                       @RequestParam(value = "rarea", required = true) BigDecimal area
+    ) {
+
+        Map<String, String> result = new HashMap<>();
+
+        RoomDic ric = new RoomDic();
+        ric.setName(roomName);
+        ric.setBuildingId(buildingId);
+        ric.setArea(area);
+        ric.setStatus(RoomDicStatus.MANUAL_CREATE);
+        boolean success = 1 == roomDicMapper.insertNewRoom(ric);
+        result.put("status", success ? "success" : "failed");
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "deleteRoom")
+    public Map<String, String> deleteRoom(HttpServletRequest request, HttpServletResponse response,
+                                          @RequestParam(value = "rid", required = true) int id
+    ) {
+
+        Map<String, String> result = new HashMap<>();
+
+        RoomDic ric = new RoomDic();
+        ric.setId(id);
+        boolean success = 1 == roomDicMapper.deleteRoom(ric);
+        result.put("status", success ? "success" : "failed");
+        return result;
+    }
     
     @ResponseBody
     @RequestMapping(value = "newArea")
