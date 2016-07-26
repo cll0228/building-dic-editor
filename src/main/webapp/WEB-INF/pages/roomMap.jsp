@@ -27,6 +27,9 @@
             $.get("${ctx}/approve.do", {"id":id}, function (data) {
                 if (data != undefined && data.status == 'success') {
                     layer.msg('房屋已锁定！', {icon: 1});
+                    $("."+id).find(".btn-group").css("display","none");
+                    $("."+id).find(".btn-group").before("<span title='房屋已经锁定' class='glyphicon glyphicon glyphicon-lock' aria-hidden='true'></span>");
+                    $("#"+id+"_c").css("color","");
                 } else {
                     layer.msg('锁定失败');
                 }
@@ -267,7 +270,7 @@
                         <tr>
                             <c:forEach items="${f.rooms}" var="r">
                                 <c:if test="${r.real}">
-                                    <td ondblclick="viewDetail(${r.id});">
+                                    <td ondblclick="viewDetail(${r.id});" class="${r.id}">
                                         <c:choose>
                                             <c:when test="${r.status eq 10 or r.status eq 20 or r.status eq 30}">
                                                 <div class="cell">
@@ -284,7 +287,7 @@
                                                             </c:when>
                                                         </c:choose>
 
-                                                        <span style="color: ${clr1}; ">${r.name}</span>
+                                                        <span style="color: ${clr1}; " id="${r.id}_c">${r.name}</span>
 
                                                         <div class="btn-group">
                                                             <button class="btn btn-default btn-xs dropdown-toggle" type="button"
