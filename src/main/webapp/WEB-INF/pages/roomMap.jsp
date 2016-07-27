@@ -23,20 +23,20 @@
     <script type="text/javascript" src="${ctx}/layer/layer.js"></script>
 
     <script type="text/javascript">
-        function approve(id) {
+        function approve(id, tid) {
             $.get("${ctx}/approve.do", {"id":id}, function (data) {
                 if (data != undefined && data.status == 'success') {
                     layer.msg('房屋已锁定！', {icon: 1});
-                    $("."+id).find(".btn-group").css("display","none");
-                    $("."+id).find(".btn-group").before("<span title='房屋已经锁定' class='glyphicon glyphicon glyphicon-lock' aria-hidden='true'></span>");
-                    $("#"+id+"_c").css("color","");
+                    $("."+tid).find(".btn-group").css("display","none");
+                    $("."+tid).find(".btn-group").before("<span title='房屋已经锁定' class='glyphicon glyphicon glyphicon-lock' aria-hidden='true'></span>");
+                    $("#"+id).css("color","");
                 } else {
                     layer.msg('锁定失败');
                 }
             });
         }
 
-        function editArea(id, newArea) {
+        function editArea(id, newArea, liclass) {
             layer.prompt({
                 title: '输入新的面积，并确认',
                 formType: 0, //prompt风格，支持0-2,
@@ -45,7 +45,7 @@
             	$.post("${ctx}/newArea.do", {"id" : id, "newArea": val}, function (data) {
             		if(data.status=="success") {
             			layer.msg('修改成功', {icon: 1});
-            			$("#"+id+"_a")[0].innerText = val;
+            			$("."+liclass)[0].innerText = val;
             		} else {
             			layer.msg('修改失败', {icon: 2});
             		}
@@ -94,7 +94,7 @@
                         $("#"+rid+"_t").find(".btn-group").css("display","none");
                         $("#"+rid+"_t").find(".cellBottom").css("display","none");
                         $("#"+rid+"_t").find(".plus").css("display","");
-                        $("#"+rid).css("color","red");
+                        $("#"+rid+"_c").css("color","red");
                     } else {
                         layer.msg('删除失败！');
                     }
@@ -113,8 +113,8 @@
             });
         }
         function addRoom(bid,rname) {
-            var area_id = "." + bid + "_" + rname + "_3";
-            var span_id = "." + bid + "_" + rname + "_1";
+            var area_class = "." + bid + "_" + rname + "_3";
+            var span_class = "." + bid + "_" + rname + "_1";
             var td_class = "." + bid + "_" + rname;
             var plus_id = "#" + bid + "_" + rname + "_2";
             var a1 = "." + bid + "_" + rname + "_01";
@@ -127,23 +127,23 @@
                 $.post("${ctx}/addRoom.do", {"bid" : bid, "rname": rname,"rarea":text}, function (data) {
 
                     if (data != undefined && data.status == 'success') {
-                        $(area_id).attr('id',data.rid+"_a");
+                        $(area_class).attr('id',data.rid+"_a");
                         layer.msg('房屋已添加！', {icon: 1});
-                        $(area_id).html(text);
-                        $(span_id).css("color","#57a957");
+                        $(area_class).html(text);
+                        $(span_class).css("color","#57a957");
                         $(plus_id).css("display","none");
                         $(td_class).find(".btn-group").css("display","");
                         $(td_class).find(".cellBottom").css("display","");
                         $(td_class).attr('id',data.rid+"_t");
-                        $(span_id).attr('id',data.rid);
+                        $(span_class).attr('id',data.rid+"_c");
                         $(a1).click(function(){
-                            editArea(data.rid,$("#"+data.rid+"_a")[0].innerText);
+                            editArea(data.rid,$(area_class)[0].innerText,bid + "_" + rname + "_3");
                         })
                         $(a2).click(function(){
                             delRoom(data.rid);
                         })
                         $(a3).click(function(){
-                            approve(data.rid);
+                            approve(data.rid, bid+"_"+rname);
                         })
                     } else {
                         layer.msg('添加失败！');
@@ -310,7 +310,7 @@
                         <tr>
                             <c:forEach items="${f.rooms}" var="r">
                                 <c:if test="${r.real}">
-                                    <td ondblclick="viewDetail(${r.id});" class="${r.id}">
+                                    <td ondblclick="viewDetail(${r.id});" class="${b.id}_${r.name}" id="${r.id}_t">
                                         <c:choose>
                                             <c:when test="${r.status eq 10 or r.status eq 20 or r.status eq 30}">
                                                 <div class="cell">
@@ -327,8 +327,8 @@
                                                             </c:when>
                                                         </c:choose>
 
-                                                        <span style="color: ${clr1}; " id="${r.id}_c">${r.name}</span>
-
+                                                        <span style="color: ${clr1}; " class="${b.id}_${r.name}_1" id="${r.id}_c">${r.name}</span>
+                                                        <a class="plus" id="${b.id}_${r.name}_2" style="font-size: large;display: none;" href="#" onclick="addRoom(${b.id},${r.name});" title="添加此房屋">+</a>
                                                         <div class="btn-group">
                                                             <button class="btn btn-default btn-xs dropdown-toggle" type="button"
                                                                     data-toggle="dropdown" aria-haspopup="true"
@@ -337,18 +337,18 @@
                                                               aria-hidden="true"></span>
                                                             </button>
                                                             <ul class="dropdown-menu">
-                                                                <li><a href="#" onclick="editArea(${r.id},$('#${r.id}_a')[0].innerText);return false;">修改面积</a>
+                                                                <li><a href="#" class="${b.id}_${r.name}_01" onclick="editArea(${r.id},$('.${b.id}_${r.name}_3')[0].innerText,${b.id}_${r.name}_3);return false;">修改面积</a>
                                                                 </li>
-                                                                <li><a href="#" onclick="delRoom(${r.id});return false;">删除</a>
+                                                                <li><a href="#" class="${b.id}_${r.name}_02" onclick="delRoom(${r.id});return false;">删除</a>
                                                                 </li>
                                                                 <li role="separator" class="divider"></li>
-                                                                <li><a href="#" onclick="approve(${r.id});return false;">锁定</a>
+                                                                <li><a href="#" class="${b.id}_${r.name}_03" onclick="approve(${r.id},${b.id}_${r.name});return false;">锁定</a>
                                                                 </li>
                                                             </ul>
                                                         </div>
                                                     </div>
                                                     <div class="cellBottom" style="height: 40%;">
-                                                        <span style="color: #1b1b1b;font-size: 8px"><i id="${r.id}_a">${r.area}</i></span>
+                                                        <span style="color: #1b1b1b;font-size: 8px"><i class="${b.id}_${r.name}_3" id="${r.id}_a">${r.area}</i></span>
                                                     </div>
                                                 </div>
                                             </c:when>
@@ -359,7 +359,7 @@
                                                         <span title="房屋已经锁定" class="glyphicon glyphicon glyphicon-lock" aria-hidden="true"></span>
                                                     </div>
                                                     <div class="cellBottom" style="height: 40%;">
-                                                        <span style="color: #1b1b1b;font-size: 8px"><i id="${r.id}"></i></span>
+                                                        <span style="color: #1b1b1b;font-size: 8px"><i class="${b.id}_${r.name}_3" id="${r.id}">${r.area}</i></span>
                                                     </div>
                                                 </div>
                                             </c:when>
@@ -410,7 +410,7 @@
                         <tr>
                             <td colspan="100" class="unreal">
                                 <span style="color: #e9322d;">${f.name}</span>
-                                <a class="plus" style="font-size: large" href="#" onclick="addRoom(${b.id});" title="在此楼层添加房屋">+</a>
+                                <a class="plus" style="font-size: large" href="#" onclick="addNewRoom(${b.id});" title="在此楼层添加房屋">+</a>
                                 <!--
                                 <a class="plus" href="#" onclick="addRoom();return false;">在此楼层创建房屋</a>-->
                             </td>
