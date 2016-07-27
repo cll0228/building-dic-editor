@@ -91,10 +91,10 @@
                 $.post("${ctx}/deleteRoom.do", {"rid" : rid}, function (data) {
                     if (data != undefined && data.status == 'success') {
                         layer.msg('房屋已删除！', {icon: 1});
-                        $("#"+rid).find(".btn-group").css("display","none");
-                        $("#"+rid).find(".cellBottom").css("display","none");
-                        $("#"+rid).find(".plus").css("display","");
-                        $("#"+rid+"_1").css("color","red");
+                        $("#"+rid+"_t").find(".btn-group").css("display","none");
+                        $("#"+rid+"_t").find(".cellBottom").css("display","none");
+                        $("#"+rid+"_t").find(".plus").css("display","");
+                        $("#"+rid).css("color","red");
                     } else {
                         layer.msg('删除失败！');
                     }
@@ -128,14 +128,13 @@
 
                     if (data != undefined && data.status == 'success') {
                         $(area_id).attr('id',data.rid+"_a");
-
                         layer.msg('房屋已添加！', {icon: 1});
                         $(area_id).html(text);
                         $(span_id).css("color","#57a957");
                         $(plus_id).css("display","none");
                         $(td_class).find(".btn-group").css("display","");
                         $(td_class).find(".cellBottom").css("display","");
-                        $(td_class).attr('id',data.rid);
+                        $(td_class).attr('id',data.rid+"_t");
                         $(span_id).attr('id',data.rid);
                         $(a1).click(function(){
                             editArea(data.rid,$("#"+data.rid+"_a")[0].innerText);
