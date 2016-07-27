@@ -27,6 +27,9 @@
             $.get("${ctx}/approve.do", {"id":id}, function (data) {
                 if (data != undefined && data.status == 'success') {
                     layer.msg('房屋已锁定！', {icon: 1});
+                    $("."+id).find(".btn-group").css("display","none");
+                    $("."+id).find(".btn-group").before("<span title='房屋已经锁定' class='glyphicon glyphicon glyphicon-lock' aria-hidden='true'></span>");
+                    $("#"+id+"_c").css("color","");
                 } else {
                     layer.msg('锁定失败');
                 }
@@ -42,7 +45,7 @@
             	$.post("${ctx}/newArea.do", {"id" : id, "newArea": val}, function (data) {
             		if(data.status=="success") {
             			layer.msg('修改成功', {icon: 1});
-            			$("#1470971")[0].innerText = val;
+            			$("#"+id)[0].innerText = val;
             		} else {
             			layer.msg('修改失败', {icon: 2});
             		}
@@ -302,7 +305,7 @@
                         <tr>
                             <c:forEach items="${f.rooms}" var="r">
                                 <c:if test="${r.real}">
-                                    <td ondblclick="viewDetail(${r.id});">
+                                    <td ondblclick="viewDetail(${r.id});" class="${r.id}">
                                         <c:choose>
                                             <c:when test="${r.status eq 10 or r.status eq 20 or r.status eq 30}">
                                                 <div class="cell">
@@ -319,7 +322,7 @@
                                                             </c:when>
                                                         </c:choose>
 
-                                                        <span style="color: ${clr1}; ">${r.name}</span>
+                                                        <span style="color: ${clr1}; " id="${r.id}_c">${r.name}</span>
 
                                                         <div class="btn-group">
                                                             <button class="btn btn-default btn-xs dropdown-toggle" type="button"
@@ -329,7 +332,7 @@
                                                               aria-hidden="true"></span>
                                                             </button>
                                                             <ul class="dropdown-menu">
-                                                                <li><a href="#" onclick="editArea(${r.id},$('#1470971')[0].innerText);return false;">修改面积</a>
+                                                                <li><a href="#" onclick="editArea(${r.id},$('#${r.id}')[0].innerText);return false;">修改面积</a>
                                                                 </li>
                                                                 <li><a href="#" onclick="delRoom(${r.id});return false;">删除</a>
                                                                 </li>
