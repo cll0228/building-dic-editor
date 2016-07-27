@@ -45,7 +45,7 @@
             	$.post("${ctx}/newArea.do", {"id" : id, "newArea": val}, function (data) {
             		if(data.status=="success") {
             			layer.msg('修改成功', {icon: 1});
-            			$("#"+id)[0].innerText = val;
+            			$("#"+id+"_a")[0].innerText = val;
             		} else {
             			layer.msg('修改失败', {icon: 2});
             		}
@@ -84,16 +84,17 @@
             });
         }
         function delRoom(rid) {
+            var td_id = "#"+rid;
             layer.confirm('删除此房间？', {
                 btn: ['删除','取消'] //按钮
             }, function(){
                 $.post("${ctx}/deleteRoom.do", {"rid" : rid}, function (data) {
                     if (data != undefined && data.status == 'success') {
                         layer.msg('房屋已删除！', {icon: 1});
-                        $("div.cellTop .plus").css("display","");
-//                        $(plus_id).css("display","");
-//                        $(div_id).remove();
-//                        window.location.reload();//刷新当前页面.
+                        $("#"+rid).find(".btn-group").css("display","none");
+                        $("#"+rid).find(".cellBottom").css("display","none");
+                        $("#"+rid).find(".plus").css("display","");
+                        $("#"+rid+"_1").css("color","red");
                     } else {
                         layer.msg('删除失败！');
                     }
@@ -112,27 +113,32 @@
             });
         }
         function addRoom(bid,rname) {
-            var select_id = "#" + bid + "_" + rname + "_3";
-            var span_id = "#" + bid + "_" + rname + "_1";
-            var div_id = "#" + bid + "_" + rname;
+            var area_id = "." + bid + "_" + rname + "_3";
+            var span_id = "." + bid + "_" + rname + "_1";
+            var td_class = "." + bid + "_" + rname;
             var plus_id = "#" + bid + "_" + rname + "_2";
-            var a1 = "#" + bid + "_" + rname + "_01";
-            var a2 = "#" + bid + "_" + rname + "_02";
-            var a3 = "#" + bid + "_" + rname + "_03";
-
+            var a1 = "." + bid + "_" + rname + "_01";
+            var a2 = "." + bid + "_" + rname + "_02";
+            var a3 = "." + bid + "_" + rname + "_03";
             layer.prompt({
                 title: '输入添加房屋的面积，并确认',
                 formType: 0 //prompt风格，支持0-2,
             }, function(text){
                 $.post("${ctx}/addRoom.do", {"bid" : bid, "rname": rname,"rarea":text}, function (data) {
+
                     if (data != undefined && data.status == 'success') {
+                        $(area_id).attr('id',data.rid+"_a");
+
                         layer.msg('房屋已添加！', {icon: 1});
-                        $(select_id).html(text);
+                        $(area_id).html(text);
                         $(span_id).css("color","#57a957");
-                        $(plus_id).remove();
-                        $(div_id).css("display","");
+                        $(plus_id).css("display","none");
+                        $(td_class).find(".btn-group").css("display","");
+                        $(td_class).find(".cellBottom").css("display","");
+                        $(td_class).attr('id',data.rid);
+                        $(span_id).attr('id',data.rid);
                         $(a1).click(function(){
-                            editArea(data.rid,text);
+                            editArea(data.rid,$("#"+data.rid+"_a")[0].innerText);
                         })
                         $(a2).click(function(){
                             delRoom(data.rid);
@@ -332,7 +338,7 @@
                                                               aria-hidden="true"></span>
                                                             </button>
                                                             <ul class="dropdown-menu">
-                                                                <li><a href="#" onclick="editArea(${r.id},$('#${r.id}')[0].innerText);return false;">修改面积</a>
+                                                                <li><a href="#" onclick="editArea(${r.id},$('#${r.id}_a')[0].innerText);return false;">修改面积</a>
                                                                 </li>
                                                                 <li><a href="#" onclick="delRoom(${r.id});return false;">删除</a>
                                                                 </li>
@@ -343,7 +349,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="cellBottom" style="height: 40%;">
-                                                        <span style="color: #1b1b1b;font-size: 8px"><i id="${r.id}">${r.area}</i></span>
+                                                        <span style="color: #1b1b1b;font-size: 8px"><i id="${r.id}_a">${r.area}</i></span>
                                                     </div>
                                                 </div>
                                             </c:when>
@@ -365,13 +371,13 @@
                                     </td>
                                 </c:if>
                                 <c:if test="${not r.real}">
-                                    <td>
+                                    <td class="${b.id}_${r.name}">
                                         <div class="cell">
                                             <div class="cellTop" style="height: 60%;">
-                                                <span id="${b.id}_${r.name}_1" style="color: red; ">${r.name}</span>
+                                                <span class="${b.id}_${r.name}_1" style="color: red; ">${r.name}</span>
                                                 <a class="plus" id="${b.id}_${r.name}_2" style="font-size: large" href="#" onclick="addRoom(${b.id},${r.name});" title="添加此房屋">+</a>
 
-                                                <div class="btn-group" id="${b.id}_${r.name}" style="display:none;">
+                                                <div class="btn-group" style="display:none;">
                                                     <button class="btn btn-default btn-xs dropdown-toggle" type="button"
                                                             data-toggle="dropdown" aria-haspopup="true"
                                                             aria-expanded="false">
@@ -379,18 +385,18 @@
                                                               aria-hidden="true"></span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#" id="${b.id}_${r.name}_01">修改面积</a>
+                                                        <li><a href="#" class="${b.id}_${r.name}_01">修改面积</a>
                                                         </li>
-                                                        <li><a href="#" id="${b.id}_${r.name}_02">删除</a>
+                                                        <li><a href="#" class="${b.id}_${r.name}_02">删除</a>
                                                         </li>
                                                         <li role="separator" class="divider"></li>
-                                                        <li><a href="#" id="${b.id}_${r.name}_03">锁定</a>
+                                                        <li><a href="#" class="${b.id}_${r.name}_03">锁定</a>
                                                         </li>
                                                     </ul>
                                                 </div>
                                             </div>
                                             <div class="cellBottom" style="height: 40%;">
-                                                <span style="color: #1b1b1b;font-size: 8px"><i id="${b.id}_${r.name}_3"></i></span>
+                                                <span style="color: #1b1b1b;font-size: 8px"><i class="${b.id}_${r.name}_3"></i></span>
                                             </div>
                                         </div>
                                     </td>
