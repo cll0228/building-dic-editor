@@ -87,6 +87,10 @@
                 $.post("${ctx}/deleteRoom.do", {"rid" : rid}, function (data) {
                     if (data != undefined && data.status == 'success') {
                         layer.msg('房屋已删除！', {icon: 1});
+                        $("div.cellTop .plus").css("display","");
+//                        $(plus_id).css("display","");
+//                        $(div_id).remove();
+//                        window.location.reload();//刷新当前页面.
                     } else {
                         layer.msg('删除失败！');
                     }
@@ -105,14 +109,14 @@
             });
         }
         function addRoom(bid,rname) {
-            //页面层
-//            layer.open({
-//                type: 1,
-//                skin: 'layui-layer-rim', //加上边框
-//                area: ['420px', '240px'], //宽高
-//                title: "添加房屋",
-//                content: '开发中。。。'
-//            });
+            var select_id = "#" + bid + "_" + rname + "_3";
+            var span_id = "#" + bid + "_" + rname + "_1";
+            var div_id = "#" + bid + "_" + rname;
+            var plus_id = "#" + bid + "_" + rname + "_2";
+            var a1 = "#" + bid + "_" + rname + "_01";
+            var a2 = "#" + bid + "_" + rname + "_02";
+            var a3 = "#" + bid + "_" + rname + "_03";
+
             layer.prompt({
                 title: '输入添加房屋的面积，并确认',
                 formType: 0 //prompt风格，支持0-2,
@@ -120,6 +124,19 @@
                 $.post("${ctx}/addRoom.do", {"bid" : bid, "rname": rname,"rarea":text}, function (data) {
                     if (data != undefined && data.status == 'success') {
                         layer.msg('房屋已添加！', {icon: 1});
+                        $(select_id).html(text);
+                        $(span_id).css("color","#57a957");
+                        $(plus_id).remove();
+                        $(div_id).css("display","");
+                        $(a1).click(function(){
+                            editArea(data.rid,text);
+                        })
+                        $(a2).click(function(){
+                            delRoom(data.rid);
+                        })
+                        $(a3).click(function(){
+                            approve(data.rid);
+                        })
                     } else {
                         layer.msg('添加失败！');
                     }
@@ -129,7 +146,7 @@
             });
         }
 
-        function addNewRoom(bid) {
+        function addNewRoom1(bid) {
             var data = '<div style="padding:20px;"><table><tr><td> 请输入房间号：</td><td><input id="rm" type="text" /></td></tr><tr><td>请输入面积：</td><td><input id="ra" type="text"/></td></tr></table></div>';
             //页面层
             layer.open({
@@ -138,6 +155,24 @@
                 shadeClose: true,
                 content: data,
                 btn: ['确定', '关闭']
+            });
+        }
+        function addNewRoom(bid) {
+            var pageii = $.layer({
+                type: 1,
+                title: false,
+                area: ['auto', 'auto'],
+                border: [0], //去掉默认边框
+                shade: [0], //去掉遮罩
+                closeBtn: [0, false], //去掉默认关闭按钮
+                shift: 'left', //从左动画弹出
+                page: {
+                    html: '<div style="width:420px; height:260px; padding:20px; border:1px solid #ccc; background-color:#eee;"><p>我从左边来，我自定了风格。</p><button id="pagebtn" class="btns" onclick="">关闭</button></div>'
+                }
+            });
+            //自设关闭
+            $('#pagebtn').on('click', function(){
+                layer.close(pageii);
             });
         }
         function viewDetail(id) {
@@ -316,7 +351,7 @@
                                                         <span title="房屋已经锁定" class="glyphicon glyphicon glyphicon-lock" aria-hidden="true"></span>
                                                     </div>
                                                     <div class="cellBottom" style="height: 40%;">
-                                                        <span style="color: #1b1b1b;font-size: 8px"><i>${r.area}</i></span>
+                                                        <span style="color: #1b1b1b;font-size: 8px"><i id="${r.id}"></i></span>
                                                     </div>
                                                 </div>
                                             </c:when>
@@ -330,18 +365,36 @@
                                     <td>
                                         <div class="cell">
                                             <div class="cellTop" style="height: 60%;">
-                                                <span style="color: red; ">${r.name}</span>
-                                                <a class="plus" style="font-size: large" href="#" onclick="addRoom(${b.id},${r.name});" title="添加此房屋">+</a>
+                                                <span id="${b.id}_${r.name}_1" style="color: red; ">${r.name}</span>
+                                                <a class="plus" id="${b.id}_${r.name}_2" style="font-size: large" href="#" onclick="addRoom(${b.id},${r.name});" title="添加此房屋">+</a>
+
+                                                <div class="btn-group" id="${b.id}_${r.name}" style="display:none;">
+                                                    <button class="btn btn-default btn-xs dropdown-toggle" type="button"
+                                                            data-toggle="dropdown" aria-haspopup="true"
+                                                            aria-expanded="false">
+                                                        <span class="glyphicon glyphicon glyphicon-pencil"
+                                                              aria-hidden="true"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a href="#" id="${b.id}_${r.name}_01">修改面积</a>
+                                                        </li>
+                                                        <li><a href="#" id="${b.id}_${r.name}_02">删除</a>
+                                                        </li>
+                                                        <li role="separator" class="divider"></li>
+                                                        <li><a href="#" id="${b.id}_${r.name}_03">锁定</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                             <div class="cellBottom" style="height: 40%;">
-                                                &nbsp;
+                                                <span style="color: #1b1b1b;font-size: 8px"><i id="${b.id}_${r.name}_3"></i></span>
                                             </div>
                                         </div>
                                     </td>
                                 </c:if>
                             </c:forEach>
                             <td style="text-align: center;font-size: 30px; width: 40px;min-width: 40px;">
-                                <a class="plus" href="#" onclick="addRoom(0);" title="在此楼层添加房屋">+</a>
+                                <a class="plus" href="#" onclick="addNewRoom(${b.id});" title="在此楼层添加房屋">+</a>
                             </td>
                         </tr>
                     </c:if>

@@ -30,4 +30,6 @@ public interface RoomDicMapper {
     int countDealUnique();
     
     int update(RoomDic roomDic);
+
+    int getNewRoomId(RoomDic ric);
 }

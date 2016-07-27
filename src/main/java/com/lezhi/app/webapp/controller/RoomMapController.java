@@ -89,6 +89,8 @@ public class RoomMapController {
         ric.setArea(area);
         ric.setStatus(RoomDicStatus.MANUAL_CREATE);
         boolean success = 1 == roomDicMapper.insertNewRoom(ric);
+        int rid = roomDicMapper.getNewRoomId(ric);
+        result.put("rid",String.valueOf(rid));
         result.put("status", success ? "success" : "failed");
         return result;
     }
