@@ -36,7 +36,8 @@
             });
         }
 
-        function editArea(id, newArea, liclass) {
+        function editArea(id, newArea, bid, rname) {
+            var liclass = bid + "_" + rname + "_3";
             layer.prompt({
                 title: '输入新的面积，并确认',
                 formType: 0, //prompt风格，支持0-2,
@@ -137,7 +138,7 @@
                         $(td_class).attr('id',data.rid+"_t");
                         $(span_class).attr('id',data.rid+"_c");
                         $(a1).click(function(){
-                            editArea(data.rid,$(area_class)[0].innerText,bid + "_" + rname + "_3");
+                            editArea(data.rid,$(area_class)[0].innerText,bid,rname);
                         })
                         $(a2).click(function(){
                             delRoom(data.rid);
@@ -337,7 +338,7 @@
                                                               aria-hidden="true"></span>
                                                             </button>
                                                             <ul class="dropdown-menu">
-                                                                <li><a href="#" class="${b.id}_${r.name}_01" onclick="editArea(${r.id},$('.${b.id}_${r.name}_3')[0].innerText,${b.id}_${r.name}_3);return false;">修改面积</a>
+                                                                <li><a href="#" class="${b.id}_${r.name}_01" onclick="editArea(${r.id},$('.${b.id}_${r.name}_3')[0].innerText,${b.id},${r.name});return false;">修改面积</a>
                                                                 </li>
                                                                 <li><a href="#" class="${b.id}_${r.name}_02" onclick="delRoom(${r.id});return false;">删除</a>
                                                                 </li>
