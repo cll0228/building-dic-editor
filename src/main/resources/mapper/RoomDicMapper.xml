@@ -26,6 +26,10 @@
       select id from t_room_dic where name = #{name} and building_id = #{buildingId}
     </select>
 
+    <select id="countOldRoom" parameterType="com.lezhi.app.model.RoomDic" resultType="java.lang.Integer">
+        select count(0) from t_room_dic where name = #{name} and building_id = #{buildingId}
+    </select>
+
     <insert id="deleteRoom" parameterType="com.lezhi.app.model.RoomDic">
         delete from t_room_dic where id = #{id}
     </insert>

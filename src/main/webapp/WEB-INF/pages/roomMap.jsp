@@ -154,7 +154,7 @@
             });
         }
 
-        function addNewRoom1(bid) {
+        function addNewRoom(bid) {
             var data = '<div style="padding:20px;"><table><tr><td> 请输入房间号：</td><td><input id="rm" type="text" /></td></tr><tr><td>请输入面积：</td><td><input id="ra" type="text"/></td></tr></table></div>';
             //页面层
             layer.open({
@@ -162,25 +162,27 @@
                 area: ['600px', '300px'],
                 shadeClose: true,
                 content: data,
-                btn: ['确定', '关闭']
-            });
-        }
-        function addNewRoom(bid) {
-            var pageii = $.layer({
-                type: 1,
-                title: false,
-                area: ['auto', 'auto'],
-                border: [0], //去掉默认边框
-                shade: [0], //去掉遮罩
-                closeBtn: [0, false], //去掉默认关闭按钮
-                shift: 'left', //从左动画弹出
-                page: {
-                    html: '<div style="width:420px; height:260px; padding:20px; border:1px solid #ccc; background-color:#eee;"><p>我从左边来，我自定了风格。</p><button id="pagebtn" class="btns" onclick="">关闭</button></div>'
+                btn: ['确定', '关闭'],
+                yes:function(index){
+                    $.post("${ctx}/addNewRoom.do", {"bid" : bid, "rname": $('#rm').val(),"rarea":$('#ra').val()}, function (data) {
+
+                        if (data != undefined) {
+                            if(data.status === 'exists'){
+                                layer.msg('该房屋已存在！', {icon: 1});
+                                layer.close();
+                            }
+                            if(data.status == 'success'){
+                                layer.msg('房屋已添加！', {icon: 1});
+                                window.location.reload();//刷新当前页面.
+                            }
+                        } else {
+                            layer.msg('添加失败！');
+                        }
+                    })
+                },
+                cancel:function(index){
+                    layer.close();
                 }
-            });
-            //自设关闭
-            $('#pagebtn').on('click', function(){
-                layer.close(pageii);
             });
         }
         function viewDetail(id) {

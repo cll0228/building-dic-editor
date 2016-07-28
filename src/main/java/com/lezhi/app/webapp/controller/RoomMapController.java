@@ -96,6 +96,31 @@ public class RoomMapController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "addNewRoom")
+    public Map<String, String> addNewRoom(HttpServletRequest request, HttpServletResponse response,
+                                       @RequestParam(value = "bid", required = true) int buildingId,
+                                       @RequestParam(value = "rname", required = true) String roomName,
+                                       @RequestParam(value = "rarea", required = true) BigDecimal area
+    ) {
+
+        Map<String, String> result = new HashMap<>();
+
+        RoomDic ric = new RoomDic();
+        ric.setName(roomName);
+        ric.setBuildingId(buildingId);
+        int countRoom = roomDicMapper.countOldRoom(ric);
+        if(countRoom>0){
+            result.put("status","exists");
+        } else {
+            ric.setArea(area);
+            ric.setStatus(RoomDicStatus.MANUAL_CREATE);
+            boolean success = 1 == roomDicMapper.insertNewRoom(ric);
+            result.put("status", success ? "success" : "failed");
+        }
+        return result;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "deleteRoom")
     public Map<String, String> deleteRoom(HttpServletRequest request, HttpServletResponse response,
                                           @RequestParam(value = "rid", required = true) int id
