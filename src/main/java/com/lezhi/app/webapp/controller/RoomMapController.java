@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,6 +132,31 @@ public class RoomMapController {
         RoomDic ric = new RoomDic();
         ric.setId(id);
         boolean success = 1 == roomDicMapper.deleteRoom(ric);
+        result.put("status", success ? "success" : "failed");
+        return result;
+    }
+    
+    @ResponseBody
+    @RequestMapping(value = "deleteBuilding")
+    public Map<String, String> deleteBuilding(HttpServletRequest request, HttpServletResponse response,
+                                          @RequestParam(value = "buildingId", required = true) int buildingId
+    ) {
+
+        Map<String, String> result = new HashMap<>();
+        //取得相对应的roomId
+        List<RoomDic> ricList = new ArrayList<RoomDic>();
+        ricList = roomDicMapper.queryRoomId(buildingId);
+        String id = "";
+        for (RoomDic roomDic : ricList) {
+        	if(id=="") {
+        		id = roomDic.getId().toString();
+        	} else {
+        		id += "," + roomDic.getId().toString();
+        	}
+		}
+        roomDicMapper.updateRoomStatus(id);
+        //更新楼栋状态为已删除
+        boolean success = 1 == buildingDicMapper.updateBuildingStatus(buildingId);
         result.put("status", success ? "success" : "failed");
         return result;
     }

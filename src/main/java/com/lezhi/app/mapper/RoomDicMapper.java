@@ -34,4 +34,8 @@ public interface RoomDicMapper {
     int getNewRoomId(RoomDic ric);
 
     int countOldRoom(RoomDic ric);
+    
+    List<RoomDic> queryRoomId(@Param("buildingId")Integer buildingId);
+    
+    int updateRoomStatus(@Param("id")String id);
 }
