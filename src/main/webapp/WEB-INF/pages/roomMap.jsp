@@ -29,7 +29,7 @@
                     layer.msg('房屋已锁定！', {icon: 1});
                     $("."+tid).find(".btn-group").css("display","none");
                     $("."+tid).find(".btn-group").before("<span title='房屋已经锁定' class='glyphicon glyphicon glyphicon-lock' aria-hidden='true'></span>");
-                    $("#"+id).css("color","");
+                    $("#"+id+"_c").css("color","");
                 } else {
                     layer.msg('锁定失败');
                 }
