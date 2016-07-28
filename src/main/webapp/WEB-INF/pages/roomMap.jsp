@@ -121,7 +121,7 @@
             var a2 = "." + bid + "_" + rname + "_02";
             var a3 = "." + bid + "_" + rname + "_03";
             layer.prompt({
-                title: '输入添加房屋的面积，并确认',
+                title: '输入房间'+rname+'室的面积，并确认',
                 formType: 0 //prompt风格，支持0-2,
             }, function(text){
                 $.post("${ctx}/addRoom.do", {"bid" : bid, "rname": rname,"rarea":text}, function (data) {
