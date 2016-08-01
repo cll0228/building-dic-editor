@@ -56,10 +56,11 @@
 
     <select id="findRoomExists" resultType="com.lezhi.app.model.map.StdAddr">
         SELECT a.name as room, b.name as building, c.ResidenceName as residence, a.area as area, c.ResidenceId as residenceId,b.id as buildingId,
-        a.id as roomId,a.status as status
+        a.id as roomId,a.status as status,d.src as src,a.ori_address as oriAddress
         FROM t_room_dic a
        LEFT JOIN t_building_dic b ON a.building_id = b.id
        LEFT JOIN sh_residence_info c ON c.ResidenceID = b.residence_id
+       LEFT JOIN all_address d ON a.ref_id = d.id
         WHERE c.ResidenceId  IN (
         <foreach collection="rids" item="rid" separator=",">
             #{rid}
