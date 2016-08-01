@@ -35,7 +35,7 @@
     </select>
 
     <insert id="deleteRoom" parameterType="com.lezhi.app.model.RoomDic">
-        update t_room_dic set del_status = #{deLStatus} where id = #{id}
+        update t_room_dic set del_status = #{delStatus} where id = #{id}
     </insert>
 
 	<insert id="update" parameterType="com.lezhi.app.model.RoomDic">
