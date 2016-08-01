@@ -2,8 +2,10 @@ package com.lezhi.app.mapper;
 
 import com.lezhi.app.model.BuildingDic;
 import com.lezhi.app.model.Residence;
+
 import org.apache.ibatis.annotations.Param;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -17,7 +19,7 @@ public interface BuildingDicMapper {
 
     int count();
     
-    int updateBuildingStatus(Integer buildingId);
+    int updateBuildingStatus(@Param("buildingId") Integer buildingId, @Param("operatorId") int operatorId, @Param("modifyTime") Timestamp modifyTime);
 
     int updateTopFloor(BuildingDic bic);
 }

@@ -191,8 +191,10 @@ public class RoomMapController {
     public Map<String, String> deleteBuilding(HttpServletRequest request, HttpServletResponse response,
                                           @RequestParam(value = "buildingId", required = true) int buildingId
     ) {
-    	//TODO
+    	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
+        Date date = new Date();       
+        Timestamp modifyTime = new Timestamp(date.getTime());
         //取得相对应的roomId
         List<RoomDic> ricList = new ArrayList<RoomDic>();
         ricList = roomDicMapper.queryRoomId(buildingId);
@@ -204,9 +206,9 @@ public class RoomMapController {
         		id += "," + roomDic.getId().toString();
         	}
 		}
-        roomDicMapper.updateRoomStatus(id);
+        roomDicMapper.updateRoomStatus(id,userId, modifyTime);
         //更新楼栋状态为已删除
-        boolean success = 1 == buildingDicMapper.updateBuildingStatus(buildingId);
+        boolean success = 1 == buildingDicMapper.updateBuildingStatus(buildingId,userId,modifyTime);
         result.put("status", success ? "success" : "failed");
         return result;
     }

@@ -31,7 +31,7 @@
     </select>
     
     <update id="updateBuildingStatus">
-        update t_building_dic set del_status = 1 where id = #{buildingId}
+        update t_building_dic set del_status = 1,operator_id = #{operatorId},modify_time = #{modifyTime} where id = #{buildingId}
     </update>
 
     <update id="updateTopFloor">
