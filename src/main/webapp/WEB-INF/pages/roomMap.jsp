@@ -212,8 +212,8 @@
                 }
             });
         }
-        function viewDetail(id) {
-            layer.alert('当前房屋的ID是' + id + '<br/>原始地址是:XXX<br/>数据来源:XXX', {icon: 1, title: "房屋详情"});
+        function viewDetail(id,oriAddress,src) {
+            layer.alert('当前房屋的ID是' + id + '<br/>原始地址是:'+oriAddress+'<br/>数据来源:'+src, {icon: 1, title: "房屋详情"});
         }
     </script>
 </head>
@@ -339,7 +339,7 @@
                         <tr>
                             <c:forEach items="${f.rooms}" var="r">
                                 <c:if test="${r.real}">
-                                    <td ondblclick="viewDetail(${r.id});" class="${b.id}_${r.name}" id="${r.id}_t">
+                                    <td ondblclick="viewDetail(${r.id},'${r.oriAddress}','${r.src}');" class="${b.id}_${r.name}" id="${r.id}_t">
                                         <c:choose>
                                             <c:when test="${r.status eq 10 or r.status eq 20 or r.status eq 30}">
                                                 <div class="cell">

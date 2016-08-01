@@ -15,8 +15,18 @@ public class StdAddr {
 
     private Integer status;
     private Integer buildingId;
+    private String src;
+    private String oriAddress;
 
-    public Integer getStatus() {
+    public String getOriAddress() {
+		return oriAddress;
+	}
+
+	public void setOriAddress(String oriAddress) {
+		this.oriAddress = oriAddress;
+	}
+
+	public Integer getStatus() {
         return status;
     }
 
@@ -35,7 +45,15 @@ public class StdAddr {
     public StdAddr() {
     }
 
-    public StdAddr(String residence, String building, String room) {
+    public String getSrc() {
+		return src;
+	}
+
+	public void setSrc(String src) {
+		this.src = src;
+	}
+
+	public StdAddr(String residence, String building, String room) {
         this.residence = residence;
         this.building = building;
         this.room = room;

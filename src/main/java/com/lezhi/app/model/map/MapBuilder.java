@@ -203,6 +203,8 @@ public class MapBuilder {
             room.setId(stdAddr.getRoomId());
             room.setArea(stdAddr.getArea());
             room.setStatus(stdAddr.getStatus());
+            room.setSrc(stdAddr.getSrc());
+            room.setOriAddress(stdAddr.getOriAddress());
             rooms.add(room);
 
             return AddResult.success;

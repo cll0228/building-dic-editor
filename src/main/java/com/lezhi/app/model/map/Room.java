@@ -13,8 +13,26 @@ public class Room implements Comparable<Room> {
     private Double area;
     private Integer id;
     private Integer status;
+    private String src;
+    private String oriAddress;
+    
+    public String getOriAddress() {
+		return oriAddress;
+	}
 
-    public Integer getStatus() {
+	public void setOriAddress(String oriAddress) {
+		this.oriAddress = oriAddress;
+	}
+
+	public String getSrc() {
+		return src;
+	}
+
+	public void setSrc(String src) {
+		this.src = src;
+	}
+
+	public Integer getStatus() {
         return status;
     }
 
