@@ -87,13 +87,13 @@ public class RoomMapController {
         RoomDic ric = new RoomDic();
         ric.setName(roomName);
         ric.setBuildingId(buildingId);
+        ric.setArea(area);
         int countRoom = roomDicMapper.countOldRoom(ric);
         boolean success = false;
         if(countRoom>0){
             ric.setDelStatus(0);
             success = 1 == roomDicMapper.updateNewRoomStatus(ric);
         } else {
-            ric.setArea(area);
             ric.setStatus(RoomDicStatus.MANUAL_CREATE);
             ric.setDelStatus(0);
             success = 1 == roomDicMapper.insertNewRoom(ric);
@@ -117,13 +117,13 @@ public class RoomMapController {
         RoomDic ric = new RoomDic();
         ric.setName(roomName);
         ric.setBuildingId(buildingId);
+        ric.setArea(area);
         int countRoom = roomDicMapper.countOldRoom(ric);
         boolean success = false;
         if(countRoom>0){
             ric.setDelStatus(0);
             success = 1 == roomDicMapper.updateNewRoomStatus(ric);
         } else {
-            ric.setArea(area);
             ric.setStatus(RoomDicStatus.MANUAL_CREATE);
             ric.setDelStatus(0);
             success = 1 == roomDicMapper.insertNewRoom(ric);

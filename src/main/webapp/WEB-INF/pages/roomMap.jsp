@@ -74,11 +74,11 @@
 
         function editTotalFloor(bid, oldTotalFloor) {
             var plusid = bid+(oldTotalFloor+1);
-            var data = "<tr><td id="+'"nf_'+bid+'"'+ ' class="unreal"><span style="color: #e9322d;">12</span><a class="plus" class="'+plusid+'"' +' style="font-size: large" href="#" title="在此楼层添加房屋">+</a></td></tr>';
+            var data = "<tr><td id="+'"nf_'+bid+'"'+ ' class="unreal"><span style="color: #e9322d;">oldTotalFloor+1</span><a class="plus" class="'+plusid+'"' +' style="font-size: large" href="#" title="在此楼层添加房屋">+</a></td></tr>';
             layer.prompt({
                 title: '输入新的总层高，并确认',
                 formType: 0, //prompt风格，支持0-2,
-                value: '7'
+                value: oldTotalFloor
             }, function(text){
 //                $(".table1 tbody").find("#_s"+id).before(data);
                 $("#s_"+bid).before(data);
@@ -322,7 +322,7 @@
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#" onclick="layer.alert('开发中');return false;">全部锁定</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#" onclick="editTotalFloor(${b.id},'9');return false;">修改总层高</a></li>
+                                        <li><a href="#" onclick="editTotalFloor(${b.id},${b.totalFloor});return false;">修改总层高</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#" onclick="delBuilding(${b.id});return false;">删除此楼</a></li>
                                     </ul>

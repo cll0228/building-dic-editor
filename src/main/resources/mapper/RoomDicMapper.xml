@@ -23,7 +23,7 @@
     </insert>
 
     <insert id="updateNewRoomStatus" parameterType="com.lezhi.app.model.RoomDic">
-        update t_room_dic set del_status = #{delStatus} where name = #{name} and building_id = #{buildingId}
+        update t_room_dic set del_status = #{delStatus},area = #{area} where name = #{name} and building_id = #{buildingId}
     </insert>
 
     <select id="getNewRoomId" parameterType="com.lezhi.app.model.RoomDic" resultType="java.lang.Integer">
