@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +52,11 @@ public class RoomMapController {
     @RequestMapping(value = "approve", method = RequestMethod.GET)
     public Map<String, String> approve(HttpServletRequest request, HttpServletResponse response,
                                        @RequestParam(value = "id", required = true) int id) {
-
+    	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
-        boolean success = 1 == roomDicMapper.updateStatus(id, RoomDicStatus.CONFIRMED);
+        Date date = new Date();       
+        Timestamp modifyTime = new Timestamp(date.getTime());
+        boolean success = 1 == roomDicMapper.updateStatus(id, userId, modifyTime, RoomDicStatus.CONFIRMED);
         result.put("status", success ? "success" : "failed");
         return result;
     }
@@ -63,12 +67,16 @@ public class RoomMapController {
                                        @RequestParam(value = "rid", required = true) int residenceId,
                                        @RequestParam(value = "no", required = true) String buildingName
                                            ) {
-
+    	//TODO
+    	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
-
+        Date date = new Date();       
+        Timestamp modifyTime = new Timestamp(date.getTime());
         BuildingDic dic = new BuildingDic();
         dic.setName(buildingName);
         dic.setResidenceId(residenceId);
+//        dic.setOperatorId(userId);
+//        dic.setModifyTime(modifyTime);
         boolean success = 1 == buildingDicMapper.insert(dic);
         result.put("status", success ? "success" : "failed");
         return result;
@@ -81,13 +89,17 @@ public class RoomMapController {
                                        @RequestParam(value = "rname", required = true) String roomName,
                                        @RequestParam(value = "rarea", required = true) BigDecimal area
     ) {
-
+    	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
+        Date date = new Date();       
+        Timestamp modifyTime = new Timestamp(date.getTime());
 
         RoomDic ric = new RoomDic();
         ric.setName(roomName);
         ric.setBuildingId(buildingId);
         ric.setArea(area);
+        ric.setOperatorId(userId);
+        ric.setModifyTime(modifyTime);
         int countRoom = roomDicMapper.countOldRoom(ric);
         boolean success = false;
         if(countRoom>0){
@@ -112,12 +124,17 @@ public class RoomMapController {
                                        @RequestParam(value = "rarea", required = true) BigDecimal area
     ) {
 
+    	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
+        Date date = new Date();       
+        Timestamp modifyTime = new Timestamp(date.getTime());
 
         RoomDic ric = new RoomDic();
         ric.setName(roomName);
         ric.setBuildingId(buildingId);
         ric.setArea(area);
+        ric.setOperatorId(userId);
+        ric.setModifyTime(modifyTime);
         int countRoom = roomDicMapper.countOldRoom(ric);
         boolean success = false;
         if(countRoom>0){
@@ -137,12 +154,16 @@ public class RoomMapController {
     public Map<String, String> deleteRoom(HttpServletRequest request, HttpServletResponse response,
                                           @RequestParam(value = "rid", required = true) int id
     ) {
-
+    	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
-
+        Date date = new Date();       
+        Timestamp modifyTime = new Timestamp(date.getTime());
+        
         RoomDic ric = new RoomDic();
         ric.setId(id);
         ric.setDelStatus(1);
+        ric.setOperatorId(userId);
+        ric.setModifyTime(modifyTime);
         boolean success = 1 == roomDicMapper.deleteRoom(ric);
         result.put("status", success ? "success" : "failed");
         return result;
@@ -153,7 +174,7 @@ public class RoomMapController {
     public Map<String, String> deleteBuilding(HttpServletRequest request, HttpServletResponse response,
                                           @RequestParam(value = "buildingId", required = true) int buildingId
     ) {
-
+    	//TODO
         Map<String, String> result = new HashMap<>();
         //取得相对应的roomId
         List<RoomDic> ricList = new ArrayList<RoomDic>();
@@ -179,12 +200,15 @@ public class RoomMapController {
                                        @RequestParam(value = "id", required = true) int id,
                                        @RequestParam(value = "newArea", required = true) BigDecimal newArea
                                            ) {
-
+    	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
-
+        Date date = new Date();       
+        Timestamp modifyTime = new Timestamp(date.getTime());
         RoomDic dic = new RoomDic();
         dic.setId(id);
         dic.setArea(newArea);
+        dic.setOperatorId(userId);
+        dic.setModifyTime(modifyTime);
         boolean success = 1 == roomDicMapper.update(dic);
         result.put("status", success ? "success" : "failed");
         return result;

@@ -28,6 +28,7 @@ public class LoginController {
                               @RequestParam(value = "goTo", required = false) String goTo) {
         if ("success".equals(username) && "success".equals(password)) {
             request.getSession(true).setAttribute("username", username);
+            request.getSession(true).setAttribute("userId", 123321);
             if (StringUtils.isNotBlank(goTo)) {
                 if (goTo.startsWith("/data.do"))
                     return "redirect:" + request.getContextPath() + "result.do";

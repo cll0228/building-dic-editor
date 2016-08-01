@@ -11,19 +11,19 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.lezhi.app.model.RoomDic">
-        insert into t_room_dic(`name`, `building_id`) VALUES (
-        #{name}, #{buildingId}
+        insert into t_room_dic(`name`, `building_id`, `operator_id`, `modify_time`) VALUES (
+        #{name}, #{buildingId}, #{operatorId}, #{modifyTime}
         )
     </insert>
 
     <insert id="insertNewRoom" parameterType="com.lezhi.app.model.RoomDic">
-        insert into t_room_dic(`name`,`area`,`status`, `building_id`,`del_status`) VALUES (
-        #{name},#{area},#{status}, #{buildingId}, #{delStatus}
+        insert into t_room_dic(`name`,`area`,`status`, `building_id`,`del_status`,`operator_id`,`modify_time`) VALUES (
+        #{name},#{area},#{status}, #{buildingId}, #{delStatus}, #{operatorId}, #{modifyTime}
         )
     </insert>
 
     <insert id="updateNewRoomStatus" parameterType="com.lezhi.app.model.RoomDic">
-        update t_room_dic set del_status = #{delStatus},area = #{area} where name = #{name} and building_id = #{buildingId}
+        update t_room_dic set del_status = #{delStatus},area = #{area},operator_id = #{operatorId},modify_time = #{modifyTime} where name = #{name} and building_id = #{buildingId}
     </insert>
 
     <select id="getNewRoomId" parameterType="com.lezhi.app.model.RoomDic" resultType="java.lang.Integer">
@@ -35,11 +35,11 @@
     </select>
 
     <insert id="deleteRoom" parameterType="com.lezhi.app.model.RoomDic">
-        update t_room_dic set del_status = #{delStatus} where id = #{id}
+        update t_room_dic set del_status = #{delStatus},operator_id = #{operatorId},modify_time = #{modifyTime} where id = #{id}
     </insert>
 
 	<insert id="update" parameterType="com.lezhi.app.model.RoomDic">
-		update t_room_dic set area = #{area} where id = #{id}
+		update t_room_dic set area = #{area},operator_id = #{operatorId},modify_time = #{modifyTime} where id = #{id}
     </insert>
 
     <select id="find" resultMap="RMap">
@@ -73,11 +73,11 @@
     </select>
 
     <update id="updateStatus">
-        update t_room_dic set status = #{status} where id = #{id}
+        update t_room_dic set status = #{status},operator_id = #{operatorId},modify_time = #{modifyTime} where id = #{id}
     </update>
     
     <update id="updateRoomStatus">
-        update t_room_dic set del_status = 1 where id in (${id})
+        update t_room_dic set del_status = 1,operator_id = #{operatorId},modify_time = #{modifyTime} where id in (${id})
     </update>
 
 	<select id="queryRoomId" resultMap="RMap">

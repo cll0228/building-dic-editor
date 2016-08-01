@@ -6,6 +6,7 @@ import com.lezhi.app.model.map.StdAddr;
 
 import org.apache.ibatis.annotations.Param;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public interface RoomDicMapper {
 
     int count();
 
-    int updateStatus(@Param("id") int id, @Param("status") int status);
+    int updateStatus(@Param("id") int id, @Param("operatorId") int operatorId, @Param("modifyTime") Timestamp modifyTime, @Param("status") int status);
 
     int countDealUnique();
     

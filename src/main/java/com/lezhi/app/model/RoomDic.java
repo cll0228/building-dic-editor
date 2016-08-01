@@ -1,6 +1,7 @@
 package com.lezhi.app.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * Created by Colin Yan on 2016/7/20.
@@ -12,7 +13,25 @@ public class RoomDic {
     private Integer buildingId;
     private	 BigDecimal area;
     private Integer delStatus;
-    public Integer getStatus() {
+    private Integer operatorId;
+    private Timestamp modifyTime;
+    public Timestamp getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(Timestamp modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+	public Integer getOperatorId() {
+		return operatorId;
+	}
+
+	public void setOperatorId(Integer operatorId) {
+		this.operatorId = operatorId;
+	}
+
+	public Integer getStatus() {
         return status;
     }
 
