@@ -144,8 +144,8 @@ public class RoomMapController {
             ric.setStatus(RoomDicStatus.MANUAL_CREATE);
             ric.setDelStatus(0);
             success = 1 == roomDicMapper.insertNewRoom(ric);
-            result.put("status", success ? "success" : "failed");
         }
+        result.put("status", success ? "success" : "failed");
         return result;
     }
 
