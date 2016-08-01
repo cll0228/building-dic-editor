@@ -168,6 +168,23 @@ public class RoomMapController {
         result.put("status", success ? "success" : "failed");
         return result;
     }
+
+    @ResponseBody
+    @RequestMapping(value = "editTotalFloor")
+    public Map<String, String> editTotalFloor(HttpServletRequest request, HttpServletResponse response,
+                                          @RequestParam(value = "bid", required = true) int id,
+                                          @RequestParam(value = "topfloor", required = true) int topfloor
+    ) {
+
+        Map<String, String> result = new HashMap<>();
+
+        BuildingDic bic = new BuildingDic();
+        bic.setId(id);
+        bic.setTopFloor(topfloor);
+        boolean success = 1 == buildingDicMapper.updateTopFloor(bic);
+        result.put("status", success ? "success" : "failed");
+        return result;
+    }
     
     @ResponseBody
     @RequestMapping(value = "deleteBuilding")

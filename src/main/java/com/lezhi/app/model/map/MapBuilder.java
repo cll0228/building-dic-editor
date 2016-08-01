@@ -185,6 +185,7 @@ public class MapBuilder {
         if (floor == null) {
             floor = new Floor();
             floor.setName(_floor);
+            floor.setTopFloor(stdAddr.getTopFloor());
             building.getFloors().add(floor);
         }
 

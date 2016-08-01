@@ -15,6 +15,7 @@ public class StdAddr {
 
     private Integer status;
     private Integer buildingId;
+    private Integer topFloor;
     private String src;
     private String oriAddress;
 
@@ -105,5 +106,13 @@ public class StdAddr {
 
     public void setBuildingId(Integer buildingId) {
         this.buildingId = buildingId;
+    }
+
+    public Integer getTopFloor() {
+        return topFloor;
+    }
+
+    public void setTopFloor(Integer topFloor) {
+        this.topFloor = topFloor;
     }
 }

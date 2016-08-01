@@ -14,6 +14,7 @@ public class Floor implements Comparable<Floor> {
     private List<Room> rooms = new ArrayList<>();
 
     private Integer intName;
+    private Integer topFloor;
 
     public void fillIn(int minRoom, int maxRoom) {
         List<Room> filled = new ArrayList<>();
@@ -97,5 +98,13 @@ public class Floor implements Comparable<Floor> {
     @Override
     public int compareTo(Floor o) {
         return intName.compareTo(o.getIntName());
+    }
+
+    public Integer getTopFloor() {
+        return topFloor;
+    }
+
+    public void setTopFloor(Integer topFloor) {
+        this.topFloor = topFloor;
     }
 }

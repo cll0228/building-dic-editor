@@ -54,12 +54,15 @@ public class Building implements Comparable<Building> {
         try {
             int maxFloor = 0;
             for (Floor f : floors) {
+                if(f.getTopFloor()>maxFloor){
+                    maxFloor = f.getTopFloor();
+                }
                 int fi = f.getIntName();
                 if (fi > maxFloor) {
                     maxFloor = fi;
                 }
             }
-            for (int i = 1; i < maxFloor; i++) {
+            for (int i = 1; i <= maxFloor; i++) {
                 boolean exists = false;
                 for (Floor f : floors) {
                     int fi = f.getIntName();

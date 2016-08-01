@@ -8,6 +8,7 @@ public class BuildingDic {
     private Integer id;
     private String name;
     private Integer residenceId;
+    private Integer topFloor;
 
     public Integer getId() {
         return id;
@@ -31,5 +32,13 @@ public class BuildingDic {
 
     public void setResidenceId(Integer residenceId) {
         this.residenceId = residenceId;
+    }
+
+    public Integer getTopFloor() {
+        return topFloor;
+    }
+
+    public void setTopFloor(Integer topFloor) {
+        this.topFloor = topFloor;
     }
 }
