@@ -18,4 +18,6 @@ public interface BuildingDicMapper {
     int count();
     
     int updateBuildingStatus(Integer buildingId);
+
+    int updateTopFloor(BuildingDic bic);
 }

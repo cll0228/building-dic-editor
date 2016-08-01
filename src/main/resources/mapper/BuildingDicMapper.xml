@@ -33,4 +33,8 @@
     <update id="updateBuildingStatus">
         update t_building_dic set del_status = 1 where id = #{buildingId}
     </update>
+
+    <update id="updateTopFloor">
+        update t_building_dic set top_floor = #{topFloor} where id = #{id}
+    </update>
 </mapper>

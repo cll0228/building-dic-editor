@@ -73,20 +73,35 @@
         }
 
         function editTotalFloor(bid, oldTotalFloor) {
-            var plusid = bid+(oldTotalFloor+1);
-            var data = "<tr><td id="+'"nf_'+bid+'"'+ ' class="unreal"><span style="color: #e9322d;">oldTotalFloor+1</span><a class="plus" class="'+plusid+'"' +' style="font-size: large" href="#" title="在此楼层添加房屋">+</a></td></tr>';
+            var addHtml = "<tr><td id="+'"nf_'+bid+'"'+ ' class="unreal"><span style="color: #e9322d;"></span><a class='+'"pl_'+bid+'"'+ ' style="font-size: large" href="#" title="在此楼层添加房屋">+</a></td></tr>';
             layer.prompt({
                 title: '输入新的总层高，并确认',
                 formType: 0, //prompt风格，支持0-2,
                 value: oldTotalFloor
             }, function(text){
-//                $(".table1 tbody").find("#_s"+id).before(data);
-                $("#s_"+bid).before(data);
-                $("#nf_"+bid).attr('colspan',100);
-                $("#plusid").click(function(){
-                    addNewRoom(bid);
-                })
-                layer.msg('总层高已经更新。', {icon: 1});
+                if(text<=oldTotalFloor){
+                    layer.msg("请输入大于当前最大层高的总层高。",{icon: 1})
+                } else {
+                    $.post("${ctx}/editTotalFloor.do", {"bid" : bid,"topfloor" :text}, function (data) {
+                        if (data != undefined && data.status == 'success') {
+                            for(var i=oldTotalFloor+1;i<=text;i++) {
+                                $("#s_"+bid).before(addHtml);
+                                $("#nf_"+bid).attr('colspan',100);
+                                $("#nf_"+bid+" span").html(i);
+                                $("#nf_"+bid).attr('id',"nf_"+bid+"_"+i);
+                                $(".pl_"+bid).attr('id',"pl_"+bid+"_"+i);
+
+                                $("#pl_"+bid+"_"+i).attr('class',"pl_"+bid+"_"+i);
+                                $("#pl_"+bid+"_"+i).css("color","#000");
+                                $("#pl_"+bid+"_"+i).css("text-decoration","none");
+                                $("#pl_"+bid+"_"+i).click(function(){
+                                    addNewRoom(bid);
+                                })
+                            }
+                        }
+                    })
+                    layer.msg('总层高已经更新。', {icon: 1});
+                }
             }, function(){
                 layer.msg('放弃了。', {icon: 1});
             });
