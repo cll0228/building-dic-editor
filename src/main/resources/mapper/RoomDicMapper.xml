@@ -17,9 +17,13 @@
     </insert>
 
     <insert id="insertNewRoom" parameterType="com.lezhi.app.model.RoomDic">
-        insert into t_room_dic(`name`,`area`,`status`, `building_id`) VALUES (
-        #{name},#{area},#{status}, #{buildingId}
+        insert into t_room_dic(`name`,`area`,`status`, `building_id`,`del_status`) VALUES (
+        #{name},#{area},#{status}, #{buildingId}, #{delStatus}
         )
+    </insert>
+
+    <insert id="updateNewRoomStatus" parameterType="com.lezhi.app.model.RoomDic">
+        update t_room_dic set status = #{status} where name = #{name} and building_id = #{buildingId}
     </insert>
 
     <select id="getNewRoomId" parameterType="com.lezhi.app.model.RoomDic" resultType="java.lang.Integer">
@@ -31,7 +35,7 @@
     </select>
 
     <insert id="deleteRoom" parameterType="com.lezhi.app.model.RoomDic">
-        delete from t_room_dic where id = #{id}
+        update t_room_dic set del_status = #{desStatus} where id = #{id}
     </insert>
 
 	<insert id="update" parameterType="com.lezhi.app.model.RoomDic">

@@ -11,7 +11,7 @@ public class RoomDic {
     private String name;
     private Integer buildingId;
     private	 BigDecimal area;
-
+    private Integer delStatus;
     public Integer getStatus() {
         return status;
     }
@@ -53,4 +53,12 @@ public class RoomDic {
 	public void setArea(BigDecimal area) {
 		this.area = area;
 	}
+
+    public Integer getDelStatus() {
+        return delStatus;
+    }
+
+    public void setDelStatus(Integer delStatus) {
+        this.delStatus = delStatus;
+    }
 }

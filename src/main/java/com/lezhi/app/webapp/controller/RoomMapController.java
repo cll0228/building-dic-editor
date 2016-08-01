@@ -86,9 +86,17 @@ public class RoomMapController {
         RoomDic ric = new RoomDic();
         ric.setName(roomName);
         ric.setBuildingId(buildingId);
-        ric.setArea(area);
-        ric.setStatus(RoomDicStatus.MANUAL_CREATE);
-        boolean success = 1 == roomDicMapper.insertNewRoom(ric);
+        int countRoom = roomDicMapper.countOldRoom(ric);
+        boolean success = false;
+        if(countRoom>0){
+            ric.setDelStatus(0);
+            success = 1 == roomDicMapper.updateNewRoomStatus(ric);
+        } else {
+            ric.setArea(area);
+            ric.setStatus(RoomDicStatus.MANUAL_CREATE);
+            ric.setDelStatus(0);
+            success = 1 == roomDicMapper.insertNewRoom(ric);
+        }
         int rid = roomDicMapper.getNewRoomId(ric);
         result.put("rid",String.valueOf(rid));
         result.put("status", success ? "success" : "failed");
@@ -109,12 +117,15 @@ public class RoomMapController {
         ric.setName(roomName);
         ric.setBuildingId(buildingId);
         int countRoom = roomDicMapper.countOldRoom(ric);
+        boolean success = false;
         if(countRoom>0){
-            result.put("status","exists");
+            ric.setDelStatus(0);
+            success = 1 == roomDicMapper.updateNewRoomStatus(ric);
         } else {
             ric.setArea(area);
             ric.setStatus(RoomDicStatus.MANUAL_CREATE);
-            boolean success = 1 == roomDicMapper.insertNewRoom(ric);
+            ric.setDelStatus(0);
+            success = 1 == roomDicMapper.insertNewRoom(ric);
             result.put("status", success ? "success" : "failed");
         }
         return result;
@@ -130,6 +141,7 @@ public class RoomMapController {
 
         RoomDic ric = new RoomDic();
         ric.setId(id);
+        ric.setDelStatus(1);
         boolean success = 1 == roomDicMapper.deleteRoom(ric);
         result.put("status", success ? "success" : "failed");
         return result;

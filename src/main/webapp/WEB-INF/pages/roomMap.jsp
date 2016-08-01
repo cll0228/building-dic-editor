@@ -72,12 +72,20 @@
             });
         }
 
-        function editTotalFloor(id, oldTotalFloor) {
+        function editTotalFloor(bid, oldTotalFloor) {
+            var plusid = bid+(oldTotalFloor+1);
+            var data = "<tr><td id="+'"nf_'+bid+'"'+ ' class="unreal"><span style="color: #e9322d;">12</span><a class="plus" class="'+plusid+'"' +' style="font-size: large" href="#" title="在此楼层添加房屋">+</a></td></tr>';
             layer.prompt({
                 title: '输入新的总层高，并确认',
                 formType: 0, //prompt风格，支持0-2,
                 value: '7'
-            }, function(){
+            }, function(text){
+//                $(".table1 tbody").find("#_s"+id).before(data);
+                $("#s_"+bid).before(data);
+                $("#nf_"+bid).attr('colspan',100);
+                $("#plusid").click(function(){
+                    addNewRoom(bid);
+                })
                 layer.msg('总层高已经更新。', {icon: 1});
             }, function(){
                 layer.msg('放弃了。', {icon: 1});
@@ -113,6 +121,12 @@
             });
         }
         function addRoom(bid,rname) {
+
+//            $(function(){
+//
+//                $(window).scroll(function(e){window.scrollTo(0,0);});
+//
+//            });
             var area_class = "." + bid + "_" + rname + "_3";
             var span_class = "." + bid + "_" + rname + "_1";
             var td_class = "." + bid + "_" + rname;
@@ -120,9 +134,11 @@
             var a1 = "." + bid + "_" + rname + "_01";
             var a2 = "." + bid + "_" + rname + "_02";
             var a3 = "." + bid + "_" + rname + "_03";
+//            window.scrollTo(10,0);
             layer.prompt({
                 title: '输入房间'+rname+'室的面积，并确认',
                 formType: 0 //prompt风格，支持0-2,
+//                scrollbar: false
             }, function(text){
                 $.post("${ctx}/addRoom.do", {"bid" : bid, "rname": rname,"rarea":text}, function (data) {
 
@@ -295,7 +311,7 @@
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#" onclick="layer.alert('开发中');return false;">全部锁定</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#" onclick="editTotalFloor(12,'9');return false;">修改总层高</a></li>
+                                        <li><a href="#" onclick="editTotalFloor(${b.id},'9');return false;">修改总层高</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#" onclick="delBuilding(2);return false;">删除此楼</a></li>
                                     </ul>
@@ -419,7 +435,7 @@
                         </tr>
                     </c:if>
                 </c:forEach>
-                <tr>
+                <tr id="s_${b.id}">
                     <td colspan="100" class="suggestion">
                         建议:无
                             <%--
