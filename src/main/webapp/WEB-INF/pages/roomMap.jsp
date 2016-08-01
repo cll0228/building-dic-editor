@@ -103,6 +103,7 @@
                         $("#"+rid+"_t").find(".cellBottom").css("display","none");
                         $("#"+rid+"_t").find(".plus").css("display","");
                         $("#"+rid+"_c").css("color","red");
+                        $("#"+rid+"_t").unbind("dblclick")
                     } else {
                         layer.msg('删除失败！');
                     }
@@ -167,6 +168,9 @@
                         })
                         $(a3).click(function(){
                             approve(data.rid, bid+"_"+rname);
+                        })
+                        $(td_class).dblclick(function(){
+                            viewDetail(data.rid);
                         })
                     } else {
                         layer.msg('添加失败！');
