@@ -144,8 +144,8 @@ public class RoomMapController {
             ric.setStatus(RoomDicStatus.MANUAL_CREATE);
             ric.setDelStatus(0);
             success = 1 == roomDicMapper.insertNewRoom(ric);
-            result.put("status", success ? "success" : "failed");
         }
+        result.put("status", success ? "success" : "failed");
         return result;
     }
 
@@ -176,11 +176,16 @@ public class RoomMapController {
                                           @RequestParam(value = "topfloor", required = true) int topfloor
     ) {
 
+        Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
+        Date date = new Date();
+        Timestamp modifyTime = new Timestamp(date.getTime());
 
         BuildingDic bic = new BuildingDic();
         bic.setId(id);
         bic.setTopFloor(topfloor);
+        bic.setOperatorId(userId);
+        bic.setModifyTime(modifyTime);
         boolean success = 1 == buildingDicMapper.updateTopFloor(bic);
         result.put("status", success ? "success" : "failed");
         return result;

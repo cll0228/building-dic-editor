@@ -35,6 +35,6 @@
     </update>
 
     <update id="updateTopFloor">
-        update t_building_dic set top_floor = #{topFloor} where id = #{id}
+        update t_building_dic set top_floor = #{topFloor},operator_id = #{operatorId},modify_time = #{modifyTime} where id = #{id}
     </update>
 </mapper>

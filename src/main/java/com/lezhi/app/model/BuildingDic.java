@@ -1,5 +1,7 @@
 package com.lezhi.app.model;
 
+import java.sql.Timestamp;
+
 /**
  * Created by Colin Yan on 2016/7/20.
  */
@@ -9,6 +11,8 @@ public class BuildingDic {
     private String name;
     private Integer residenceId;
     private Integer topFloor;
+    private Integer operatorId;
+    private Timestamp modifyTime;
 
     public Integer getId() {
         return id;
@@ -40,5 +44,21 @@ public class BuildingDic {
 
     public void setTopFloor(Integer topFloor) {
         this.topFloor = topFloor;
+    }
+
+    public Integer getOperatorId() {
+        return operatorId;
+    }
+
+    public void setOperatorId(Integer operatorId) {
+        this.operatorId = operatorId;
+    }
+
+    public Timestamp getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Timestamp modifyTime) {
+        this.modifyTime = modifyTime;
     }
 }
