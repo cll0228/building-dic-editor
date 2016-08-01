@@ -170,7 +170,7 @@
                             approve(data.rid, bid+"_"+rname);
                         })
                         $(td_class).dblclick(function(){
-                            viewDetail(data.rid);
+                            viewDetail(data.rid,"","");
                         })
                     } else {
                         layer.msg('添加失败！');
