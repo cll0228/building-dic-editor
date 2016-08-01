@@ -16,4 +16,6 @@ public interface BuildingDicMapper {
     List<BuildingDic> find(@Param("residenceId") Integer residenceId, @Param("name") String name);
 
     int count();
+    
+    int updateBuildingStatus(Integer buildingId);
 }

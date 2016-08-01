@@ -111,11 +111,18 @@
                 layer.msg('放弃了。', {icon: 1});
             });
         }
-        function delBuilding() {
+        function delBuilding(buildingId) {
             layer.confirm('删除此楼？', {
                 btn: ['删除','取消'] //按钮
             }, function(){
-                layer.msg('删除了。', {icon: 1});
+            	$.post("${ctx}/deleteBuilding.do", {"buildingId" : buildingId}, function (data) {
+                    if (data != undefined && data.status == 'success') {
+                        layer.msg('楼栋已删除！', {icon: 1});
+                        $("#b_"+buildingId).css("display","none");
+                    } else {
+                        layer.msg('删除失败！', {icon: 2});
+                    }
+                });
             }, function(){
                 layer.msg('放弃了。', {icon: 1});
             });
@@ -313,7 +320,7 @@
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#" onclick="editTotalFloor(${b.id},'9');return false;">修改总层高</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#" onclick="delBuilding(2);return false;">删除此楼</a></li>
+                                        <li><a href="#" onclick="delBuilding(${b.id});return false;">删除此楼</a></li>
                                     </ul>
                                 </div>
                             </div>

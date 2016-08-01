@@ -29,4 +29,8 @@
     <select id="count" resultType="java.lang.Integer">
         select count(1) from t_building_dic
     </select>
+    
+    <update id="updateBuildingStatus">
+        update t_building_dic set del_status = 1 where id = #{buildingId}
+    </update>
 </mapper>

@@ -64,7 +64,7 @@
         <foreach collection="rids" item="rid" separator=",">
             #{rid}
         </foreach>
-        )
+        ) and a.del_status=0 and b.del_status=0
     </select>
 
     <select id="count" resultType="java.lang.Integer">
@@ -74,6 +74,13 @@
     <update id="updateStatus">
         update t_room_dic set status = #{status} where id = #{id}
     </update>
+    
+    <update id="updateRoomStatus">
+        update t_room_dic set del_status = 1 where id in (${id})
+    </update>
 
+	<select id="queryRoomId" resultMap="RMap">
+        SELECT id FROM all_address.t_room_dic where building_id=#{buildingId}
+    </select>
 
 </mapper>
