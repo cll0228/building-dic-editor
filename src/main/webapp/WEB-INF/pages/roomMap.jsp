@@ -72,7 +72,7 @@
             });
         }
 
-        function editTotalFloor(bid, oldTotalFloor) {
+        function editTotalFloor(bid, bname, oldTotalFloor) {
             var addHtml = "<tr><td id="+'"nf_'+bid+'"'+ ' class="unreal"><span style="color: #e9322d;"></span><a class='+'"pl_'+bid+'"'+ ' style="font-size: large" href="#" title="在此楼层添加房屋">+</a></td></tr>';
             layer.prompt({
                 title: '输入新的总层高，并确认',
@@ -98,6 +98,7 @@
                                     addNewRoom(bid);
                                 })
                             }
+                            $("#b_"+bid).find($(".cellLeft")).find("span").html(bname+"号"+" "+text+"F")
                         }
                     })
                     layer.msg('总层高已经更新。', {icon: 1});
@@ -144,12 +145,6 @@
             });
         }
         function addRoom(bid,rname) {
-
-//            $(function(){
-//
-//                $(window).scroll(function(e){window.scrollTo(0,0);});
-//
-//            });
             var area_class = "." + bid + "_" + rname + "_3";
             var span_class = "." + bid + "_" + rname + "_1";
             var td_class = "." + bid + "_" + rname;
@@ -157,7 +152,6 @@
             var a1 = "." + bid + "_" + rname + "_01";
             var a2 = "." + bid + "_" + rname + "_02";
             var a3 = "." + bid + "_" + rname + "_03";
-//            window.scrollTo(10,0);
             layer.prompt({
                 title: '输入房间'+rname+'室的面积，并确认',
                 formType: 0 //prompt风格，支持0-2,
@@ -337,7 +331,7 @@
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#" onclick="layer.alert('开发中');return false;">全部锁定</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#" onclick="editTotalFloor(${b.id},${b.totalFloor});return false;">修改总层高</a></li>
+                                        <li><a href="#" onclick="editTotalFloor(${b.id},${b.name},${b.totalFloor});return false;">修改总层高</a></li>
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#" onclick="delBuilding(${b.id});return false;">删除此楼</a></li>
                                     </ul>
