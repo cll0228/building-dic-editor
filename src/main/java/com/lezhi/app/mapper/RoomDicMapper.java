@@ -40,5 +40,5 @@ public interface RoomDicMapper {
     
     List<RoomDic> queryRoomId(@Param("buildingId")Integer buildingId);
     
-    int updateRoomStatus(@Param("id")String id);
+    int updateRoomStatus(@Param("id")String id, @Param("operatorId") int operatorId, @Param("modifyTime") Timestamp modifyTime);
 }
