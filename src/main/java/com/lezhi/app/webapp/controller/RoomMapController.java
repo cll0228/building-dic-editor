@@ -99,7 +99,9 @@ public class RoomMapController {
                     }
                 }
                 // 更新房屋状态
-                roomDicMapper.updateRoomStatus(id,userId, modifyTime,0);
+                if(!"".equals(id) && id != null){
+                    roomDicMapper.updateRoomStatus(id,userId, modifyTime,0);
+                }
             }
         } else {
             dic.setDelStatus(0);
@@ -243,7 +245,9 @@ public class RoomMapController {
         		id += "," + roomDic.getId().toString();
         	}
 		}
-        roomDicMapper.updateRoomStatus(id,userId, modifyTime,1);
+        if(!"".equals(id) && id != null){
+            roomDicMapper.updateRoomStatus(id,userId, modifyTime,1);
+        }
         //更新楼栋状态为已删除
         boolean success = 1 == buildingDicMapper.updateBuildingStatus(dic);
         result.put("status", success ? "success" : "failed");
