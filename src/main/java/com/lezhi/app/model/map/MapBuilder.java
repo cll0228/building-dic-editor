@@ -140,7 +140,6 @@ public class MapBuilder {
         if (sorted) {
             throw new RuntimeException("already sorted");
         }
-        System.out.println("buildingId="+stdAddr.getBuildingId()+"  "+"room="+stdAddr.getRoom());
         String _floor = null;
         if ("".equals(stdAddr.getRoom()) || stdAddr.getRoom() == null) {
             stdAddr.setRoom("");
@@ -149,7 +148,6 @@ public class MapBuilder {
             if (_floor == null)
                 return AddResult.failed;
         }
-        System.out.println("_floor="+_floor);
 
         Residence residence = null;
 
