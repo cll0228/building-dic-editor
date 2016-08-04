@@ -67,7 +67,6 @@ public class RoomMapController {
                                        @RequestParam(value = "rid", required = true) int residenceId,
                                        @RequestParam(value = "no", required = true) String buildingName
                                            ) {
-    	//TODO
     	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
         Date date = new Date();       
@@ -75,9 +74,37 @@ public class RoomMapController {
         BuildingDic dic = new BuildingDic();
         dic.setName(buildingName);
         dic.setResidenceId(residenceId);
-//        dic.setOperatorId(userId);
-//        dic.setModifyTime(modifyTime);
-        boolean success = 1 == buildingDicMapper.insert(dic);
+        dic.setOperatorId(userId);
+        dic.setModifyTime(modifyTime);
+        BuildingDic buildingDic = buildingDicMapper.getBuildingByName(dic);
+        boolean success = false;
+        if(buildingDic != null){
+            if (buildingDic.getDelStatus() == 0) {
+                result.put("status", "exists");
+                return result;
+            } else if(buildingDic.getDelStatus() == 1){
+                // 更新楼栋状态
+                dic.setDelStatus(0);
+                dic.setId(buildingDic.getId());
+                success = 1 == buildingDicMapper.updateBuildingStatus(dic);
+                //取得相对应的roomId
+                List<RoomDic> ricList = new ArrayList<RoomDic>();
+                ricList = roomDicMapper.queryRoomId(buildingDic.getId());
+                String id = "";
+                for (RoomDic roomDic : ricList) {
+                    if(id=="") {
+                        id = roomDic.getId().toString();
+                    } else {
+                        id += "," + roomDic.getId().toString();
+                    }
+                }
+                // 更新房屋状态
+                roomDicMapper.updateRoomStatus(id,userId, modifyTime,0);
+            }
+        } else {
+            dic.setDelStatus(0);
+            success = 1 == buildingDicMapper.insert(dic);
+        }
         result.put("status", success ? "success" : "failed");
         return result;
     }
@@ -200,6 +227,11 @@ public class RoomMapController {
         Map<String, String> result = new HashMap<>();
         Date date = new Date();       
         Timestamp modifyTime = new Timestamp(date.getTime());
+        BuildingDic dic = new BuildingDic();
+        dic.setId(buildingId);
+        dic.setDelStatus(1);
+        dic.setOperatorId(userId);
+        dic.setModifyTime(modifyTime);
         //取得相对应的roomId
         List<RoomDic> ricList = new ArrayList<RoomDic>();
         ricList = roomDicMapper.queryRoomId(buildingId);
@@ -211,9 +243,9 @@ public class RoomMapController {
         		id += "," + roomDic.getId().toString();
         	}
 		}
-        roomDicMapper.updateRoomStatus(id,userId, modifyTime);
+        roomDicMapper.updateRoomStatus(id,userId, modifyTime,1);
         //更新楼栋状态为已删除
-        boolean success = 1 == buildingDicMapper.updateBuildingStatus(buildingId,userId,modifyTime);
+        boolean success = 1 == buildingDicMapper.updateBuildingStatus(dic);
         result.put("status", success ? "success" : "failed");
         return result;
     }

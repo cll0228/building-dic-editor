@@ -57,15 +57,15 @@
     <select id="findRoomExists" resultType="com.lezhi.app.model.map.StdAddr">
         SELECT a.name as room, b.name as building, b.top_floor as topFloor, c.ResidenceName as residence, a.area as area, c.ResidenceId as residenceId,b.id as buildingId,
         a.id as roomId,a.status as status,d.src as src,a.ori_address as oriAddress
-        FROM t_room_dic a
-       LEFT JOIN t_building_dic b ON a.building_id = b.id
+        FROM t_building_dic b
+       LEFT JOIN t_room_dic a ON a.building_id = b.id  and a.del_status=0
        LEFT JOIN sh_residence_info c ON c.ResidenceID = b.residence_id
        LEFT JOIN all_address d ON a.ref_id = d.id
         WHERE c.ResidenceId  IN (
         <foreach collection="rids" item="rid" separator=",">
             #{rid}
         </foreach>
-        ) and a.del_status=0 and b.del_status=0
+        ) and b.del_status=0
     </select>
 
     <select id="count" resultType="java.lang.Integer">
@@ -77,7 +77,7 @@
     </update>
     
     <update id="updateRoomStatus">
-        update t_room_dic set del_status = 1,operator_id = #{operatorId},modify_time = #{modifyTime} where id in (${id})
+        update t_room_dic set del_status = #{delStatus},operator_id = #{operatorId},modify_time = #{modifyTime} where id in (${id})
     </update>
 
 	<select id="queryRoomId" resultMap="RMap">

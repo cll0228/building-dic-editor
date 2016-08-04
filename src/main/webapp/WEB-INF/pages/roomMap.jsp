@@ -17,6 +17,7 @@
     <link href="${ctx}/static/css/roomMap.css" rel="stylesheet" />
     <link href="${ctx}/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
     <script type="text/javascript" src="${ctx}/static/scripts/jquery.js"></script>
+    <%--<script type="text/javascript" src="${ctx}/static/scripts/bootstrap-typeahead.js"></script>--%>
     <script type="text/javascript" src="${ctx}/bootstrap/js/bootstrap.js"></script>
 
     <link href="${ctx}/layer/skin/layer.css" rel="stylesheet" />
@@ -60,15 +61,26 @@
         function addBuilding(rid, no,title) {
             layer.prompt({
                 title: title ? title : '输入楼栋号，并确认',
-                formType: 0, //prompt风格，支持0-2,
+                formType: 0, //prompt风格，支持0-2
                 value: no ? no : ''
-            }, function(){
-                layer.msg('OK..。', {icon: 1});
-                $.post("${ctx}/addBuilding.do", {"rid" : rid, "no": no}, function (data) {
-
+            }, function(text){
+                $.post("${ctx}/addBuilding.do", {"rid" : rid, "no": text}, function (data) {
+                    if (data != undefined) {
+                        if (data.status === 'exists') {
+                            layer.msg('该楼栋已存在，请重新添加！', {icon: 1});
+                            layer.close();
+                        }else if(data.status == 'success'){
+                            layer.msg('楼栋已添加！', {icon: 1});
+                            window.location.reload();//刷新当前页面.
+                        }else {
+                            layer.msg('添加失败！');
+                        }
+                    } else {
+                        layer.msg('添加失败！');
+                    }
                 });
             }, function(){
-                //layer.msg('放弃了。', {icon: 1});
+                layer.msg('放弃了。', {icon: 1});
             });
         }
 
@@ -128,7 +140,7 @@
                 layer.msg('放弃了。', {icon: 1});
             });
         }
-        function delBuilding(buildingId) {
+        function delBuilding(buildingId,rid,bname) {
             layer.confirm('删除此楼？', {
                 btn: ['删除','取消'] //按钮
             }, function(){
@@ -136,6 +148,11 @@
                     if (data != undefined && data.status == 'success') {
                         layer.msg('楼栋已删除！', {icon: 1});
                         $("#b_"+buildingId).css("display","none");
+                        $("#b_"+rid+"_"+bname).css("color","red");
+                        $("#b_"+rid+"_"+bname).attr('class',"addbuilding");
+                        $("#b_"+rid+"_"+bname).click(function(){
+                            addBuilding(rid,bname,"添加此楼");
+                        })
                     } else {
                         layer.msg('删除失败！', {icon: 2});
                     }
@@ -155,7 +172,6 @@
             layer.prompt({
                 title: '输入房间'+rname+'室的面积，并确认',
                 formType: 0 //prompt风格，支持0-2,
-//                scrollbar: false
             }, function(text){
                 $.post("${ctx}/addRoom.do", {"bid" : bid, "rname": rname,"rarea":text}, function (data) {
 
@@ -206,10 +222,11 @@
                             if(data.status === 'exists'){
                                 layer.msg('该房屋已存在！', {icon: 1});
                                 layer.close();
-                            }
-                            if(data.status == 'success'){
+                            }else if(data.status == 'success'){
                                 layer.msg('房屋已添加！', {icon: 1});
                                 window.location.reload();//刷新当前页面.
+                            }else {
+                                layer.msg('添加失败！');
                             }
                         } else {
                             layer.msg('添加失败！');
@@ -300,10 +317,10 @@
             <c:forEach items="${r.buildingBitMaps}" var="be" varStatus="s">
                 <div class="building-map" style="color: ${be.exists ? 'green' : 'red'};">
                     <c:if test="${not be.exists}">
-                        <a  class="addbuilding" href="#" onclick="addBuilding(${r.residenceId}, '${be.buildingName}','添加此楼');return false">${be.buildingName}</a>
+                        <a  class="addbuilding" href="#" id="b_${r.residenceId}_${be.buildingName}" onclick="addBuilding(${r.residenceId}, '${be.buildingName}','添加此楼');return false">${be.buildingName}</a>
                     </c:if>
                     <c:if test="${be.exists}">
-                        <a href="#b_${be.buildingId}">${s.index + r.minBuilding}</a>
+                        <a href="#b_${be.buildingId}" id="b_${r.residenceId}_${be.buildingName}">${s.index + r.minBuilding}</a>
                     </c:if>
                 </div>
             </c:forEach>
@@ -333,7 +350,7 @@
                                         <li role="separator" class="divider"></li>
                                         <li><a href="#" onclick="editTotalFloor(${b.id},${b.name},${b.totalFloor});return false;">修改总层高</a></li>
                                         <li role="separator" class="divider"></li>
-                                        <li><a href="#" onclick="delBuilding(${b.id});return false;">删除此楼</a></li>
+                                        <li><a href="#" onclick="delBuilding(${b.id},${b.residenceId},${b.name});return false;">删除此楼</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -412,7 +429,7 @@
                                         <div class="cell">
                                             <div class="cellTop" style="height: 60%;">
                                                 <span class="${b.id}_${r.name}_1" style="color: red; ">${r.name}</span>
-                                                <a class="plus" id="${b.id}_${r.name}_2" style="font-size: large" href="#" onclick="addRoom(${b.id},${r.name});" title="添加此房屋">+</a>
+                                                <a class="plus" id="${b.id}_${r.name}_2" style="font-size: large" href="javascript:void(0)" onclick="addRoom(${b.id},${r.name});" title="添加此房屋">+</a>
 
                                                 <div class="btn-group" style="display:none;">
                                                     <button class="btn btn-default btn-xs dropdown-toggle" type="button"
@@ -422,12 +439,12 @@
                                                               aria-hidden="true"></span>
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                        <li><a href="#" class="${b.id}_${r.name}_01">修改面积</a>
+                                                        <li><a href="javascript:void(0)" class="${b.id}_${r.name}_01">修改面积</a>
                                                         </li>
-                                                        <li><a href="#" class="${b.id}_${r.name}_02">删除</a>
+                                                        <li><a href="javascript:void(0)" class="${b.id}_${r.name}_02">删除</a>
                                                         </li>
                                                         <li role="separator" class="divider"></li>
-                                                        <li><a href="#" class="${b.id}_${r.name}_03">锁定</a>
+                                                        <li><a href="javascript:void(0)" class="${b.id}_${r.name}_03">锁定</a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -440,7 +457,7 @@
                                 </c:if>
                             </c:forEach>
                             <td style="text-align: center;font-size: 30px; width: 40px;min-width: 40px;">
-                                <a class="plus" href="#" onclick="addNewRoom(${b.id});" title="在此楼层添加房屋">+</a>
+                                <a class="plus" href="javascript:void(0)" onclick="addNewRoom(${b.id});" title="在此楼层添加房屋">+</a>
                             </td>
                         </tr>
                     </c:if>
@@ -448,7 +465,7 @@
                         <tr>
                             <td colspan="100" class="unreal">
                                 <span style="color: #e9322d;">${f.name}</span>
-                                <a class="plus" style="font-size: large" href="#" onclick="addNewRoom(${b.id});" title="在此楼层添加房屋">+</a>
+                                <a class="plus" style="font-size: large" href="javascript:void(0)" onclick="addNewRoom(${b.id});" title="在此楼层添加房屋">+</a>
                                 <!--
                                 <a class="plus" href="#" onclick="addRoom();return false;">在此楼层创建房屋</a>-->
                             </td>

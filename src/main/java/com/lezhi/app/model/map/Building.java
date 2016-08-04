@@ -9,6 +9,7 @@ import java.util.List;
 public class Building implements Comparable<Building> {
 
     private Integer id;
+    private Integer residenceId;
 
     public Integer getId() {
         return id;
@@ -94,5 +95,13 @@ public class Building implements Comparable<Building> {
 
     public int getTotalFloor() {
         return totalFloor;
+    }
+
+    public Integer getResidenceId() {
+        return residenceId;
+    }
+
+    public void setResidenceId(Integer residenceId) {
+        this.residenceId = residenceId;
     }
 }

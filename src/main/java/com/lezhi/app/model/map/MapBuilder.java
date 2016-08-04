@@ -140,7 +140,10 @@ public class MapBuilder {
         if (sorted) {
             throw new RuntimeException("already sorted");
         }
-
+        System.out.println("buildingId="+stdAddr.getBuildingId()+"  "+"room="+stdAddr.getRoom());
+        if ("".equals(stdAddr.getRoom()) || stdAddr.getRoom() == null) {
+            stdAddr.setRoom("");
+        }
         String _floor = parseFloor(stdAddr.getRoom());
         if (_floor == null)
             return AddResult.failed;
@@ -172,6 +175,7 @@ public class MapBuilder {
             building = new Building();
             building.setId(stdAddr.getBuildingId());
             building.setName(stdAddr.getBuilding());
+            building.setResidenceId(stdAddr.getResidenceId());
             residence.getBuildings().add(building);
         }
 

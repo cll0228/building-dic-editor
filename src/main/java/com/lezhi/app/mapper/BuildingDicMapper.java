@@ -19,7 +19,9 @@ public interface BuildingDicMapper {
 
     int count();
     
-    int updateBuildingStatus(@Param("buildingId") Integer buildingId, @Param("operatorId") int operatorId, @Param("modifyTime") Timestamp modifyTime);
+    int updateBuildingStatus(BuildingDic dic);
 
     int updateTopFloor(BuildingDic bic);
+
+    BuildingDic getBuildingByName(BuildingDic dic);
 }

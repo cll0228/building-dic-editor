@@ -11,6 +11,7 @@ public class BuildingDic {
     private String name;
     private Integer residenceId;
     private Integer topFloor;
+    private Integer delStatus;
     private Integer operatorId;
     private Timestamp modifyTime;
 
@@ -60,5 +61,13 @@ public class BuildingDic {
 
     public void setModifyTime(Timestamp modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Integer getDelStatus() {
+        return delStatus;
+    }
+
+    public void setDelStatus(Integer delStatus) {
+        this.delStatus = delStatus;
     }
 }
