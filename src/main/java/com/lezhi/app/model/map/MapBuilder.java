@@ -141,12 +141,15 @@ public class MapBuilder {
             throw new RuntimeException("already sorted");
         }
         System.out.println("buildingId="+stdAddr.getBuildingId()+"  "+"room="+stdAddr.getRoom());
+        String _floor = null;
         if ("".equals(stdAddr.getRoom()) || stdAddr.getRoom() == null) {
             stdAddr.setRoom("");
+        } else {
+            _floor = parseFloor(stdAddr.getRoom());
+            if (_floor == null)
+                return AddResult.failed;
         }
-        String _floor = parseFloor(stdAddr.getRoom());
-        if (_floor == null)
-            return AddResult.failed;
+        System.out.println("_floor="+_floor);
 
         Residence residence = null;
 
@@ -180,42 +183,45 @@ public class MapBuilder {
         }
 
         Floor floor = null;
-        for (Floor f : building.getFloors()) {
-            if (f.getName().equals(_floor)) {
-                floor = f;
-                break;
+        if (!"".equals(stdAddr.getRoom()) && stdAddr.getRoom() != null) {
+            for (Floor f : building.getFloors()) {
+                if (f.getName().equals(_floor)) {
+                    floor = f;
+                    break;
+                }
+            }
+            if (floor == null) {
+                floor = new Floor();
+                floor.setName(_floor);
+                floor.setTopFloor(stdAddr.getTopFloor());
+                building.getFloors().add(floor);
+            }
+
+            List<Room> rooms = floor.getRooms();
+
+            Room room = null;
+            for (Room r : rooms) {
+                if (r.getName().equals(stdAddr.getRoom())) {
+                    room = r;
+                    break;
+                }
+            }
+            if (room == null) {
+                room = new Room();
+                room.setName(stdAddr.getRoom());
+                room.setId(stdAddr.getRoomId());
+                room.setArea(stdAddr.getArea());
+                room.setStatus(stdAddr.getStatus());
+                room.setSrc(stdAddr.getSrc());
+                room.setOriAddress(stdAddr.getOriAddress());
+                rooms.add(room);
+
+                return AddResult.success;
+            } else {
+                return AddResult.alreadyExists;
             }
         }
-        if (floor == null) {
-            floor = new Floor();
-            floor.setName(_floor);
-            floor.setTopFloor(stdAddr.getTopFloor());
-            building.getFloors().add(floor);
-        }
-
-        List<Room> rooms = floor.getRooms();
-
-        Room room = null;
-        for (Room r : rooms) {
-            if (r.getName().equals(stdAddr.getRoom())) {
-                room = r;
-                break;
-            }
-        }
-        if (room == null) {
-            room = new Room();
-            room.setName(stdAddr.getRoom());
-            room.setId(stdAddr.getRoomId());
-            room.setArea(stdAddr.getArea());
-            room.setStatus(stdAddr.getStatus());
-            room.setSrc(stdAddr.getSrc());
-            room.setOriAddress(stdAddr.getOriAddress());
-            rooms.add(room);
-
-            return AddResult.success;
-        } else {
-            return AddResult.alreadyExists;
-        }
+        return AddResult.success;
     }
 
     private String parseFloor(String roomNo) {
