@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class AddressExtractor {
 
     private static final Pattern __regex = Pattern.compile(
-            "(?:(?<rn0>.+弄)|(?<rn1>.+?(?:号|村|坊|道|苑|园|城|庭|大厦|湾|公寓|名邸|墅|小区|小区）|东门|西门|南门|北门|东区|西区|南区|北区))|(?<rn2>自定义的小区名称))" +
+            "(?:(?<rn3>管弄新村)(?<rn0>.+弄)|(?<rn1>.+?(?:号|村|坊|道|苑|园|城|庭|大厦|湾|公寓|名邸|墅|小区|小区）|东门|西门|南门|北门|东区|西区|南区|北区))|(?<rn2>自定义的小区名称))" +
                     ".*?" +
                     "(?<b>[\\d0-9a-zA-Z]*?[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]*?)(?:号楼?|单元|幢|楼|座)(?<be>[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]?)" +
                     ".*?" +
@@ -129,7 +129,14 @@ public class AddressExtractor {
 
     public static AddressModel parseAll__(String line) {
 
-        String[] arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)路(\\d+)弄(\\d+)号(\\d+)室?$"));
+        String[] arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路)(\\d+)号(\\d+)室?$"));
+        if (arr != null) {
+            String room = PreHandle.filterReduplicate2_3(arr[2], 4);
+            Address2 address = new Address2(arr[0] + arr[1] + "号", arr[1], room);
+            address.setScore(60);
+            return filterResult(address);
+        }
+        arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)路(\\d+)弄(\\d+)号(\\d+)室?$"));
         if (arr != null) {
             String room = PreHandle.filterReduplicate2_3(arr[3], 4);
             Address1 address1 = new Address1(arr[0], arr[1], arr[2], room);
@@ -154,7 +161,8 @@ public class AddressExtractor {
             String rn0 = map.get("rn0");
             String rn1 = map.get("rn1");
             String rn2 = map.get("rn2");
-            String residenceName = rn0 == null ? rn1 == null ? rn2 : rn1 : rn0;
+            String rn3 = map.get("rn3");
+            String residenceName = (String) firstNotNull(rn3, rn0, rn1, rn2);
             Assert.notNull(residenceName);
             String building = map.get("b");
             Assert.notNull(building);
