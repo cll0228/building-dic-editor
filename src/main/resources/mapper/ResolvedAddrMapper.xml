@@ -7,21 +7,23 @@
         <id column="id" property="id" />
         <result column="ref_id" property="refId" />
         <result column="src" property="src" />
-        <result column="ori_address" property="oriAddress" />
+        <result column="address" property="oriAddress" />
         <result column="residence" property="residence" />
         <result column="building" property="building" />
         <result column="room" property="room" />
         <result column="area" property="area" />
         <result column="residence_id" property="residenceId" />
         <result column="building_id" property="buildingId" />
+        <result column="is_deal" property="isDeal" />
+        <result column="parsed_score" property="parsedScore" />
     </resultMap>
 
     <select id="find" resultMap="ResolvedAddressMap">
-        select t.id, t.ref_id, t.ori_address, t.residence, t.building, t.room, t.residence_id, t.src
+        select t.id, t.ref_id, t.address, t.residence, t.building, t.room, t.residence_id, t.src,t.parsed_score
         from `${tn}` t where
         (
         <foreach collection="keywords" item="keyword" separator="or">
-            t.ori_address like '%${keyword}%'
+            t.address like '%${keyword}%'
         </foreach>
         )
         <if test="building != null">
@@ -34,17 +36,17 @@
     </select>
 
     <select id="findAll" resultMap="ResolvedAddressMap">
-        select t.id, t.ref_id, t.ori_address, t.residence, t.building, t.room, t.residence_id, t.src
+        select t.id, t.ref_id, t.address, t.residence, t.building, t.room, t.residence_id, t.src,t.area,t.is_deal,t.parsed_score
         from `${tn}` t
     </select>
 
     <select id="findAllWithBuilding" resultMap="ResolvedAddressMap">
-        select t.id, t.ref_id, t.ori_address, t.residence, t.building, t.room, t.residence_id, t.building_id, t.area as area, t.src
+        select t.id, t.ref_id, t.address, t.residence, t.building, t.room, t.residence_id, t.building_id, t.area as area, t.src,t.area,t.is_deal,t.parsed_score
         from `${tn}` t
     </select>
 
     <select id="findByResidences" resultMap="ResolvedAddressMap">
-        select t.id, t.ref_id, t.ori_address, t.residence, t.building, t.room, t.residence_id, t.area as area, t.src
+        select t.id, t.ref_id, t.address, t.residence, t.building, t.room, t.residence_id, t.area as area, t.src,t.parsed_score
         from `${tn}` t where
         t.residence_id IN (
         <foreach collection="rids" item="rid" separator=",">
@@ -64,7 +66,7 @@
         select count(1) from `${tn}` t where
         (
         <foreach collection="keywords" item="keyword" separator="or">
-            t.ori_address like '%${keyword}%'
+            t.address like '%${keyword}%'
         </foreach>
         )
         <if test="building != null">

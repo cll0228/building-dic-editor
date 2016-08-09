@@ -1,13 +1,12 @@
 package com.lezhi.app.mapper;
 
-import com.lezhi.app.model.BuildingDic;
 import com.lezhi.app.model.RoomDic;
 import com.lezhi.app.model.map.StdAddr;
-
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Colin Yan on 2016/7/20.
@@ -41,4 +40,6 @@ public interface RoomDicMapper {
     List<RoomDic> queryRoomId(@Param("buildingId")Integer buildingId);
     
     int updateRoomStatus(@Param("id")String id, @Param("operatorId") int operatorId, @Param("modifyTime") Timestamp modifyTime, @Param("delStatus") int delStatus);
+
+    void batchInsert(@Param("rooms") Set<RoomDic> roomBuffer);
 }

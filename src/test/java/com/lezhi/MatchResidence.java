@@ -20,6 +20,7 @@ import java.util.Set;
 /**
  * Created by Colin Yan on 2016/8/4.
  */
+@Deprecated
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/conf/applicationContext.xml"})
 public class MatchResidence {

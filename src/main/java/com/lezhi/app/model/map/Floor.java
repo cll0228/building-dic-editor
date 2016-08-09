@@ -2,7 +2,6 @@ package com.lezhi.app.model.map;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 /**
  * Created by Colin Yan on 2016/7/19.

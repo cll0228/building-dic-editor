@@ -1,11 +1,8 @@
 package com.lezhi.app.mapper;
 
 import com.lezhi.app.model.BuildingDic;
-import com.lezhi.app.model.Residence;
-
 import org.apache.ibatis.annotations.Param;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 

@@ -17,6 +17,16 @@ public class BuildingDic {
     private Integer operatorId;
     private Timestamp modifyTime;
 
+    private Long urefId;
+
+    public Long getUrefId() {
+        return urefId;
+    }
+
+    public void setUrefId(Long urefId) {
+        this.urefId = urefId;
+    }
+
     private Set<RoomDic> roomDics = new HashSet<>();
 
     public Set<RoomDic> getRoomDics() {

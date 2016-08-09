@@ -1,6 +1,5 @@
 package com.lezhi.app.model.map;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

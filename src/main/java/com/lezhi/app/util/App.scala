@@ -1,7 +1,5 @@
 package com.lezhi.app.util
 
-import scala.util.matching.Regex
-
 /**
   * Created by Colin Yan on 2016/7/12.
   */

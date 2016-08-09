@@ -11,8 +11,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.lezhi.app.model.RoomDic">
-        insert into t_room_dic(`name`, `building_id`, `operator_id`, `modify_time`) VALUES (
-        #{name}, #{buildingId}, #{operatorId}, #{modifyTime}
+        insert into t_room_dic(`name`, `building_id`, `operator_id`, `modify_time`, `area`) VALUES (
+        #{name}, #{buildingId}, #{operatorId}, #{modifyTime}, #{area}
         )
     </insert>
 
@@ -84,4 +84,10 @@
         SELECT id FROM all_address.t_room_dic where building_id=#{buildingId}
     </select>
 
+    <insert id="batchInsert" parameterType="com.lezhi.app.model.RoomDic">
+        insert into t_room_dic(`name`, `building_id`, `operator_id`, `modify_time`, `ref_id`, `uref_id`, `status`, `area`, `residence_id`, `src`, `ori_address`) VALUES
+        <foreach collection="rooms" item="r" index="index" separator=",">
+            (#{r.name}, #{r.buildingId}, #{r.operatorId}, #{r.modifyTime}, #{r.refId}, #{r.urefId}, #{r.status}, #{r.area}, #{r.residenceId}, #{r.src}, #{r.oriAddress})
+        </foreach>
+    </insert>
 </mapper>

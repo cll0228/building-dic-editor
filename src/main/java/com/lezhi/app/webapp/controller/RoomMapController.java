@@ -9,7 +9,6 @@ import com.lezhi.app.model.RoomDic;
 import com.lezhi.app.model.map.MapBuilder;
 import com.lezhi.app.model.map.Residence;
 import com.lezhi.app.model.map.StdAddr;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Colin Yan on 2016/7/15.

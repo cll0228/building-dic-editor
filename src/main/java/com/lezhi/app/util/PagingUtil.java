@@ -1,8 +1,5 @@
 package com.lezhi.app.util;
 
-import com.lezhi.app.model.ResolvedAddress;
-import org.apache.ibatis.session.RowBounds;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -64,7 +61,7 @@ public class PagingUtil {
 
     public static void main(String[] args) {
         List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < 95; i++) {
+        for (int i = 0; i < 5; i++) {
             list.add(i + 1);
         }
         pageCollection(list, 10, (pageNo, sub, begin, end, realPageSize, pageSize, isFirst, isLast, totalSize, pageCount) -> {

@@ -44,9 +44,9 @@
     </update>
 
     <insert id="batchInsert" parameterType="com.lezhi.app.model.BuildingDic">
-        insert into t_building_dic(`id`, `name`, `residence_id`, `top_floor`, `del_status`, `operator_id`, `modify_time`) VALUES
+        insert into t_building_dic(`id`, `name`, `residence_id`, `top_floor`, `del_status`, `operator_id`, `modify_time`, `uref_id`) VALUES
         <foreach collection="buildings" item="b" index="index" separator=",">
-            (#{b.id}, #{b.name}, #{b.residenceId}, null, 0, 1, CURRENT_TIMESTAMP())
+            (#{b.id}, #{b.name}, #{b.residenceId}, null, 0, 1, CURRENT_TIMESTAMP(), #{b.urefId})
         </foreach>
     </insert>
 </mapper>

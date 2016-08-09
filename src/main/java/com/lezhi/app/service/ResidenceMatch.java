@@ -1,7 +1,6 @@
 package com.lezhi.app.service;
 
 import com.lezhi.app.mapper.ResidenceMapper;
-import com.lezhi.app.mapper.ResolvedAddrMapper;
 import com.lezhi.app.model.Residence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

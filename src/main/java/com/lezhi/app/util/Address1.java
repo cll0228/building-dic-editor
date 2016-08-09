@@ -3,7 +3,7 @@ package com.lezhi.app.util;
 /**
  * Created by Colin Yan on 2016/7/18.
  */
-public class Address1 implements AddressModel {
+public class Address1 extends AddressModel {
 
     // XXX路XXX弄XXX号XXX室
     private String road;
@@ -11,13 +11,23 @@ public class Address1 implements AddressModel {
     private String building;
     private String room;
 
+    private Integer score;
 
     @Override
     public int getScore() {
-        if (road.matches("^[\\u4E00-\\u9FA5]+$") && lane.matches("^\\d+$") && building.matches("^\\d+$") && room.matches("^\\d{3,4}$")) {
-            return 99;
+        if (score == null) {
+            if (road.matches("^[\\u4E00-\\u9FA5]+$") && lane.matches("^\\d+$") && building.matches("^\\d+$") && room.matches("^\\d{3,4}$")) {
+                score = 99;
+            } else {
+                score = 30;
+            }
         }
-        return 30;
+        return score;
+    }
+
+    @Override
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public Address1(String road, String lane, String building, String room) {

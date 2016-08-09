@@ -24,6 +24,7 @@ import java.util.Map;
 /**
  * Created by Colin Yan on 2016/7/12.
  */
+@Deprecated
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/conf/applicationContext.xml"})
 public class ParseAddressTestOld {

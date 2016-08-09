@@ -1,4 +1,4 @@
-package com.lezhi;
+package com.lezhi.app.test;
 
 import com.lezhi.app.model.Residence;
 import com.lezhi.app.model.ResolvedAddress;
@@ -9,11 +9,10 @@ import com.lezhi.app.util.PagingUtil;
 import com.lezhi.app.util.PreHandle;
 import com.lezhi.test.mapper.AddrParserMapper;
 import org.apache.ibatis.session.RowBounds;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -22,8 +21,7 @@ import java.util.List;
 /**
  * Created by Colin Yan on 2016/8/8.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:/conf/applicationContext.xml", "classpath:/test/applicationContext-mybatis-test.xml"})
+@Component
 public class ParseAddressDb {
 
     @Autowired
@@ -53,7 +51,6 @@ public class ParseAddressDb {
     private final String roomColumn = "room";
     private final String scoreColumn = "parsed_score";
 
-    @Test
     public void start() throws IOException {
         final int PAGE_SIZE = 100000;
 
@@ -64,9 +61,14 @@ public class ParseAddressDb {
             RowBounds rowBounds = new RowBounds(begin, realPageSize);
             List<ResolvedAddress> list = addrParserMapper.selectAddress(primaryKey, fromTable, addressColumn, residenceIdColumn, scoreColumn, whereClause, rowBounds);
             updateResolved(list);
+
+            System.out.println("progress:" + pageNo + "/" + pageCount);
+
             return true;
         });
 
+        Result result = new JUnitCore().run(CreateBuildingDicTest .class);
+        System.exit(result.wasSuccessful() ? 0 : 1);
     }
 
     private void updateResolved(List<ResolvedAddress> list) throws IOException {

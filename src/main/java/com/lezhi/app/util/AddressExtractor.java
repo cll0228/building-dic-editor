@@ -1,11 +1,9 @@
 package com.lezhi.app.util;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -125,22 +123,31 @@ public class AddressExtractor {
             throw t;
         }
     }
-
     public static AddressModel parseAll(String line) {
+        return filterResult(parseAll__(line));
+    }
+
+    public static AddressModel parseAll__(String line) {
 
         String[] arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)路(\\d+)弄(\\d+)号(\\d+)室?$"));
         if (arr != null) {
             String room = PreHandle.filterReduplicate2_3(arr[3], 4);
-            return new Address1(arr[0], arr[1], arr[2], room);
+            Address1 address1 = new Address1(arr[0], arr[1], arr[2], room);
+            address1.setScore(99);
+            return filterResult(address1);
         }
         arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)路(\\d+)弄[\\-/]?(\\d+)号?[\\-/](\\d+)$"));
         if (arr != null) {
             String room = PreHandle.filterReduplicate2_3(arr[3], 4);
-            return new Address1(arr[0], arr[1], arr[2], room);
+            Address1 address1 = new Address1(arr[0], arr[1], arr[2], room);
+            address1.setScore(90);
+            return filterResult(address1);
         }
         arr = regexGroup(line, Pattern.compile("^(.+)村([\\d一二三四五六七八九十]+)[组队](\\d+)号$"));
         if (arr != null) {
-            return new Address3(arr[0], arr[1], arr[2]);
+            Address3 address3 = new Address3(arr[0], arr[1], arr[2]);
+            address3.setScore(99);
+            return filterResult(address3);
         }
         Map<String, String> map = regexGroup(line, regex, "rn0", "rn1", "rn2", "b", "be", "r0", "r1", "r2", "r3", "r4");
         if (map != null && !map.isEmpty()) {
@@ -167,12 +174,14 @@ public class AddressExtractor {
             }
             room = PreHandle.filterReduplicate2_3(room, 4);
             if (StringUtils.isNotBlank(residenceName) && StringUtils.isNotBlank(building) && StringUtils.isNotBlank(room))
-                return new Address2(residenceName, building, room);
+                return filterResult(new Address2(residenceName, building, room));
         }
         arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)([\\d一二三四五六七八九十]+)[组队](\\d+)号$"));
-        if (arr != null)
-            return new Address3(arr[0], arr[1], arr[2]);
-
+        if (arr != null) {
+            Address3 address3 = new Address3(arr[0], arr[1], arr[2]);
+            address3.setScore(59);
+            return filterResult(address3);
+        }
         map = regexGroup(line, regex2, "rn0", "rn1", "rn2", "b", "r");
         if (map != null && !map.isEmpty()) {
             String rn0 = map.get("rn0");
@@ -186,7 +195,7 @@ public class AddressExtractor {
             Assert.notNull(room);
             room = PreHandle.filterReduplicate2_3(room, 4);
             if (StringUtils.isNotBlank(residenceName) && StringUtils.isNotBlank(building) && StringUtils.isNotBlank(room))
-                return new Address2(residenceName, building, room);
+                return filterResult(new Address2(residenceName, building, room));
         }
 
         /*
@@ -218,6 +227,19 @@ public class AddressExtractor {
         //System.out.println(__regex.pattern());
 
         System.out.println(parseAll("三林路1300弄6号23层1102室"));
+    }
+
+    private static AddressModel filterResult(AddressModel input) {
+        if (input == null || input.isFiltered())
+            return input;
+
+        if (input.getBuilding() == null || input.getBuilding().length() > 10)
+            return null;
+
+        if (input.getRoom() == null || input.getRoom().length() > 10)
+            return null;
+
+        return input;
     }
 
     private static Object firstNotNull(Object... params) {

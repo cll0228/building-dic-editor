@@ -7,6 +7,7 @@ public class ResolvedAddress {
 
     private long id;
     private long refId;
+
     private String oriAddress;
     private String residence;
     private String building;
@@ -14,6 +15,15 @@ public class ResolvedAddress {
     private Integer residenceId;
     private Double area;
     private String src;
+
+    private Boolean isDeal;
+    public Boolean getIsDeal() {
+        return isDeal;
+    }
+
+    public void setIsDeal(Boolean isDeal) {
+        this.isDeal = isDeal;
+    }
 
     private Integer parsedScore;
 
@@ -96,4 +106,5 @@ public class ResolvedAddress {
     public void setArea(Double area) {
         this.area = area;
     }
+
 }

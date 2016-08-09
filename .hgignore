@@ -2,3 +2,6 @@ syntax: glob
 .idea/
 addr_parser.iml
 target/
+.git/
+.gitignore
+README.md

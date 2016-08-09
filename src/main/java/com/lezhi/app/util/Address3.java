@@ -3,18 +3,30 @@ package com.lezhi.app.util;
 /**
  * Created by Colin Yan on 2016/7/18.
  */
-public class Address3 implements AddressModel {
+public class Address3 extends AddressModel {
     // XXX(村)XXX(组、队)XXX号
     private String village;
     private String group;
     private String no;
 
+    private Integer score;
+
     @Override
     public int getScore() {
-        if (village.matches("^[\\u4E00-\\u9FA5]+村$") && group.matches("^\\d+[组队]$") && no.matches("^\\d+$")) {
-            return 99;
+        if (score == null) {
+            if (village.matches("^[\\u4E00-\\u9FA5]+村$") && group.matches("^\\d+[组队]$") && no.matches("^\\d+$")) {
+                score = 99;
+            } else {
+                score = 30;
+            }
         }
-        return 30;
+
+        return score;
+    }
+
+    @Override
+    public void setScore(int score) {
+        this.score = score;
     }
 
     public Address3(String village, String group, String no) {

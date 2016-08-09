@@ -3,13 +3,27 @@ package com.lezhi.app.util;
 /**
  * Created by Colin Yan on 2016/7/18.
  */
-public interface AddressModel {
+public abstract class AddressModel {
 
-    String binTab();
+    public boolean isFiltered() {
+        return filtered;
+    }
 
-    String getResidence();
-    String getBuilding();
-    String getRoom();
+    public void setFiltered(boolean filtered) {
+        this.filtered = filtered;
+    }
 
-    int getScore();
+    private boolean filtered;
+
+    public abstract String binTab();
+
+    public abstract String getResidence();
+
+    public abstract String getBuilding();
+
+    public abstract String getRoom();
+
+    public abstract int getScore();
+
+    public abstract void setScore(int score);
 }

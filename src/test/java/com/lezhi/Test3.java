@@ -1,44 +1,32 @@
 package com.lezhi;
 
 import com.lezhi.app.mapper.*;
-import com.lezhi.app.model.Address;
-import com.lezhi.app.model.BuildingDic;
-import com.lezhi.app.model.Residence;
 import com.lezhi.app.model.ResolvedAddress;
-import com.lezhi.app.model.map.Building;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Colin Yan on 2016/7/13.
  */
+@Deprecated
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/conf/applicationContext.xml"})
 public class Test3 {
 
     @Autowired
     private ResolvedAddrMapper resolvedAddrMapper;
-    @Autowired
-    private AddrSourceMapper addrSourceMapper;
-    @Autowired
-    private ResidenceMapper residenceMapper;
-    @Autowired
-    private BuildingDicMapper buildingDicMapper;
-    @Autowired
-    private RoomDicMapper roomDicMapper;
 
     private static final File PATH = new File("D:\\房屋地址数据");
 

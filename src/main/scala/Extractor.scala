@@ -1,7 +1,5 @@
 import java.util.regex.Pattern
 
-import scala.util.matching.Regex
-
 trait Resolver {
 
   def resolve(input: String): Option[AddressModel]
