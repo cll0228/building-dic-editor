@@ -1,6 +1,5 @@
 package com.lezhi;
 
-import com.lezhi.app.model.Address;
 import com.lezhi.app.model.Residence;
 import com.lezhi.app.model.ResolvedAddress;
 import com.lezhi.app.service.ResidenceMatch;
@@ -17,7 +16,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -53,6 +51,7 @@ public class ParseAddressDb {
     private final String residenceIdColumn = "residence_id";
     private final String buildingColumn = "building";
     private final String roomColumn = "room";
+    private final String scoreColumn = "parsed_score";
 
     @Test
     public void start() throws IOException {
@@ -63,7 +62,7 @@ public class ParseAddressDb {
 
         PagingUtil.pageIndex(count, PAGE_SIZE, (pageNo, begin, end, realPageSize, pageSize, isFirst, isLast, totalSize, pageCount) -> {
             RowBounds rowBounds = new RowBounds(begin, realPageSize);
-            List<ResolvedAddress> list = addrParserMapper.selectAddress(primaryKey, fromTable, addressColumn, residenceIdColumn, whereClause, rowBounds);
+            List<ResolvedAddress> list = addrParserMapper.selectAddress(primaryKey, fromTable, addressColumn, residenceIdColumn, scoreColumn, whereClause, rowBounds);
             updateResolved(list);
             return true;
         });
@@ -89,6 +88,7 @@ public class ParseAddressDb {
                         r.setResidence(am.getResidence());
                         r.setBuilding(am.getBuilding());
                         r.setRoom(am.getRoom());
+                        r.setParsedScore(am.getScore());
 
                         Integer residenceId = r.getResidenceId();
                         if (residenceId == null || !skipNotNullResidenceId) {
@@ -107,13 +107,14 @@ public class ParseAddressDb {
                         r.setResidence(null);
                         r.setBuilding(null);
                         r.setRoom(null);
+                        r.setParsedScore(null);
                     } else {
                         it.remove();
                     }
                 }
             }
 
-            addrParserMapper.updateAddress((List<ResolvedAddress>) sub, primaryKey, fromTable, addressColumn, residenceColumn, residenceIdColumn, buildingColumn, roomColumn);
+            addrParserMapper.updateAddress((List<ResolvedAddress>) sub, primaryKey, fromTable, addressColumn, residenceColumn, residenceIdColumn, buildingColumn, roomColumn, scoreColumn);
             return true;
         });
     }

@@ -10,4 +10,6 @@ public interface AddressModel {
     String getResidence();
     String getBuilding();
     String getRoom();
+
+    int getScore();
 }

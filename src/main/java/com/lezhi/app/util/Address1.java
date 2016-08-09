@@ -11,6 +11,15 @@ public class Address1 implements AddressModel {
     private String building;
     private String room;
 
+
+    @Override
+    public int getScore() {
+        if (road.matches("^[\\u4E00-\\u9FA5]+$") && lane.matches("^\\d+$") && building.matches("^\\d+$") && room.matches("^\\d{3,4}$")) {
+            return 99;
+        }
+        return 30;
+    }
+
     public Address1(String road, String lane, String building, String room) {
         this.road = road;
         this.lane = lane;

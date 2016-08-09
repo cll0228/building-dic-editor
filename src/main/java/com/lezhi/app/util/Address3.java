@@ -9,6 +9,14 @@ public class Address3 implements AddressModel {
     private String group;
     private String no;
 
+    @Override
+    public int getScore() {
+        if (village.matches("^[\\u4E00-\\u9FA5]+村$") && group.matches("^\\d+[组队]$") && no.matches("^\\d+$")) {
+            return 99;
+        }
+        return 30;
+    }
+
     public Address3(String village, String group, String no) {
         this.village = village;
         this.group = group;
@@ -17,7 +25,7 @@ public class Address3 implements AddressModel {
 
     @Override
     public String toString() {
-        return village + "<村>" + group +"<组,队>" + no + "<号>";
+        return village + "<村>" + group + "<组,队>" + no + "<号>";
     }
 
     @Override

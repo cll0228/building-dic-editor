@@ -15,6 +15,16 @@ public class ResolvedAddress {
     private Double area;
     private String src;
 
+    private Integer parsedScore;
+
+    public Integer getParsedScore() {
+        return parsedScore;
+    }
+
+    public void setParsedScore(Integer parsedScore) {
+        this.parsedScore = parsedScore;
+    }
+
     public String getSrc() {
         return src;
     }

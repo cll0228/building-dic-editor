@@ -22,6 +22,7 @@ public interface AddrParserMapper {
                                         @Param("addressTable") String addressTable,
                                         @Param("addressColumn") String addressColumn,
                                         @Param("residenceIdColumn") String residenceIdColumn,
+                                        @Param("scoreColumn") String scoreColumn,
                                         @Param("whereClause") String whereClause,
                                         RowBounds rowBounds
     );
@@ -32,8 +33,9 @@ public interface AddrParserMapper {
                        @Param("addressColumn") String addressColumn,
                        @Param("residenceColumn") String residence,
                        @Param("residenceIdColumn") String residenceIdColumn,
-                       @Param("buildingColumn") String building,
-                       @Param("roomColumn") String room
+                       @Param("buildingColumn") String buildingColumn,
+                       @Param("roomColumn") String roomColumn,
+                       @Param("scoreColumn") String scoreColumn
     );
 
 

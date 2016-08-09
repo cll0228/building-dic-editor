@@ -7,6 +7,7 @@
         <id column="id" property="id" />
         <result column="ori_address" property="oriAddress" />
         <result column="residence_id" property="residenceId" />
+        <result column="parsed_score" property="parsedScore" />
     </resultMap>
 
     <select id="count" resultType="java.lang.Integer">
@@ -17,7 +18,8 @@
     </select>
 
     <select id="selectAddress" resultMap="ResolvedAddressMap">
-        select ${primaryKey} as `id`, ${addressColumn} as `ori_address`,${residenceIdColumn} as residence_id from ${addressTable}
+        select ${primaryKey} as `id`, ${addressColumn} as `ori_address`,${residenceIdColumn} as residence_id ,${scoreColumn} as parsed_score
+        from ${addressTable}
         <if test="whereClause != null">
             where ${whereClause}
         </if>
@@ -30,7 +32,8 @@
             ${residenceColumn} = #{r.residence}
             ,${residenceIdColumn} = #{r.residenceId}
             ,${buildingColumn} = #{r.building}
-            , ${roomColumn} = #{r.room}
+            ,${roomColumn} = #{r.room}
+            ,${scoreColumn} = #{r.parsedScore}
             where t.${primaryKey} = #{r.id}
         </foreach>
     </update>
