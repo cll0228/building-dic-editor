@@ -6,16 +6,17 @@
     <resultMap id="RMap" type="com.lezhi.app.model.Residence">
         <id column="id" property="id" />
         <result column="name" property="name" />
+        <result column="address" property="address" />
     </resultMap>
 
     <select id="findAll" resultMap="RMap">
-        SELECT t.ResidenceId as id, t.ResidenceName as name
+        SELECT t.ResidenceId as id, t.ResidenceName as name, t.ResidenceAddr as address
         FROM sh_residence_info t
         where t.IsAvailable = 1
     </select>
 
     <select id="find" resultMap="RMap">
-        SELECT t.ResidenceId as id, t.ResidenceName as name
+        SELECT t.ResidenceId as id, t.ResidenceName as name, t.ResidenceAddr as address
         FROM sh_residence_info t
         where
         1=2

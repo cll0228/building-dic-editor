@@ -11,10 +11,18 @@ public class RoomDic {
     private Integer id;
     private String name;
     private Integer buildingId;
-    private	 BigDecimal area;
+    private	 Double area;
     private Integer delStatus;
     private Integer operatorId;
     private Timestamp modifyTime;
+
+    private Integer residenceId;
+    private String buildingName;
+    private String oriAddress;
+    private Long refId;
+    private String src;
+
+
     public Timestamp getModifyTime() {
 		return modifyTime;
 	}
@@ -65,11 +73,11 @@ public class RoomDic {
         this.buildingId = buildingId;
     }
 
-	public BigDecimal getArea() {
+	public Double getArea() {
 		return area;
 	}
 
-	public void setArea(BigDecimal area) {
+	public void setArea(Double area) {
 		this.area = area;
 	}
 
@@ -79,5 +87,45 @@ public class RoomDic {
 
     public void setDelStatus(Integer delStatus) {
         this.delStatus = delStatus;
+    }
+
+    public Integer getResidenceId() {
+        return residenceId;
+    }
+
+    public void setResidenceId(Integer residenceId) {
+        this.residenceId = residenceId;
+    }
+
+    public String getBuildingName() {
+        return buildingName;
+    }
+
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
+    }
+
+    public String getOriAddress() {
+        return oriAddress;
+    }
+
+    public void setOriAddress(String oriAddress) {
+        this.oriAddress = oriAddress;
+    }
+
+    public Long getRefId() {
+        return refId;
+    }
+
+    public void setRefId(Long refId) {
+        this.refId = refId;
+    }
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
     }
 }

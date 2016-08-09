@@ -57,14 +57,14 @@ public class ResultController {
                 for (int i = 0; i < residences.size(); i++) {
                     rids[i] = residences.get(i).getId();
                 }
-                count = resolvedAddrMapper.countByResidences(rids, building, room);
+                count = resolvedAddrMapper.countByResidences("resolved_address_deal", rids, building, room);
                 if (count > 0) {
                     totalPage = count / PAGE_SIZE + (count % PAGE_SIZE == 0 ? 0 : 1);
                     if (page > totalPage) {
                         page = totalPage;
                     }
                     RowBounds rowBounds = new RowBounds((page - 1) * PAGE_SIZE, PAGE_SIZE);
-                    List<ResolvedAddress> list = resolvedAddrMapper.findByResidences(rids, building, room, rowBounds);
+                    List<ResolvedAddress> list = resolvedAddrMapper.findByResidences("resolved_address_deal", rids, building, room, rowBounds);
                     request.setAttribute("list", list);
 
                     for (com.lezhi.app.model.Residence r : residences) {

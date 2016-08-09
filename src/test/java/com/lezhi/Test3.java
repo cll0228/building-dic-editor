@@ -42,16 +42,17 @@ public class Test3 {
 
     private static final File PATH = new File("D:\\房屋地址数据");
 
+
     //@Test
     public void createBuildingDic() throws Exception {
         final int PAGE_SIZE = 1000000;
-        final int count = resolvedAddrMapper.countAll();
+        final int count = resolvedAddrMapper.countAll("resolved_address_deal");
 
         final File outputBuilding = new File(PATH, "t_building_dic.txt");
         final FileOutputStream fosBuilding = new FileOutputStream(outputBuilding);
         for (int i = 0; i < count; i += PAGE_SIZE) {
             RowBounds rowBounds = new RowBounds(i, PAGE_SIZE);
-            List<ResolvedAddress> list = resolvedAddrMapper.findAll(rowBounds);
+            List<ResolvedAddress> list = resolvedAddrMapper.findAll("resolved_address_deal", rowBounds);
 
             for (ResolvedAddress address : list) {
 
@@ -75,26 +76,18 @@ public class Test3 {
         delRepeat(outputBuilding);
     }
 
-    private Integer findIdByName(List<BuildingDic> buildingDics, String name) {
-        for (BuildingDic b : buildingDics) {
-            if (b.getName().equals(name)) {
-                return b.getId();
-            }
-        }
-        return null;
-    }
-
     //@Test
     public void createRoomDic() throws Exception {
         final int PAGE_SIZE = 1000000;
-        final int count = resolvedAddrMapper.countAll(); //WithBuilding();
+        final int count = resolvedAddrMapper.countAll("resolved_address_deal"); //WithBuilding();
 
         final File outputRoom = new File(PATH, "t_room_dic.txt");
         final FileOutputStream fosRoom = new FileOutputStream(outputRoom);
         for (int i = 0; i < count; i += PAGE_SIZE) {
             RowBounds rowBounds = new RowBounds(i, PAGE_SIZE);
-            List<ResolvedAddress> list = resolvedAddrMapper.findAllWithBuilding(rowBounds);
+            List<ResolvedAddress> list = resolvedAddrMapper.findAllWithBuilding("resolved_address_deal",rowBounds);
             for (ResolvedAddress address : list) {
+                /*
                 //有重复的
                 fosRoom.write(address.getRoom().getBytes("gbk"));
                 fosRoom.write('\t');
@@ -103,7 +96,7 @@ public class Test3 {
                 fosRoom.write('\t');
                 fosRoom.write(String.valueOf(address.getArea()).getBytes("gbk"));
                 fosRoom.write('\n');
-                //}
+                //}*/
             }
         }
         fosRoom.close();

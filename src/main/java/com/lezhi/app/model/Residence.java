@@ -10,6 +10,7 @@ public class Residence {
     private String name;
 
     private Boolean exists;
+    private String address;
 
     public Boolean getExists() {
         return exists;
@@ -33,5 +34,13 @@ public class Residence {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

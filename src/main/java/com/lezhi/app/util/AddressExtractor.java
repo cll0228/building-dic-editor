@@ -1,10 +1,12 @@
 package com.lezhi.app.util;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,13 +19,12 @@ public class AddressExtractor {
                     ".*?" +
                     "(?<b>[\\d0-9a-zA-Z]*?[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]*?)(?:号楼?|单元|幢|楼|座)(?<be>[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]?)" +
                     ".*?" +
-                    "(?:(?<r1>[\\d\\-_]+)层?室?|(?<r2>[\\da-zA-Z甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]+)层?室?|(?<r3>全幢)室?)(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)");
+                    "(?:\\d+层(?<r0>\\d+)室|(?<r1>[\\d\\-_]+)层?室?|(?<r2>[\\da-zA-Z甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]+)层?室?|(?<r3>全幢)室?)(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)");
 
     private static final Pattern regex;
     private static final Pattern regex2;
 
-    // TODO 注意小区字典文件
-    private static final String RESIDENCE_DIC = "C:\\Users\\dell\\AppData\\Roaming\\Quest Software\\" + "Toad for SQL Server Freeware 6.6\\SH_Residence2016-07-14 16-17-21.csv";
+    private static final String RESIDENCE_DIC = "/SH_Residence2016-07-14 16-17-21.csv";
 
     private static final String residenceNames[];
 
@@ -31,8 +32,10 @@ public class AddressExtractor {
 
     static {
         Set<String> residenceNameList = new HashSet<>();
+        InputStream is = null;
         try {
-            List<String> lines = FileUtils.readLines(new File(RESIDENCE_DIC), "utf-8");
+            is = AddressExtractor.class.getResourceAsStream(RESIDENCE_DIC);
+            List<String> lines = IOUtils.readLines(is, "utf-8");
             for (String s : lines) {
                 s = StringUtils.substringBetween(s, "\"", "\"");
                 if (!s.matches(".+(?:弄|号|村|坊|道|苑|园|城|庭|大厦|湾|公寓|名邸|墅|小区|小区）|东门|西门|南门|北门|东区|西区|南区|北区)$")) {
@@ -41,6 +44,8 @@ public class AddressExtractor {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            IOUtils.closeQuietly(is);
         }
         residenceNameList.add("南林家港");
         residenceNameList.add("镇坪路赵家宅");
@@ -137,7 +142,7 @@ public class AddressExtractor {
         if (arr != null) {
             return new Address3(arr[0], arr[1], arr[2]);
         }
-        Map<String, String> map = regexGroup(line, regex, "rn0", "rn1", "rn2", "b", "be", "r1", "r2", "r3", "r4");
+        Map<String, String> map = regexGroup(line, regex, "rn0", "rn1", "rn2", "b", "be", "r0", "r1", "r2", "r3", "r4");
         if (map != null && !map.isEmpty()) {
             String rn0 = map.get("rn0");
             String rn1 = map.get("rn1");
@@ -150,11 +155,12 @@ public class AddressExtractor {
             if (StringUtils.isNotBlank(buildingExt)) {
                 building += buildingExt;
             }
+            String r0 = map.get("r0");
             String r1 = map.get("r1");
             String r2 = map.get("r2");
             String r3 = map.get("r3");
             String r4 = map.get("r4");
-            String room = r1 != null ? r1 : (r2 != null ? r2 : r3);
+            String room = (String) firstNotNull(r0, r1, r2, r3);
             Assert.notNull(room);
             if (StringUtils.isNotBlank(r4)) {
                 room += r4;
@@ -167,11 +173,12 @@ public class AddressExtractor {
         if (arr != null)
             return new Address3(arr[0], arr[1], arr[2]);
 
-        map = regexGroup(line, regex2, "rn1", "rn2", "b", "r");
+        map = regexGroup(line, regex2, "rn0", "rn1", "rn2", "b", "r");
         if (map != null && !map.isEmpty()) {
+            String rn0 = map.get("rn0");
             String rn1 = map.get("rn1");
             String rn2 = map.get("rn2");
-            String residenceName = rn1 == null ? rn2 : rn1;
+            String residenceName = (String) firstNotNull(rn1, rn2, rn0);
             Assert.notNull(residenceName);
             String building = map.get("b");
             Assert.notNull(building);
@@ -210,7 +217,17 @@ public class AddressExtractor {
 
         //System.out.println(__regex.pattern());
 
-        System.out.println(parseAll("三门路358弄/10号/202"));
+        System.out.println(parseAll("三林路1300弄6号23层1102室"));
     }
 
+    private static Object firstNotNull(Object... params) {
+        if (params == null)
+            return null;
+
+        for (Object o : params) {
+            if (o != null)
+                return o;
+        }
+        return null;
+    }
 }

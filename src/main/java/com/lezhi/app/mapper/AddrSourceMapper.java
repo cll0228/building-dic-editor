@@ -1,24 +1,24 @@
 package com.lezhi.app.mapper;
 
 import com.lezhi.app.model.Address;
+import com.lezhi.app.model.ResolvedAddress;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Colin Yan on 2016/7/12.
  */
 public interface AddrSourceMapper {
 
-    Integer countAll2();
+    Integer count(@Param("tableName") String tableName);
 
-    List<Address> findAllAddress2(RowBounds rowBounds);
+    List<Address> findAddress(@Param("tableName") String tableName, RowBounds rowBounds);
 
-    Integer countAll_deal();
+    Integer countIncludeDel(@Param("tableName") String tableName);
 
-    List<Address> findAllAddress_deal(RowBounds rowBounds);
+    List<Address> findAddressIncludeDel(@Param("tableName") String tableName, RowBounds rowBounds);
 
-    Integer countAll_300w();
-
-    List<Address> findAllAddress_300w(RowBounds rowBounds);
 }

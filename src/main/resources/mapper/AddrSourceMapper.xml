@@ -5,42 +5,32 @@
 
     <resultMap id="AddrMap" type="com.lezhi.app.model.Address">
         <id column="id" property="id" />
+        <result column="ref_id" property="refId" />
         <result column="address" property="address" />
         <result column="room_no" property="roomNo" />
         <result column="residence_id" property="residenceId" />
+        <result column="area" property="area" />
+        <result column="src" property="src" />
     </resultMap>
 
+    <select id="findAddress" resultMap="AddrMap">
+        SELECT t.address as address, t.id as id,t.ref_id, t.room_no, t.area, t.src
+        FROM ${tableName} t
+        where t.is_available != 0
+    </select>
 
-    <select id="findAllAddress2" resultMap="AddrMap">
-        SELECT t.address as address, t.id as id, t.room_no
-        FROM address_unique t
+    <select id="count" resultType="java.lang.Integer">
+        select count(1) from ${tableName} where is_available != 0
+    </select>
+
+    <select id="findAddressIncludeDel" resultMap="AddrMap">
+        SELECT t.address as address, t.id as id,t.ref_id, t.room_no, t.area, t.src
+        FROM ${tableName} t
+    </select>
+
+    <select id="countIncludeDel" resultType="java.lang.Integer">
+        select count(1) from ${tableName}
     </select>
 
 
-    <select id="countAll2" resultType="java.lang.Integer">
-        select count(1) from address_unique
-    </select>
-
-    <select id="findAllAddress_deal" resultMap="AddrMap">
-        SELECT t.address as address, t.id as id, t.room_no
-        FROM address_unique_deal t
-        left join sh_residence_info r on t.residence_id = r.ResidenceId
-        where r.ResidenceId is not null
-    </select>
-
-
-    <select id="countAll_deal" resultType="java.lang.Integer">
-        select count(1) from address_unique_deal t
-        left join sh_residence_info r on t.residence_id = r.ResidenceId
-        where r.ResidenceId is not null
-    </select>
-
-    <select id="findAllAddress_300w" resultMap="AddrMap">
-        SELECT t.address as address, t.id as id, t.roomnum as room_no, t.ResidenceId as residence_id
-        FROM house_deal_address300w t
-    </select>
-
-    <select id="countAll_300w" resultType="java.lang.Integer">
-        select count(1) from house_deal_address300w t
-    </select>
 </mapper>

@@ -108,6 +108,7 @@
                                 $("#pl_"+bid+"_"+i).css("text-decoration","none");
                                 $("#pl_"+bid+"_"+i).click(function(){
                                     addNewRoom(bid);
+                                    return false;
                                 })
                             }
                             $("#b_"+bid).find($(".cellLeft")).find("span").html(bname+"号"+" "+text+"F")
@@ -383,7 +384,7 @@
                                                         </c:choose>
 
                                                         <span style="color: ${clr1}; " class="${b.id}_${r.name}_1" id="${r.id}_c">${r.name}</span>
-                                                        <a class="plus" id="${b.id}_${r.name}_2" style="font-size: large;display: none;" href="#" onclick="addRoom(${b.id},${r.name});" title="添加此房屋">+</a>
+                                                        <a class="plus" id="${b.id}_${r.name}_2" style="font-size: large;display: none;" href="#" onclick="addRoom(${b.id},${r.name});return false;" title="添加此房屋">+</a>
                                                         <div class="btn-group">
                                                             <button class="btn btn-default btn-xs dropdown-toggle" type="button"
                                                                     data-toggle="dropdown" aria-haspopup="true"
@@ -457,7 +458,7 @@
                                 </c:if>
                             </c:forEach>
                             <td style="text-align: center;font-size: 30px; width: 40px;min-width: 40px;">
-                                <a class="plus" href="javascript:void(0)" onclick="addNewRoom(${b.id});" title="在此楼层添加房屋">+</a>
+                                <a class="plus" href="#" onclick="addNewRoom(${b.id});return false;" title="在此楼层添加房屋">+</a>
                             </td>
                         </tr>
                     </c:if>
@@ -465,7 +466,7 @@
                         <tr>
                             <td colspan="100" class="unreal">
                                 <span style="color: #e9322d;">${f.name}</span>
-                                <a class="plus" style="font-size: large" href="javascript:void(0)" onclick="addNewRoom(${b.id});" title="在此楼层添加房屋">+</a>
+                                <a class="plus" style="font-size: large" href="#" onclick="addNewRoom(${b.id});return false;" title="在此楼层添加房屋">+</a>
                                 <!--
                                 <a class="plus" href="#" onclick="addRoom();return false;">在此楼层创建房屋</a>-->
                             </td>

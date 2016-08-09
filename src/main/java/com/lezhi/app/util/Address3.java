@@ -25,6 +25,21 @@ public class Address3 implements AddressModel {
         return village + "\t" + group + "\t" + no;
     }
 
+    @Override
+    public String getResidence() {
+        return village;
+    }
+
+    @Override
+    public String getBuilding() {
+        return group;
+    }
+
+    @Override
+    public String getRoom() {
+        return no;
+    }
+
     public String getVillage() {
         return village;
     }

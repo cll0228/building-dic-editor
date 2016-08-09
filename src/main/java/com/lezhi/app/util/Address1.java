@@ -28,6 +28,11 @@ public class Address1 implements AddressModel {
         return road + "路" + lane + "弄\t" + building + "\t"+room;
     }
 
+    @Override
+    public String getResidence() {
+        return road + "路" + lane + "弄";
+    }
+
     public String getRoad() {
         return road;
     }

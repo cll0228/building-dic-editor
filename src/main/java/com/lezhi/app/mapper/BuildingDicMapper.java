@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Colin Yan on 2016/7/20.
@@ -14,6 +15,8 @@ import java.util.List;
 public interface BuildingDicMapper {
 
     int insert(BuildingDic buildingDic);
+
+    int batchInsert(@Param("buildings") Set<BuildingDic> buildingDic);
 
     List<BuildingDic> find(@Param("residenceId") Integer residenceId, @Param("name") String name);
 

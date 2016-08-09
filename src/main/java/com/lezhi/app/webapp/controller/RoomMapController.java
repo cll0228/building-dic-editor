@@ -116,7 +116,7 @@ public class RoomMapController {
     public Map<String, String> addRoom(HttpServletRequest request, HttpServletResponse response,
                                        @RequestParam(value = "bid", required = true) int buildingId,
                                        @RequestParam(value = "rname", required = true) String roomName,
-                                       @RequestParam(value = "rarea", required = true) BigDecimal area
+                                       @RequestParam(value = "rarea", required = true) Double area
     ) {
     	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();
@@ -150,7 +150,7 @@ public class RoomMapController {
     public Map<String, String> addNewRoom(HttpServletRequest request, HttpServletResponse response,
                                        @RequestParam(value = "bid", required = true) int buildingId,
                                        @RequestParam(value = "rname", required = true) String roomName,
-                                       @RequestParam(value = "rarea", required = true) BigDecimal area
+                                       @RequestParam(value = "rarea", required = true) Double area
     ) {
 
     	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
@@ -258,7 +258,7 @@ public class RoomMapController {
     @RequestMapping(value = "newArea")
     public Map<String, String> newArea(HttpServletRequest request, HttpServletResponse response,
                                        @RequestParam(value = "id", required = true) int id,
-                                       @RequestParam(value = "newArea", required = true) BigDecimal newArea
+                                       @RequestParam(value = "newArea", required = true) Double newArea
                                            ) {
     	Integer userId = Integer.parseInt(request.getSession(true).getAttribute("userId").toString());
         Map<String, String> result = new HashMap<>();

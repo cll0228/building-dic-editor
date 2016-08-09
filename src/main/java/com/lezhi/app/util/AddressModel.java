@@ -6,4 +6,8 @@ package com.lezhi.app.util;
 public interface AddressModel {
 
     String binTab();
+
+    String getResidence();
+    String getBuilding();
+    String getRoom();
 }

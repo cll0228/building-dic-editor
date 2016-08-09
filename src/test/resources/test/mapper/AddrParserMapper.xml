@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Wed Jun 01 10:54:56 CST 2016-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lezhi.test.mapper.AddrParserMapper">
+
+    <resultMap id="ResolvedAddressMap" type="com.lezhi.app.model.ResolvedAddress">
+        <id column="id" property="id" />
+        <result column="ori_address" property="oriAddress" />
+        <result column="residence_id" property="residenceId" />
+    </resultMap>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(1) from ${addressTable}
+        <if test="whereClause != null">
+            where ${whereClause}
+        </if>
+    </select>
+
+    <select id="selectAddress" resultMap="ResolvedAddressMap">
+        select ${primaryKey} as `id`, ${addressColumn} as `ori_address`,${residenceIdColumn} as residence_id from ${addressTable}
+        <if test="whereClause != null">
+            where ${whereClause}
+        </if>
+    </select>
+
+    <update id="updateAddress">
+        <foreach collection="resolvedAddressList" item="r" separator=";">
+            update `${addressTable}` t
+            set
+            ${residenceColumn} = #{r.residence}
+            ,${residenceIdColumn} = #{r.residenceId}
+            ,${buildingColumn} = #{r.building}
+            , ${roomColumn} = #{r.room}
+            where t.${primaryKey} = #{r.id}
+        </foreach>
+    </update>
+
+</mapper>

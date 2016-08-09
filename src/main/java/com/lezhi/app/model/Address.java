@@ -9,9 +9,13 @@ public class Address {
 
     private long id;
 
+    private long refId;
+
     private String address;
 
     private Integer residenceId;
+    private Double area;
+    private String src;
 
     public String getRoomNo() {
         return roomNo;
@@ -48,11 +52,35 @@ public class Address {
         }
     }
 
+    public long getRefId() {
+        return refId;
+    }
+
+    public void setRefId(long refId) {
+        this.refId = refId;
+    }
+
     public Integer getResidenceId() {
         return residenceId;
     }
 
     public void setResidenceId(Integer residenceId) {
         this.residenceId = residenceId;
+    }
+
+    public Double getArea() {
+        return area;
+    }
+
+    public void setArea(Double area) {
+        this.area = area;
+    }
+
+    public String getSrc() {
+        return src;
+    }
+
+    public void setSrc(String src) {
+        this.src = src;
     }
 }

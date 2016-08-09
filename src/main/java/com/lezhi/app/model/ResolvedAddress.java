@@ -1,7 +1,5 @@
 package com.lezhi.app.model;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Created by Colin Yan on 2016/7/12.
  */
@@ -14,32 +12,15 @@ public class ResolvedAddress {
     private String building;
     private String room;
     private Integer residenceId;
-    private Integer buildingId;
-
     private Double area;
+    private String src;
 
-    public Double getArea() {
-        return area;
+    public String getSrc() {
+        return src;
     }
 
-    public void setArea(Double area) {
-        this.area = area;
-    }
-
-    public Integer getBuildingId() {
-        return buildingId;
-    }
-
-    public void setBuildingId(Integer buildingId) {
-        this.buildingId = buildingId;
-    }
-
-    public Integer getResidenceId() {
-        return residenceId;
-    }
-
-    public void setResidenceId(Integer residenceId) {
-        this.residenceId = residenceId;
+    public void setSrc(String src) {
+        this.src = src;
     }
 
     public long getId() {
@@ -88,5 +69,21 @@ public class ResolvedAddress {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public Integer getResidenceId() {
+        return residenceId;
+    }
+
+    public void setResidenceId(Integer residenceId) {
+        this.residenceId = residenceId;
+    }
+
+    public Double getArea() {
+        return area;
+    }
+
+    public void setArea(Double area) {
+        this.area = area;
     }
 }

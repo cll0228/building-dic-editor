@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 /**
  * Created by Colin Yan on 2016/7/13.
  */
-public class Test2 {
+public class ConvertToScala {
 
     public static void main(String[] args) throws IOException {
 

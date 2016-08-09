@@ -1,6 +1,8 @@
 package com.lezhi.app.model;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Colin Yan on 2016/7/20.
@@ -14,6 +16,16 @@ public class BuildingDic {
     private Integer delStatus;
     private Integer operatorId;
     private Timestamp modifyTime;
+
+    private Set<RoomDic> roomDics = new HashSet<>();
+
+    public Set<RoomDic> getRoomDics() {
+        return roomDics;
+    }
+
+    public void setRoomDics(Set<RoomDic> roomDics) {
+        this.roomDics = roomDics;
+    }
 
     public Integer getId() {
         return id;
