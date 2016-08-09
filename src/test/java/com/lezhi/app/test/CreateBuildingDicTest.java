@@ -115,7 +115,7 @@ public class CreateBuildingDicTest {
         BuildingDic building = null;
 
         for (BuildingDic b : buildings) {
-            if (b.getName().equals(buildingName)) {
+            if (b.getName().equalsIgnoreCase(buildingName)) {
                 building = b;
                 break;
             }
@@ -133,7 +133,7 @@ public class CreateBuildingDicTest {
         Set<RoomDic> roomSet = building.getRoomDics();
 
         for (RoomDic r : roomSet) {
-            if (r.getName().equals(roomNo)) {
+            if (r.getName().equalsIgnoreCase(roomNo)) {
                 return;
             }
         }
