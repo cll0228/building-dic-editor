@@ -12,14 +12,23 @@ import java.util.regex.Pattern;
 
 public class AddressExtractor {
 
+    // 保乐路358弄51号全幢
     private static final Pattern __regex = Pattern.compile(
-            "(?:(?<rn3>管弄新村)(?<rn0>.+弄)|(?<rn1>.+?(?:号|村|坊|道|苑|园|城|庭|大厦|湾|公寓|名邸|墅|小区|小区）|东门|西门|南门|北门|东区|西区|南区|北区))|(?<rn2>自定义的小区名称))" +
+            "(?:(?<rn3>管弄新村)|(?<rn0>.+弄)|(?<rn1>.+?(?:号|村|坊|道|苑|园|城|庭|大厦|湾|公寓|名邸|墅|小区|小区）|东门|西门|南门|北门|东区|西区|南区|北区))|(?<rn2>自定义的小区名称))" +
+                    ".*?" +
+                    "(?<b>[\\d0-9a-zA-Z]*?[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]*?)(?:号楼?|单元|幢|楼|座)(?<be>[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]?)" +
+                    ".*?" +
+                    "(?:\\d+层(?<r0>\\d+)室|(?<r1>[\\d\\-_]+)层?室?|(?<r2>[\\da-zA-Z甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]+)层?室?|(?<r3>全幢)室?)(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)");
+
+    private static final Pattern __regex_road = Pattern.compile(
+            "(?:(?<rn0>.+路))" +
                     ".*?" +
                     "(?<b>[\\d0-9a-zA-Z]*?[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]*?)(?:号楼?|单元|幢|楼|座)(?<be>[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]?)" +
                     ".*?" +
                     "(?:\\d+层(?<r0>\\d+)室|(?<r1>[\\d\\-_]+)层?室?|(?<r2>[\\da-zA-Z甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]+)层?室?|(?<r3>全幢)室?)(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)");
 
     private static final Pattern regex;
+    private static final Pattern regexRoad;
     private static final Pattern regex2;
 
     private static final String RESIDENCE_DIC = "/SH_Residence2016-07-14 16-17-21.csv";
@@ -57,7 +66,8 @@ public class AddressExtractor {
             sb.append(residenceName);
         }
         allResidence = sb.toString().substring(1);
-        regex = Pattern.compile(__regex.pattern().replace("自定义的小区名称", allResidence));
+        regex = Pattern.compile(__regex.pattern().replace("自定义的小区名称", "allResidence")); // TODO
+        regexRoad = Pattern.compile(__regex_road.pattern().replace("自定义的小区名称", "allResidence")); // TODO
         String rnPart = StringUtils.substringBefore(regex.pattern(), ".*");
         regex2 = Pattern.compile(rnPart + "[\\-/\\\\|](?<b>\\d+)号?[\\-/\\\\|](?<r>\\d+)室?");
     }
@@ -124,12 +134,18 @@ public class AddressExtractor {
         }
     }
     public static AddressModel parseAll(String line) {
+        Pattern pattern = Pattern.compile(".+?(\\d+层)[a-zA-Z\\d]+室.*");
+        Matcher matcher = pattern.matcher(line);
+        if (matcher.find()) {
+            line = line.replaceFirst(matcher.group(1), "");
+        }
+
         return filterResult(parseAll__(line));
     }
 
     public static AddressModel parseAll__(String line) {
 
-        String[] arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路)(\\d+)号(\\d+)室?$"));
+        String[] arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路)(\\d+)号楼?(\\d+)室?$"));
         if (arr != null) {
             String room = PreHandle.filterReduplicate2_3(arr[2], 4);
             Address2 address = new Address2(arr[0] + arr[1] + "号", arr[1], room);
@@ -206,6 +222,31 @@ public class AddressExtractor {
                 return filterResult(new Address2(residenceName, building, room));
         }
 
+        map = regexGroup(line, regexRoad, "rn0", "b", "be", "r0", "r1", "r2", "r3", "r4");
+        if (map != null && !map.isEmpty()) {
+            String residenceName = map.get("rn0");
+
+            Assert.notNull(residenceName);
+            String building = map.get("b");
+            Assert.notNull(building);
+            String buildingExt = map.get("be");
+            if (StringUtils.isNotBlank(buildingExt)) {
+                building += buildingExt;
+            }
+            String r0 = map.get("r0");
+            String r1 = map.get("r1");
+            String r2 = map.get("r2");
+            String r3 = map.get("r3");
+            String r4 = map.get("r4");
+            String room = (String) firstNotNull(r0, r1, r2, r3);
+            Assert.notNull(room);
+            if (StringUtils.isNotBlank(r4)) {
+                room += r4;
+            }
+            room = PreHandle.filterReduplicate2_3(room, 4);
+            if (StringUtils.isNotBlank(residenceName) && StringUtils.isNotBlank(building) && StringUtils.isNotBlank(room))
+                return filterResult(new Address2(residenceName + building+ "号", building, room));
+        }
         /*
         arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+?)(\\d+)号(\\d+)室$"));
         if (arr != null)
@@ -234,7 +275,9 @@ public class AddressExtractor {
 
         //System.out.println(__regex.pattern());
 
-        System.out.println(parseAll("三林路1300弄6号23层1102室"));
+        //System.out.println(parseAll("北虹路1185号12层A05室"));
+
+        System.out.println(parseAll("北虹路1185弄23号12层A305室"));
     }
 
     private static AddressModel filterResult(AddressModel input) {
