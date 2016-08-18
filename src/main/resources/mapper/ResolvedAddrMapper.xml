@@ -101,4 +101,8 @@
             update `${tn}` set residence_id = #{r.residenceId} where id = #{r.id}
         </foreach>
     </update>
+
+    <delete id="truncateTable">
+        truncate `${tn}`
+    </delete>
 </mapper>

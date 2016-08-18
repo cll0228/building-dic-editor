@@ -44,7 +44,12 @@
     <jsp:include page="/WEB-INF/pages/include/header.jsp" flush="true"/>
 
     <div style="text-align: left; color: #000000;margin-top: 100px;">
-        楼栋数:${buildingCount}，房屋数:${roomCount}&nbsp;更新时间:${lastUpdateTime}&nbsp;&nbsp;<a href="#" onclick="return refresh();">刷新</a>
+        楼栋数:${buildingCount}<br>
+        房屋总数:${countRoomDeal + countRoomOthers}<br>
+        交易记录获取房屋数:${countRoomDeal}<br>
+        其它来源获取房屋数:${countRoomOthers}<br>
+        已经锁定的房屋数:${countRoomLocked} (来源于交易记录，解析规则严谨)<br>
+        <br>
     </div>
 
     <h1 style="font-size: 14px;">

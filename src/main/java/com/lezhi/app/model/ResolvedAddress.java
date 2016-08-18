@@ -1,5 +1,7 @@
 package com.lezhi.app.model;
 
+import java.util.Date;
+
 /**
  * Created by Colin Yan on 2016/7/12.
  */
@@ -15,6 +17,8 @@ public class ResolvedAddress {
     private Integer residenceId;
     private Double area;
     private String src;
+
+    private Date lastParsedTime;
 
     private Boolean isDeal;
     public Boolean getIsDeal() {
@@ -107,4 +111,11 @@ public class ResolvedAddress {
         this.area = area;
     }
 
+    public Date getLastParsedTime() {
+        return lastParsedTime;
+    }
+
+    public void setLastParsedTime(Date lastParsedTime) {
+        this.lastParsedTime = lastParsedTime;
+    }
 }

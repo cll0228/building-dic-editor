@@ -30,4 +30,5 @@ public interface ResolvedAddrMapper {
 
     int fillRid(@Param("tn") String tableName, @Param("resolvedAddressList") Set<ResolvedAddress> resolvedAddressList);
 
+    void truncateTable(@Param("tn") String tableName);
 }

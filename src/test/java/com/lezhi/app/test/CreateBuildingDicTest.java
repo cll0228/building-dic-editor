@@ -48,10 +48,11 @@ public class CreateBuildingDicTest {
         });
 
         now = new Date();
-        genInsertSql();
+        truncate();
+        executeSql();
     }
 
-    private void genInsertSql() throws Exception {
+    private void executeSql() throws Exception {
 
         Set<BuildingDic> buildingBuffer = new HashSet<>();
         Set<RoomDic> roomBuffer = new HashSet<>();
@@ -132,31 +133,37 @@ public class CreateBuildingDicTest {
 
         Set<RoomDic> roomSet = building.getRoomDics();
 
+
         for (RoomDic r : roomSet) {
             if (r.getName().equalsIgnoreCase(roomNo)) {
                 return;
             }
         }
 
-        RoomDic r = new RoomDic();
-        r.setName(roomNo);
-        r.setResidenceId(residenceId);
-        r.setArea(resolvedAddress.getArea());
-        r.setBuildingName(buildingName);
-        r.setBuildingId(building.getId());
-        r.setOriAddress(resolvedAddress.getOriAddress());
-        r.setRefId(resolvedAddress.getRefId());
-        r.setSrc(resolvedAddress.getSrc());
+        RoomDic roomDic = new RoomDic();
+        roomDic.setName(roomNo);
+        roomDic.setResidenceId(residenceId);
+        roomDic.setArea(resolvedAddress.getArea());
+        roomDic.setBuildingName(buildingName);
+        roomDic.setBuildingId(building.getId());
+        roomDic.setOriAddress(resolvedAddress.getOriAddress());
+        roomDic.setRefId(resolvedAddress.getRefId());
+        roomDic.setSrc(resolvedAddress.getSrc());
         if (resolvedAddress.getIsDeal() != null && resolvedAddress.getIsDeal() && resolvedAddress.getParsedScore() != null && resolvedAddress.getParsedScore() > 60) {
-            r.setStatus(40);
+            roomDic.setStatus(40);
         } else {
-            r.setStatus(20);
+            roomDic.setStatus(10);
         }
-        r.setUrefId(resolvedAddress.getId());
-        r.setOperatorId(1);
-        r.setModifyTime(now);
-        roomSet.add(r);
+        roomDic.setUrefId(resolvedAddress.getId());
+        roomDic.setOperatorId(1);
+        roomDic.setModifyTime(now);
+        roomDic.setIsDeal(resolvedAddress.getIsDeal());
+        roomSet.add(roomDic);
         //createXml(residenceId.toString(), building, roomNo, params);
     }
 
+    public void truncate() {
+        resolvedAddrMapper.truncateTable("t_building_dic");
+        resolvedAddrMapper.truncateTable("t_room_dic");
+    }
 }

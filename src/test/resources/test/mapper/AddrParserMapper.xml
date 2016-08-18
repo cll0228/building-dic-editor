@@ -34,6 +34,7 @@
             ,${buildingColumn} = #{r.building}
             ,${roomColumn} = #{r.room}
             ,${scoreColumn} = #{r.parsedScore}
+            ,${lastParsedTime} = #{r.lastParsedTime}
             where t.${primaryKey} = #{r.id}
         </foreach>
     </update>

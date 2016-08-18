@@ -12,20 +12,19 @@ import java.util.regex.Pattern;
 
 public class AddressExtractor {
 
-    // 保乐路358弄51号全幢
     private static final Pattern __regex = Pattern.compile(
             "(?:(?<rn3>管弄新村)|(?<rn0>.+弄)|(?<rn1>.+?(?:号|村|坊|道|苑|园|城|庭|大厦|湾|公寓|名邸|墅|小区|小区）|东门|西门|南门|北门|东区|西区|南区|北区))|(?<rn2>自定义的小区名称))" +
                     ".*?" +
                     "(?<b>[\\d0-9a-zA-Z]*?[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]*?)(?:号楼?|单元|幢|楼|座)(?<be>[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]?)" +
                     ".*?" +
-                    "(?:(?:\\d+层(?<r0>\\d+)室|(?<r1>[\\d\\-_]+)层?室?|(?<r2>[\\da-zA-Z甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]+)层?室?|(?<r3>全幢)室?)(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)|(?<r5>全))");
+                    "(?:(?:\\d+层(?<r0>\\d+)室|[\\d\\-_]+层(?<r10>全幢)室|(?<r1>[\\d\\-_]+)层?室?|(?<r2>[\\da-zA-Z甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]+)层?室?|(?<r3>全幢)室?)(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)|(?<r5>全))");
 
     private static final Pattern __regex_road = Pattern.compile(
             "(?:(?<rn0>.+[路街]))" +
                     ".*?" +
                     "(?<b>[\\d0-9a-zA-Z]*?[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]*?)(?:号楼?|单元|幢|楼|座)(?<be>[东西南北上中下甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]?)" +
                     ".*?" +
-                    "(?:(?:\\d+层(?<r0>\\d+)室|(?<r1>[\\d\\-_]+)层?室?|(?<r2>[\\da-zA-Z甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]+)层?室?|(?<r3>全幢)室?)(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)|(?<r5>全))");
+                    "(?:(?:\\d+层(?<r0>\\d+)室|[\\d\\-_]+层(?<r10>全幢)室|(?<r1>[\\d\\-_]+)层?室?|(?<r2>[\\da-zA-Z甲乙丙丁戊己庚辛壬癸一二三四五六七八九十]+)层?室?|(?<r3>全幢)室?)(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)|(?<r5>全))");
 
     private static final Pattern regex;
     private static final Pattern regexRoad;
@@ -138,9 +137,25 @@ public class AddressExtractor {
             line = line.trim();
         else
             return null;
+        // 预处理
 
-        Pattern pattern = Pattern.compile(".+?(\\d+层)[a-zA-Z\\d]+室.*");
+        line = line.replace("号幢", "号");
+
+        Pattern pattern = Pattern.compile(".+?(\\d+层)[a-zA-Z\\d_]+.*层?室.*");
         Matcher matcher = pattern.matcher(line);
+        if (matcher.find()) {
+            line = line.replaceFirst(matcher.group(1), "");
+        }
+
+        //康桥镇沪南路3468弄25幢65号6层602室
+        pattern = Pattern.compile(".+?(\\d+幢)\\d+号");
+        matcher = pattern.matcher(line);
+        if (matcher.find()) {
+            line = line.replaceFirst(matcher.group(1), "");
+        }
+
+        pattern = Pattern.compile(".+?\\d+号(\\d+幢)");
+        matcher = pattern.matcher(line);
         if (matcher.find()) {
             line = line.replaceFirst(matcher.group(1), "");
         }
@@ -177,7 +192,7 @@ public class AddressExtractor {
             address3.setScore(99);
             return filterResult(address3);
         }
-        Map<String, String> map = regexGroup(line, regex, "rn0", "rn1", "rn2", "b", "be", "r0", "r1", "r2", "r3", "r4", "r5");
+        Map<String, String> map = regexGroup(line, regex, "rn0", "rn1", "rn2","rn3", "b", "be", "r0", "r1", "r10", "r2", "r3", "r4", "r5");
         if (map != null && !map.isEmpty()) {
             String rn0 = map.get("rn0");
             String rn1 = map.get("rn1");
@@ -193,11 +208,12 @@ public class AddressExtractor {
             }
             String r0 = map.get("r0");
             String r1 = map.get("r1");
+            String r10 = map.get("r10");
             String r2 = map.get("r2");
             String r3 = map.get("r3");
             String __r4 = map.get("r4");
             String r5 = map.get("r5");
-            String room = (String) firstNotNull(r0, r1, r2, r3, r5);
+            String room = (String) firstNotNull(r0, r1, r10, r2, r3, r5);
             Assert.notNull(room);
             if (StringUtils.isNotBlank(__r4)) {
                 room += __r4;
@@ -212,12 +228,13 @@ public class AddressExtractor {
             address3.setScore(59);
             return filterResult(address3);
         }
-        map = regexGroup(line, regex2, "rn0", "rn1", "rn2", "b", "r");
+        map = regexGroup(line, regex2, "rn0", "rn1", "rn2", "rn3", "b", "r");
         if (map != null && !map.isEmpty()) {
             String rn0 = map.get("rn0");
             String rn1 = map.get("rn1");
             String rn2 = map.get("rn2");
-            String residenceName = (String) firstNotNull(rn1, rn2, rn0);
+            String rn3 = map.get("rn3");
+            String residenceName = (String) firstNotNull(rn1, rn2, rn3, rn0);
             Assert.notNull(residenceName);
             String building = map.get("b");
             Assert.notNull(building);
@@ -228,7 +245,7 @@ public class AddressExtractor {
                 return filterResult(new Address2(residenceName, building, room));
         }
 
-        map = regexGroup(line, regexRoad, "rn0", "b", "be", "r0", "r1", "r2", "r3", "r4", "r5");
+        map = regexGroup(line, regexRoad, "rn0", "b", "be", "r0", "r1","r10", "r2", "r3", "r4", "r5");
         if (map != null && !map.isEmpty()) {
             String residenceName = map.get("rn0");
 
@@ -241,11 +258,12 @@ public class AddressExtractor {
             }
             String r0 = map.get("r0");
             String r1 = map.get("r1");
+            String r10 = map.get("r10");
             String r2 = map.get("r2");
             String r3 = map.get("r3");
             String __r4 = map.get("r4");
             String r5 = map.get("r5");
-            String room = (String) firstNotNull(r0, r1, r2, r3, r5);
+            String room = (String) firstNotNull(r0, r1,r10, r2, r3, r5);
             Assert.notNull(room);
             if (StringUtils.isNotBlank(__r4)) {
                 room += __r4;

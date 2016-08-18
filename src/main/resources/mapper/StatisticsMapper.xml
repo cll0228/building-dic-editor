@@ -3,12 +3,27 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lezhi.app.mapper.StatisticsMapper">
 
-    <select id="countDealUnique">
-         select count(1) from address_unique_deal
+    <select id="countBuilding" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM t_building_dic r
     </select>
 
-    <select id="countDealResolved">
-        select count(1) from resolved_address_deal
+    <select id="countRoomDeal" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM t_room_dic r
+        left join address_unique au on r.uref_id = au.id
+        where au.is_deal = 1;
     </select>
 
+    <select id="countRoomOthers" resultType="java.lang.Integer">
+        SELECT count(1)
+        FROM t_room_dic r
+        left join address_unique au on r.uref_id = au.id
+        where au.is_deal = 0;
+    </select>
+
+    <select id="countRoomLocked" resultType="java.lang.Integer">
+        select count(1) from t_room_dic r
+        where status = 40
+    </select>
 </mapper>

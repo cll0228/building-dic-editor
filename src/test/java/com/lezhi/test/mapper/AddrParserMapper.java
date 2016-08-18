@@ -35,7 +35,8 @@ public interface AddrParserMapper {
                        @Param("residenceIdColumn") String residenceIdColumn,
                        @Param("buildingColumn") String buildingColumn,
                        @Param("roomColumn") String roomColumn,
-                       @Param("scoreColumn") String scoreColumn
+                       @Param("scoreColumn") String scoreColumn,
+                       @Param("lastParsedTime") String lastParsedTime
     );
 
 

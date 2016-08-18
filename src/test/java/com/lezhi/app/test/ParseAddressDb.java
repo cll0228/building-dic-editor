@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -50,6 +51,10 @@ public class ParseAddressDb {
     private final String buildingColumn = "building";
     private final String roomColumn = "room";
     private final String scoreColumn = "parsed_score";
+    private final String lastParsedTime = "last_parsed_time";
+
+
+    // 遇到重复地址，优先使用交易，保证交易记录在前，其它在后即可
 
     public void start() throws IOException {
         final int PAGE_SIZE = 100000;
@@ -91,6 +96,7 @@ public class ParseAddressDb {
                         r.setBuilding(am.getBuilding());
                         r.setRoom(am.getRoom());
                         r.setParsedScore(am.getScore());
+                        r.setLastParsedTime(new Date());
 
                         Integer residenceId = r.getResidenceId();
                         if (residenceId == null || !skipNotNullResidenceId) {
@@ -110,13 +116,15 @@ public class ParseAddressDb {
                         r.setBuilding(null);
                         r.setRoom(null);
                         r.setParsedScore(null);
+                        r.setLastParsedTime(null);
                     } else {
                         it.remove();
                     }
                 }
             }
 
-            addrParserMapper.updateAddress((List<ResolvedAddress>) sub, primaryKey, fromTable, addressColumn, residenceColumn, residenceIdColumn, buildingColumn, roomColumn, scoreColumn);
+            addrParserMapper.updateAddress((List<ResolvedAddress>) sub, primaryKey, fromTable, addressColumn, residenceColumn, residenceIdColumn,
+                    buildingColumn, roomColumn, scoreColumn, lastParsedTime);
             return true;
         });
     }

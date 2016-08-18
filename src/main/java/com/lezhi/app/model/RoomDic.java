@@ -22,6 +22,16 @@ public class RoomDic {
     private Long urefId;
     private String src;
 
+    private Boolean isDeal;
+
+    public Boolean getIsDeal() {
+        return isDeal;
+    }
+
+    public void setIsDeal(Boolean isDeal) {
+        this.isDeal = isDeal;
+    }
+
     public Long getUrefId() {
         return urefId;
     }

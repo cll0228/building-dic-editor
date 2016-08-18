@@ -1,7 +1,6 @@
 package com.lezhi.app.webapp.controller;
 
-import com.lezhi.app.mapper.BuildingDicMapper;
-import com.lezhi.app.mapper.RoomDicMapper;
+import com.lezhi.app.mapper.StatisticsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +19,16 @@ import java.util.Date;
 public class StatisticsController {
 
     @Autowired
-    private BuildingDicMapper buildingDicMapper;
-    @Autowired
-    private RoomDicMapper roomDicMapper;
+    private StatisticsMapper statisticsMapper;
 
     @RequestMapping(value = "statistics", method = RequestMethod.GET)
     public String roomMapPage(HttpServletRequest request, HttpServletResponse response) {
-        request.setAttribute("buildingCount", buildingDicMapper.count());
-        request.setAttribute("roomCount", roomDicMapper.count());
+        request.setAttribute("buildingCount", statisticsMapper.countBuilding());
+
+        request.setAttribute("countRoomDeal", statisticsMapper.countRoomDeal());
+        request.setAttribute("countRoomOthers", statisticsMapper.countRoomOthers());
+        request.setAttribute("countRoomLocked", statisticsMapper.countRoomLocked());
+
         request.setAttribute("lastUpdateTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return "statistics";
     }
