@@ -89,8 +89,8 @@ public class ParseAddressDb {
                 if (oriAddress == null || oriAddress.trim().length() == 0) {
                     skip = true;
                 } else {
-                    String address = PreHandle.handle(oriAddress);
-                    AddressModel am = AddressExtractor.parseAll(address);
+
+                    AddressModel am = AddressExtractor.parseAll(oriAddress);
                     if (am != null && am.getResidence() != null && am.getBuilding() != null && am.getRoom() != null) {
                         r.setResidence(am.getResidence());
                         r.setBuilding(am.getBuilding());

@@ -7,8 +7,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class BatchApp {
 
+    // export JAVA_HOME=/usr/local/jdk1.8.0_91
+    // export PATH=$JAVA_HOME/bin:$PATH
     // export JAVA_OPTS="-Xms2048m -Xmx4096m -Xss1024K"
-    // ./jrunner/jrunner.sh -cp "/home/sysadmin/addr_parser;/home/sysadmin/addr_parser/lib" -c com.lezhi.app.test.BatchApp
+    // ./jrunner/jrunner.sh -cp "/home/sysadmin/addr_parser;/home/sysadmin/addr_parser/lib" -c com.lezhi.app.test.BatchApp parse create
 
     public static void main(String[] args) throws Exception {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:/conf/applicationContext.xml",
@@ -36,7 +38,8 @@ public class BatchApp {
         }
         if (parse)
             parseAddressDb.start();
-        if (create)
+        if (create) {
             createBuildingDicTest.start();
+        }
     }
 }

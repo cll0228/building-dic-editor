@@ -116,8 +116,8 @@ public class ParseController {
 
             for (int i = 0; i < lines.size(); i++) {
                 String oriInput = lines.get(i);
-                String input = PreHandle.handle(oriInput);
-                AddressModel addressModel = AddressExtractor.parseAll(input);
+
+                AddressModel addressModel = AddressExtractor.parseAll(oriInput);
                 if (addressModel == null) {
                     fos4.write(oriInput.getBytes("utf-8"));
                     fos4.write(IO_SE);

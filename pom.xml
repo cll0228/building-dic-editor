@@ -205,6 +205,7 @@
     </dependencies>
 
     <build>
+        <finalName>ROOT</finalName>
         <plugins>
 
             <!-- <plugin>
@@ -251,7 +252,7 @@
                 <configuration>
                     <path>/</path>
                     <port>9568</port>
-                    <uriEncoding>utf-8</uriEncoding>
+                    <uriEncoding>utf-8</uriEncoding>f
                 </configuration>
             </plugin>
             <plugin>
