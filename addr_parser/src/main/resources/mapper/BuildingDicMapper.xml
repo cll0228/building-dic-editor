@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!--Converted at: Wed Jun 01 10:54:56 CST 2016-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lezhi.app.mapper.BuildingDicMapper">
+
+    <resultMap id="BMap" type="com.lezhi.app.model.BuildingDic">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="residence_id" property="residenceId"/>
+        <result column="total_floor" property="totalFloor"/>
+        <result column="del_status" property="delStatus"/>
+        <result column="total_room_num" property="totalRoomNum"/>
+    </resultMap>
+    <insert id="insert" parameterType="com.lezhi.app.model.BuildingDic">
+        insert into t_building_dic(`name`, `residence_id`, `total_floor`, `del_status`, `operator_id`, `modify_time`) VALUES (
+        #{name}, #{residenceId},1,#{delStatus},#{operatorId},#{modifyTime}
+        )
+    </insert>
+
+    <select id="getBuildingByName" parameterType="com.lezhi.app.model.BuildingDic" resultMap="BMap">
+        select * from t_building_dic where name = #{name} and residence_id = #{residenceId}
+    </select>
+
+    <select id="find" resultMap="BMap">
+        select t.id, t.name, t.residence_id from t_building_dic t
+        <where>
+            <if test="name != null">
+                and t.name = #{name}
+            </if>
+            <if test="residenceId != null">
+                and t.residence_id = #{residenceId}
+            </if>
+        </where>
+    </select>
+
+    <select id="count" resultType="java.lang.Integer">
+        select count(1) from t_building_dic
+    </select>
+    
+    <update id="updateBuildingStatus" parameterType="com.lezhi.app.model.BuildingDic">
+        update t_building_dic set del_status = #{delStatus},operator_id = #{operatorId},modify_time = #{modifyTime} where id = #{id}
+    </update>
+
+    <update id="updateTotalFloor">
+        update t_building_dic set total_floor = #{totalFloor},operator_id = #{operatorId},modify_time = #{modifyTime} where id = #{id}
+    </update>
+
+    <insert id="batchInsert" parameterType="com.lezhi.app.model.BuildingDic">
+        insert into t_building_dic(`id`, `name`, `residence_id`, `total_floor`, `del_status`, `operator_id`, `modify_time`, `uref_id`) VALUES
+        <foreach collection="buildings" item="b" index="index" separator=",">
+            (#{b.id}, #{b.name}, #{b.residenceId}, null, 0, 1, CURRENT_TIMESTAMP(), #{b.urefId})
+        </foreach>
+    </insert>
+
+
+    <select id="findBuildingsByResidenceId" resultMap="BMap">
+        SELECT b.id, b.name, b.residence_id, b.total_floor,  x.roomcount as total_room_num
+          FROM t_building_dic b
+               LEFT JOIN (SELECT a.building_id, count(a.id) roomcount
+                            FROM t_room_dic a
+                           WHERE a.building_id IN (SELECT id
+                                                     FROM t_building_dic
+                                                    WHERE residence_id = #{residenceId})
+                          GROUP BY a.building_id) x
+                  ON b.id = x.building_id
+         WHERE b.residence_id = #{residenceId}
+    </select>
+</mapper>

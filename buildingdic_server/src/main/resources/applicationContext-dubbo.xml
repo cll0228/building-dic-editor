@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://code.alibabatech.com/schema/dubbo
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <dubbo:application name="buildingdic_server"/>
+
+    <dubbo:registry protocol="zookeeper" address="${zookeeper.ip}"/>
+
+    <dubbo:protocol queues="1000" iothreads="500" threads="500" accepts="1000" name="dubbo" port="14953"/>
+
+    <!-- 声明需要暴露的服务接口 -->
+    <dubbo:service timeout="20000" interface="com.lezhi.buildingdic.service.BuildingDicService" ref="buildingDicService"/>
+
+</beans>
