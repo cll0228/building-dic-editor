@@ -10,20 +10,20 @@
 
     <select id="countRoomDeal" resultType="java.lang.Integer">
         SELECT count(1)
-        FROM t_room_dic r
+        FROM t_house_dic r
         left join address_unique au on r.uref_id = au.id
         where au.is_deal = 1;
     </select>
 
     <select id="countRoomOthers" resultType="java.lang.Integer">
         SELECT count(1)
-        FROM t_room_dic r
+        FROM t_house_dic r
         left join address_unique au on r.uref_id = au.id
         where au.is_deal = 0;
     </select>
 
     <select id="countRoomLocked" resultType="java.lang.Integer">
-        select count(1) from t_room_dic r
+        select count(1) from t_house_dic r
         where status = 40
     </select>
 </mapper>

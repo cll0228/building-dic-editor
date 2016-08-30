@@ -49,4 +49,6 @@ public interface RoomDicMapper {
     List<RoomEx>  findByBuildingId(@Param("buildingId") Integer buildingId);
 
     RoomEx findByNames(@Param("residenceId") Integer residenceId, @Param("buildingNo") String buildingNo, @Param("roomNo") String roomNo);
+
+    List<RoomDic> findTopRooms(@Param("buildingId")Integer buildingId);
 }

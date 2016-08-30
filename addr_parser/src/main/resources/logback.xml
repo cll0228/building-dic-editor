@@ -28,9 +28,9 @@
     </logger>
 -->
 
-    <logger name="com.lezhi" level="debug" value="debug" />
-    <logger name="com.lezhi.app.mapper" level="warn" value="warn" />
-    <logger name="com.lezhi.test.mapper" level="warn" value="warn" />
-    <logger name="com.lezhi.app.mybatis.PaginationInterceptor" level="warn" value="warn" />
+    <logger name="com.lezhi" level="debug" />
+    <logger name="com.lezhi.app.mapper" level="warn"  />
+    <logger name="com.lezhi.test.mapper" level="warn" />
+    <logger name="com.lezhi.app.mybatis.PaginationInterceptor" level="warn" />
 
 </configuration>
