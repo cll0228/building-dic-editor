@@ -12,6 +12,36 @@
     <artifactId>buildingdic_server</artifactId>
     <packaging>war</packaging>
 
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <profile.buildingdic.jdbc.url>jdbc\:mysql\://192.168.201.26\:3306/all_address?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
+                <profile.buildingdic.jdbc.driver>com.mysql.jdbc.Driver</profile.buildingdic.jdbc.driver>
+                <profile.buildingdic.jdbc.username>root</profile.buildingdic.jdbc.username>
+                <profile.buildingdic.jdbc.password>6TgvJ4sn</profile.buildingdic.jdbc.password>
+
+                <profile.buildingdic.zookeeper>192.168.201.33:2181,192.168.201.41:2181,192.168.201.49:2181</profile.buildingdic.zookeeper>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <profile.buildingdic.jdbc.url>jdbc\:mysql\://192.168.200.110\:3306/all_address?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
+                <profile.buildingdic.jdbc.driver>com.mysql.jdbc.Driver</profile.buildingdic.jdbc.driver>
+                <profile.buildingdic.jdbc.username>deploy</profile.buildingdic.jdbc.username>
+                <profile.buildingdic.jdbc.password>Deploy2016!</profile.buildingdic.jdbc.password>
+
+                <profile.buildingdic.zookeeper>192.168.200.86:2181</profile.buildingdic.zookeeper>
+            </properties>
+        </profile>
+    </profiles>
+
+    
     <dependencies>
         <dependency>
             <groupId>com.lezhi.buildingdic</groupId>
@@ -184,6 +214,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -201,6 +237,13 @@
                     <path>/</path>
                     <port>5487</port>
                     <uriEncoding>utf-8</uriEncoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
         </plugins>
