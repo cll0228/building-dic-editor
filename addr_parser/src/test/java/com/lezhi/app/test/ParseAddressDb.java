@@ -1,5 +1,6 @@
 package com.lezhi.app.test;
 
+import com.lezhi.app.mapper.ResolvedAddrMapper;
 import com.lezhi.app.model.Residence;
 import com.lezhi.app.model.ResolvedAddress;
 import com.lezhi.app.service.ResidenceMatch;
@@ -14,7 +15,7 @@ import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import test.CreateBuildingDicTest;
+
 
 import java.io.IOException;
 import java.util.Date;
@@ -31,6 +32,8 @@ public class ParseAddressDb {
     private AddrParserMapper addrParserMapper;
     @Autowired
     private ResidenceMatch residenceMatch;
+    @Autowired
+    private ResolvedAddrMapper resolvedAddrMapper;
 
     /**
      * include
@@ -69,13 +72,16 @@ public class ParseAddressDb {
             List<ResolvedAddress> list = addrParserMapper.selectAddress(primaryKey, fromTable, addressColumn, residenceIdColumn, scoreColumn, whereClause, rowBounds);
             updateResolved(list);
 
-            System.out.println(TimeUtil.now() +"progress:" + pageNo + "/" + pageCount);
+            System.out.println(TimeUtil.now() +" progress:" + pageNo + "/" + pageCount);
 
             return true;
         });
 
-        Result result = new JUnitCore().run(CreateBuildingDicTest.class);
-        System.exit(result.wasSuccessful() ? 0 : 1);
+        resolvedAddrMapper.truncateTable("t_house_dic");
+
+        this.addrParserMapper.exportToPopular();
+
+        System.out.println("finish.");
     }
 
     private void updateResolved(List<ResolvedAddress> list) throws IOException {

@@ -39,5 +39,6 @@ public interface AddrParserMapper {
                        @Param("lastParsedTime") String lastParsedTime
     );
 
+    void exportToPopular();
 
 }

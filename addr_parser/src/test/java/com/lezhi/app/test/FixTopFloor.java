@@ -1,4 +1,4 @@
-package test;
+package com.lezhi.app.test;
 
 import com.lezhi.app.mapper.BuildingDicMapper;
 import com.lezhi.app.mapper.RoomDicMapper;

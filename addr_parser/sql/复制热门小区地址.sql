@@ -1,6 +1,6 @@
-truncate  all_address.popular_residence_address;
+truncate  popular_residence_address;
 
-INSERT INTO all_address.popular_residence_address(ref_id,
+INSERT INTO popular_residence_address(ref_id,
                                                   is_deal,
                                                   address,
                                                   ori_room_no,
@@ -26,6 +26,6 @@ INSERT INTO all_address.popular_residence_address(ref_id,
           a.parsed_score,
           a.src,
           a.last_parsed_time
-     FROM all_address.address_unique a
+     FROM address_unique a
           INNER JOIN popular_residence p ON a.residence_id = p.residence_id
     WHERE a.parsed_score < 60

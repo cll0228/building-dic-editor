@@ -1,6 +1,7 @@
-package test;
+package com.lezhi.app.test;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 
 /**
  * Created by Colin Yan on 2016/8/9.
