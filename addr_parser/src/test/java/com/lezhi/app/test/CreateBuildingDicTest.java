@@ -1,4 +1,4 @@
-package com.lezhi.app.test;
+package test;
 
 import com.lezhi.app.mapper.BuildingDicMapper;
 import com.lezhi.app.mapper.ResolvedAddrMapper;
@@ -164,6 +164,6 @@ public class CreateBuildingDicTest {
 
     public void truncate() {
         resolvedAddrMapper.truncateTable("t_building_dic");
-        resolvedAddrMapper.truncateTable("t_room_dic");
+        resolvedAddrMapper.truncateTable("t_house_dic");
     }
 }

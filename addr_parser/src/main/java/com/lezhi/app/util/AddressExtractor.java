@@ -43,6 +43,7 @@ public class AddressExtractor {
         residenceNameList.add("公园新村");
         residenceNameList.add("凉城二村");
         residenceNameList.add("东新路《新湖明珠城一期》");
+        residenceNameList.add("《春申景城(一期)》");
         final String residenceNames[] = residenceNameList.toArray(new String[residenceNameList.size()]);
 
         StringBuilder sb = new StringBuilder();
@@ -107,7 +108,7 @@ public class AddressExtractor {
         }
         if (n == null) {
             //甲乙丙丁置前会与楼栋号的标记混淆
-            p = Pattern.compile("(?<r0>[\\d\\-－_a-zA-Z一二三四五六七八九十/\\\\]+[甲乙丙丁戊己庚辛壬癸]?)室(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)");
+            p = Pattern.compile("(?<r0>[\\d\\-－_a-zA-Z一二三四五六七八九十/\\\\()]+[甲乙丙丁戊己庚辛壬癸]?)室(?<r4>[a-zA-Z甲乙丙丁戊己庚辛壬癸]?)");
             m = p.matcher(input);
             if (m.find()) {  //出现多次要第一个，如 ...503室3室
                 n = m.group("r0");

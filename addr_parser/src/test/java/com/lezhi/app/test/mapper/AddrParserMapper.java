@@ -1,4 +1,4 @@
-package com.lezhi.test.mapper;
+package com.lezhi.app.test.mapper;
 
 import com.lezhi.app.model.ResolvedAddress;
 import org.apache.ibatis.annotations.Param;

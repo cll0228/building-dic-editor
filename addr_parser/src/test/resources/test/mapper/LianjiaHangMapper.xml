@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lezhi.app.com.lezhi.app.test.mapper.LianjiaHangMapper" >
+    <resultMap id="BaseResultMap" type="com.lezhi.app.test.model.LianjiaHang" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <id column="craw_num" property="crawNum" jdbcType="VARCHAR" />
+        <result column="quotation_id" property="quotationId" jdbcType="BIGINT" />
+        <result column="block" property="block" jdbcType="VARCHAR" />
+        <result column="district" property="district" jdbcType="VARCHAR" />
+        <result column="quotation_total_price" property="quotationTotalPrice" jdbcType="DECIMAL" />
+        <result column="quotation_unit_price" property="quotationUnitPrice" jdbcType="DECIMAL" />
+        <result column="quotation_date" property="quotationDate" jdbcType="DATE" />
+        <result column="property_area" property="propertyArea" jdbcType="VARCHAR" />
+        <result column="house_type" property="houseType" jdbcType="VARCHAR" />
+        <result column="property_room" property="propertyRoom" jdbcType="TINYINT" />
+        <result column="property_ting" property="propertyTing" jdbcType="TINYINT" />
+        <result column="place_floor" property="placeFloor" jdbcType="VARCHAR" />
+        <result column="total_floor" property="totalFloor" jdbcType="SMALLINT" />
+        <result column="towards" property="towards" jdbcType="VARCHAR" />
+        <result column="is_available" property="isAvailable" jdbcType="BIT" />
+        <result column="residence_id" property="residenceId" jdbcType="BIGINT" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="residence_name" property="residenceName" jdbcType="VARCHAR" />
+        <result column="last_deal_date" property="lastDealDate" jdbcType="DATE" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, craw_num, quotation_id, block, district, quotation_total_price, quotation_unit_price,
+        quotation_date, property_area, house_type, property_room, property_ting, place_floor,
+        total_floor, towards, is_available, residence_id, address, residence_name, last_deal_date,
+        create_time, modify_time
+    </sql>
+
+    <select id="find" resultMap="BaseResultMap" parameterType="com.lezhi.app.test.model.LianjiaHangExample" >
+        select
+        <include refid="Base_Column_List" />
+        from sts.lianjia_house_quotation
+        order by quotation_date
+    </select>
+
+    <select id="count" resultType="java.lang.Integer" >
+        select count(*) from sts.lianjia_house_quotation
+    </select>
+
+
+</mapper>

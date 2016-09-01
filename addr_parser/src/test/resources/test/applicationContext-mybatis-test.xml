@@ -6,9 +6,9 @@
 
     <bean id="dataSourceTest" class="com.alibaba.druid.pool.xa.DruidXADataSource" init-method="init" destroy-method="close">
 
-        <property name="url" value="jdbc:mysql://192.168.201.26:3306/all_address??useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true"/>
-        <property name="username" value="root"/>
-        <property name="password" value="6TgvJ4sn"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
 
         <property name="initialSize" value="1"/>
         <property name="minIdle" value="1"/>
@@ -38,7 +38,7 @@
 
     <!-- 作用: 把mybatis自己实例化的mapper(dao)加入到spring工厂中 -->
     <bean id="mapperScannerConfigurerTest" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.lezhi.test.mapper"/>
+        <property name="basePackage" value="com.lezhi.app.test.mapper"/>
         <property name="sqlSessionFactoryBeanName" value="sessionFactoryTest"/>
     </bean>
 

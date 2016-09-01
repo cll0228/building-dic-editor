@@ -3,16 +3,18 @@ package com.lezhi.app.test;
 import com.lezhi.app.model.Residence;
 import com.lezhi.app.model.ResolvedAddress;
 import com.lezhi.app.service.ResidenceMatch;
+
+import com.lezhi.app.test.util.TimeUtil;
 import com.lezhi.app.util.AddressExtractor;
 import com.lezhi.app.util.AddressModel;
 import com.lezhi.app.util.PagingUtil;
-import com.lezhi.app.util.PreHandle;
-import com.lezhi.test.mapper.AddrParserMapper;
+import com.lezhi.app.test.mapper.AddrParserMapper;
 import org.apache.ibatis.session.RowBounds;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import test.CreateBuildingDicTest;
 
 import java.io.IOException;
 import java.util.Date;
@@ -67,12 +69,12 @@ public class ParseAddressDb {
             List<ResolvedAddress> list = addrParserMapper.selectAddress(primaryKey, fromTable, addressColumn, residenceIdColumn, scoreColumn, whereClause, rowBounds);
             updateResolved(list);
 
-            System.out.println("progress:" + pageNo + "/" + pageCount);
+            System.out.println(TimeUtil.now() +"progress:" + pageNo + "/" + pageCount);
 
             return true;
         });
 
-        Result result = new JUnitCore().run(CreateBuildingDicTest .class);
+        Result result = new JUnitCore().run(CreateBuildingDicTest.class);
         System.exit(result.wasSuccessful() ? 0 : 1);
     }
 
