@@ -6,7 +6,7 @@
 
     <groupId>com.lezhi.buildingdic</groupId>
     <artifactId>buildingdic</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -19,6 +19,13 @@
     <properties>
         <spring.version>4.0.6.RELEASE</spring.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <buildingdic.project.version>${version}</buildingdic.project.version>
+        <client_demo_version>1.0.1-SNAPSHOT</client_demo_version>
+        <buildingdic_server_version>1.0.1-SNAPSHOT</buildingdic_server_version>
+        <buildingdic_sdk_version>1.0.1-SNAPSHOT</buildingdic_sdk_version>
+        <addr_parser_version>1.0.1-SNAPSHOT</addr_parser_version>
+
     </properties>
 
     <build>

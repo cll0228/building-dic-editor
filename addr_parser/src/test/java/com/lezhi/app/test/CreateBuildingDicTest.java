@@ -36,6 +36,7 @@ public class CreateBuildingDicTest {
 
     public void start() throws Exception {
 
+        resolvedAddrMapper.truncateTable("t_building_dic");
         resolvedAddrMapper.truncateTable("t_house_dic");
 
         final int count = resolvedAddrMapper.countAll(tableName);
