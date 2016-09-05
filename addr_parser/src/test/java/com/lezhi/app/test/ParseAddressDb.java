@@ -48,7 +48,7 @@ public class ParseAddressDb {
      */
     private boolean clearErrParsed = true;
 
-    private final String fromTable = "address_unique";
+    private final String fromTable = "popular_residence_address";
     private final String primaryKey = "id";
     private final String addressColumn = "address";
     private final String residenceColumn = "residence";
