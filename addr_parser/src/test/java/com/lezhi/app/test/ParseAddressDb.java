@@ -77,9 +77,7 @@ public class ParseAddressDb {
             return true;
         });
 
-        resolvedAddrMapper.truncateTable("t_house_dic");
-
-        this.addrParserMapper.exportToPopular();
+        //this.addrParserMapper.exportToPopular();
 
         System.out.println("finish.");
     }

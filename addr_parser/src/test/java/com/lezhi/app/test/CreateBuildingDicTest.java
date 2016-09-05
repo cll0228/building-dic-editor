@@ -35,6 +35,9 @@ public class CreateBuildingDicTest {
     private Date now;
 
     public void start() throws Exception {
+
+        resolvedAddrMapper.truncateTable("t_house_dic");
+
         final int count = resolvedAddrMapper.countAll(tableName);
         PagingUtil.pageIndex(count, 100000, (pageNo, begin, end, realPageSize, pageSize, isFirst, isLast, totalSize, pageCount) -> {
             RowBounds rowBounds = new RowBounds(begin, realPageSize);
