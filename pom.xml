@@ -12,7 +12,6 @@
     <modules>
         <module>buildingdic_sdk</module>
         <module>buildingdic_server</module>
-        <module>client_demo</module>
         <module>addr_parser</module>
     </modules>
 

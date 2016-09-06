@@ -47,8 +47,8 @@
     <dependencies>
         <dependency>
             <groupId>com.lezhi.buildingdic</groupId>
-            <artifactId>buildingdic-sdk</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <artifactId>buildingdic_sdk</artifactId>
+            <version>${buildingdic_sdk_version}</version>
         </dependency>
 
         <dependency>
