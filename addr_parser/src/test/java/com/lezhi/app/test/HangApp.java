@@ -1,4 +1,5 @@
-package test;
+package com.lezhi.app.test;
+
 
 import com.lezhi.app.test.HangProcess;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

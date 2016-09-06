@@ -29,6 +29,8 @@ public class BatchApp {
         CreateBuildingDicTest createBuildingDicTest = context.getBean(CreateBuildingDicTest.class);
 
         FixTopFloor fixTopFloor = context.getBean(FixTopFloor.class);
+        
+        FixPlaceFloor fixPlaceFloor = context.getBean(FixPlaceFloor.class);
 
         HangProcess hangProcess = context.getBean(HangProcess.class);
 
@@ -36,6 +38,7 @@ public class BatchApp {
         boolean create = false;
         boolean top = false;
         boolean hang = false;
+        boolean placeFloor = true;
 
         if (args != null && args.length > 0) {
             for (String s : args) {
@@ -61,6 +64,9 @@ public class BatchApp {
         }
         if (hang) {
             hangProcess.start();
+        }
+        if (placeFloor) {
+        	fixPlaceFloor.start();
         }
     }
 }
