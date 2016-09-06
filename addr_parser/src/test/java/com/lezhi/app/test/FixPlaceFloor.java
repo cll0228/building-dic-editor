@@ -27,7 +27,7 @@ public class FixPlaceFloor {
 
 	// 解析到当前楼层
 	public void start() throws IOException {
-		final int PAGE_SIZE = 10;
+		final int PAGE_SIZE = 100000;
 		int buildingCount = this.buildingDicMapper.count();
 		
 		PagingUtil.pageIndex(buildingCount, PAGE_SIZE,
