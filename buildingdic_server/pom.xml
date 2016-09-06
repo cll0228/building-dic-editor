@@ -55,7 +55,7 @@
             <groupId>com.lezhi.buildingdic</groupId>
             <artifactId>addr_parser</artifactId>
             <classifier>jar</classifier>
-            <version>1.0-SNAPSHOT</version>
+            <version>${addr_parser_version}</version>
         </dependency>
 
         <dependency>
