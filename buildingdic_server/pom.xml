@@ -33,7 +33,7 @@
         <profile>
             <id>test</id>
             <properties>
-                <profile.buildingdic.jdbc.url>jdbc\:mysql\://192.168.200.110\:3306/all_address?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
+                <profile.buildingdic.jdbc.url>jdbc\:mysql\://192.168.200.110\:3306/buildingdic?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
                 <profile.buildingdic.jdbc.driver>com.mysql.jdbc.Driver</profile.buildingdic.jdbc.driver>
                 <profile.buildingdic.jdbc.username>deploy</profile.buildingdic.jdbc.username>
                 <profile.buildingdic.jdbc.password>Deploy2016!</profile.buildingdic.jdbc.password>
