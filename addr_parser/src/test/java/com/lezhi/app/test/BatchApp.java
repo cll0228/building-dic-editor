@@ -30,33 +30,30 @@ public class BatchApp {
 
         FixTopFloor fixTopFloor = null;
 
-        boolean parse = false;
-        boolean create = false;
-        boolean top = false;
-        boolean hang = false;
+        FixPlaceFloor fixPlaceFloor = null;
+
 
         if (args != null && args.length > 0) {
             for (String s : args) {
-                if (s.equals("parse")) {
-                    parseAddressDb = context.getBean(ParseAddressDb.class);
-                    parse = true;
-                } else if (s.equals("create")) {
-                    createBuildingDicTest = context.getBean(CreateBuildingDicTest.class);
-                    create = true;
-                } else if (s.equals("top")) {
-                    fixTopFloor = context.getBean(FixTopFloor.class);
-                    top = true;
+                switch (s) {
+                    case "parse":
+                        parseAddressDb = context.getBean(ParseAddressDb.class);
+                        parseAddressDb.start();
+                        break;
+                    case "create":
+                        createBuildingDicTest = context.getBean(CreateBuildingDicTest.class);
+                        createBuildingDicTest.start();
+                        break;
+                    case "top":
+                        fixTopFloor = context.getBean(FixTopFloor.class);
+                        fixTopFloor.start();
+                        break;
+                    case "floor":
+                        fixPlaceFloor = context.getBean(FixPlaceFloor.class);
+                        fixPlaceFloor.start();
+                        break;
                 }
             }
-        }
-
-        if (parse)
-            parseAddressDb.start();
-        if (create) {
-            createBuildingDicTest.start();
-        }
-        if (top) {
-            fixTopFloor.start();
         }
     }
 }
