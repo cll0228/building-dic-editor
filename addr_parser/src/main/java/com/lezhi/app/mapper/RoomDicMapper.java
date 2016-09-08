@@ -1,9 +1,12 @@
 package com.lezhi.app.mapper;
 
+import com.lezhi.app.model.BuildingDic;
 import com.lezhi.app.model.RoomDic;
 import com.lezhi.app.model.RoomEx;
 import com.lezhi.app.model.map.StdAddr;
+
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -24,6 +27,10 @@ public interface RoomDicMapper {
 
     List<StdAddr> findRoomExists(@Param("rids") int rids[]);
 
+    List<RoomDic> findAll(RowBounds rowBounds);
+    
+    int batchUpdate(@Param("rooms") Set<RoomDic> roomDic);
+    
     int count();
 
     int updateStatus(@Param("id") int id, @Param("operatorId") int operatorId, @Param("modifyTime") Timestamp modifyTime, @Param("status") int status);

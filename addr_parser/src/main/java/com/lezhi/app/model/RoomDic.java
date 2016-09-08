@@ -23,6 +23,8 @@ public class RoomDic {
     private String src;
 
     private Boolean isDeal;
+    
+    private String placeFloor;
 
     public Boolean getIsDeal() {
         return isDeal;
@@ -145,4 +147,12 @@ public class RoomDic {
     public void setSrc(String src) {
         this.src = src;
     }
+
+	public String getPlaceFloor() {
+		return placeFloor;
+	}
+
+	public void setPlaceFloor(String placeFloor) {
+		this.placeFloor = placeFloor;
+	}
 }

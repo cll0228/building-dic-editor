@@ -8,6 +8,8 @@
         <result column="name" property="name"/>
         <result column="building_id" property="buildingId"/>
         <result column="area" property="area"/>
+        <result column="place_floor" property="placeFloor"/>
+        
     </resultMap>
 
     <resultMap id="RoomExMap" type="com.lezhi.app.model.RoomEx">
@@ -24,6 +26,16 @@
         <result column="district_id" property="districtId"/>
         <result column="accomplish_date" property="residenceAccomplishData"/>
     </resultMap>
+
+	<select id="findAll" resultMap="RMap">
+        select t.id, t.name, t.place_floor from t_house_dic t
+    </select>
+
+	<update id="batchUpdate" parameterType="com.lezhi.app.model.RoomDic">
+        <foreach collection="rooms" item="r" index="index" separator=";">
+            update t_house_dic set place_floor = #{r.placeFloor} where id = #{r.id}
+        </foreach>
+    </update>
 
     <insert id="insert" parameterType="com.lezhi.app.model.RoomDic">
         insert into t_house_dic(`name`, `building_id`, `operator_id`, `modify_time`, `area`) VALUES (
