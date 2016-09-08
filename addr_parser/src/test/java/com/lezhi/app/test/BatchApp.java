@@ -24,13 +24,11 @@ public class BatchApp {
 
         System.out.println("spring framework started");
 
-        ParseAddressDb parseAddressDb = context.getBean(ParseAddressDb.class);
+        ParseAddressDb parseAddressDb = null;
 
-        CreateBuildingDicTest createBuildingDicTest = context.getBean(CreateBuildingDicTest.class);
+        CreateBuildingDicTest createBuildingDicTest = null;
 
-        FixTopFloor fixTopFloor = context.getBean(FixTopFloor.class);
-
-        HangProcess hangProcess = context.getBean(HangProcess.class);
+        FixTopFloor fixTopFloor = null;
 
         boolean parse = false;
         boolean create = false;
@@ -40,13 +38,14 @@ public class BatchApp {
         if (args != null && args.length > 0) {
             for (String s : args) {
                 if (s.equals("parse")) {
+                    parseAddressDb = context.getBean(ParseAddressDb.class);
                     parse = true;
                 } else if (s.equals("create")) {
+                    createBuildingDicTest = context.getBean(CreateBuildingDicTest.class);
                     create = true;
                 } else if (s.equals("top")) {
+                    fixTopFloor = context.getBean(FixTopFloor.class);
                     top = true;
-                } else if (s.equals("hang")) {
-                    hang = true;
                 }
             }
         }
@@ -58,9 +57,6 @@ public class BatchApp {
         }
         if (top) {
             fixTopFloor.start();
-        }
-        if (hang) {
-            hangProcess.start();
         }
     }
 }
