@@ -17,6 +17,9 @@ public class BuildingDic {
     private Integer operatorId;
     private Timestamp modifyTime;
 
+    private Double lat;
+    private Double lon;
+
     private Integer totalRoomNum;
 
     public Integer getTotalRoomNum() {
@@ -101,5 +104,21 @@ public class BuildingDic {
 
     public void setDelStatus(Integer delStatus) {
         this.delStatus = delStatus;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
     }
 }

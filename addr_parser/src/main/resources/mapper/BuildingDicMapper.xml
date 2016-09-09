@@ -10,6 +10,8 @@
         <result column="total_floor" property="totalFloor"/>
         <result column="del_status" property="delStatus"/>
         <result column="total_room_num" property="totalRoomNum"/>
+        <result column="lat" property="lat"/>
+        <result column="lon" property="lon"/>
     </resultMap>
     <insert id="insert" parameterType="com.lezhi.app.model.BuildingDic">
         insert into t_building_dic(`name`, `residence_id`, `total_floor`, `del_status`, `operator_id`, `modify_time`) VALUES (
@@ -63,7 +65,7 @@
     </update>
 
     <select id="findBuildingsByResidenceId" resultMap="BMap">
-        SELECT b.id, b.name, b.residence_id, b.total_floor,  x.roomcount as total_room_num
+        SELECT b.id, b.name, b.residence_id, b.total_floor,  x.roomcount as total_room_num, b.lat as lat, b.lon as lon
           FROM t_building_dic b
                LEFT JOIN (SELECT a.building_id, count(a.id) roomcount
                             FROM t_house_dic a
