@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lezhi.app.test.mapper.FangjiaHangMapper" >
+
+    <resultMap id="FangjiaResidenceMap" type="com.lezhi.app.test.model.FangjiaResidenceInfo">
+        <id column="residence_id" property="residenceId" />
+        <result column="residence_name" property="residenceName" />
+        <result column="address" property="address" />
+        <result column="building_num" property="buildingNum" />
+    </resultMap>
+
+    <resultMap id="ResidenceMap" type="com.lezhi.app.test.model.FangjiaResidenceInfo">
+        <id column="residenceId" property="residenceId" />
+        <result column="residenceName" property="residenceName" />
+        <result column="residenceAddr" property="address" />
+    </resultMap>
+
+    <resultMap id="FangjiaBuildingMap" type="com.lezhi.app.test.model.FangjiaBuildingInfo">
+        <id column="id" property="id" />
+        <result column="residence_id" property="residenceId" />
+        <result column="block_number" property="blockNumber" />
+        <result column="floor_total" property="floorTotal" />
+        <result column="room_total" property="roomTotal" />
+        <result column="x" property="lon" />
+        <result column="y" property="lat" />
+    </resultMap>
+
+    <resultMap id="FangjiaRoomMap" type="com.lezhi.app.test.model.FangjiaRoomInfo">
+        <id column="id" property="id" />
+        <result column="block_id" property="blockId" />
+        <result column="room_number" property="roomNumber" />
+        <result column="room_type" property="roomType" />
+        <result column="residence_id" property="residenceId" />
+        <result column="block_number" property="blockNumber" />
+    </resultMap>
+
+    <select id="getFjResidenceInfo" resultMap="FangjiaResidenceMap" >
+        SELECT DISTINCT(d.residence_id),t.residence_name,t.address
+         FROM fangjia_residence_info t
+         INNER JOIN fangjia_map_data d
+          ON t.residence_id = d.residence_id;
+    </select>
+
+    <select id="getAllFjResidenceInfo" resultMap="FangjiaResidenceMap" >
+        SELECT *
+        FROM fangjia_residence_info
+        WHERE building_num is not NULL
+    </select>
+
+    <select id="getAllFjResidenceInfoForRoom" resultMap="FangjiaResidenceMap" >
+        SELECT *
+        FROM fangjia_residence_info
+        WHERE residence_id in (
+          select DISTINCT(t.residence_id) from
+            (SELECT DISTINCT(r.block_id),m.residence_id  FROM `fangjia_room_info` r
+              LEFT JOIN fangjia_map_data m on r.block_id = m.block_id
+            ) t
+        )
+    </select>
+
+    <select id="getFjRoomInfo" resultMap="FangjiaRoomMap" >
+        select r.*,m.block_number,f.residence_id from fangjia_room_info r
+        LEFT JOIN fangjia_map_data m on r.block_id = m.block_id
+        LEFT JOIN fangjia_residence_info f on m.residence_id = f.residence_id
+        where f.residence_id = #{residenceId}
+    </select>
+
+    <select id="getRoomInfo" resultMap="FangjiaRoomMap" >
+        select h.id,h.name as room_number,h.building_id as block_id,h.residence_id,h.room_type,b.name as block_number
+        from t_house_dic h
+        LEFT JOIN t_building_dic b on h.building_id = b.id
+        where b.residence_id = #{residenceId}
+        and h.room_type is NULL;
+    </select>
+
+    <select id="getResidenceByName" resultMap="ResidenceMap" >
+        select * from sh_residence_info where residenceName = #{residenceName};
+    </select>
+
+    <select id="getFjBuildingInfo" resultMap="FangjiaBuildingMap" >
+        select * from fangjia_map_data where residence_id = #{fjResidenceId};
+    </select>
+
+    <select id="getBuildingInfo" resultMap="FangjiaBuildingMap" >
+        select id,name as block_number,residence_id,total_floor as floor_total
+         from t_building_dic where residence_id = #{residenceId};
+    </select>
+
+    <update id="updateBuildingInfo">
+        update t_building_dic set lon = #{lon},lat=#{lat},
+        <if test="totalFloor > 0">
+            total_floor = #{totalFloor},
+        </if>
+        total_room_num = #{roomTotal}
+        where id = #{id}
+    </update>
+
+    <update id="updateResidenceBuildingNum">
+        update sh_residence_info set buildingNum = #{buildingNum}
+        where residenceId = #{residenceId}
+    </update>
+
+    <update id="updateRommType">
+        update t_house_dic set room_type = #{roomType}
+        where id = #{id}
+    </update>
+
+</mapper>
