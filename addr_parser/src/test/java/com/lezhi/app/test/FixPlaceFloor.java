@@ -28,9 +28,9 @@ public class FixPlaceFloor {
 	// 解析到当前楼层
 	public void start() throws IOException {
 		final int PAGE_SIZE = 100000;
-		int buildingCount = this.buildingDicMapper.count();
+		int houseCount = this.roomDicMapper.count();
 		
-		PagingUtil.pageIndex(buildingCount, PAGE_SIZE,
+		PagingUtil.pageIndex(houseCount, PAGE_SIZE,
 				(pageNo, begin, end, realPageSize, pageSize, isFirst, isLast,
 						totalSize, pageCount) -> {
 					RowBounds rowBounds = new RowBounds(begin, realPageSize);
@@ -58,7 +58,7 @@ public class FixPlaceFloor {
 					if (!set.isEmpty()) {
 						roomDicMapper.batchUpdate(set);
 					}
-					System.out.println("fix total floor progress:" + pageNo
+					System.out.println("fix place floor progress:" + pageNo
 							+ "/" + pageCount);
 					return true;
 				});

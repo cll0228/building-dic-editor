@@ -115,8 +115,8 @@ public class BuildingDicServiceImpl implements BuildingDicService {
             b1.setTotalFloor(b.getTotalFloor());
             b1.setBuildingId(b.getId());
             b1.setBuildingNo(b.getName());
-            b1.setBaiduLat(null);
-            b1.setBaiduLon(null);
+            b1.setBaiduLat(b.getLat());
+            b1.setBaiduLon(b.getLon());
             b1.setTotalRoomNum(b.getTotalRoomNum());
             result.add(b1);
         }

@@ -53,9 +53,6 @@ public class FixTopFloor {
             System.out.println("fix total floor progress:" + pageNo + "/" + pageCount);
             return true;
         });
-
-//        Result result = new JUnitCore().run(CreateBuildingDicTest.class);
-//        System.exit(result.wasSuccessful() ? 0 : 1);
     }
 
     private Integer parseTop(List<RoomDic> rooms) {

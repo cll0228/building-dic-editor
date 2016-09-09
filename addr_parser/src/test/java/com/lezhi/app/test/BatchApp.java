@@ -24,49 +24,36 @@ public class BatchApp {
 
         System.out.println("spring framework started");
 
-        ParseAddressDb parseAddressDb = context.getBean(ParseAddressDb.class);
+        ParseAddressDb parseAddressDb = null;
 
-        CreateBuildingDicTest createBuildingDicTest = context.getBean(CreateBuildingDicTest.class);
+        CreateBuildingDicTest createBuildingDicTest = null;
 
-        FixTopFloor fixTopFloor = context.getBean(FixTopFloor.class);
-        
-        FixPlaceFloor fixPlaceFloor = context.getBean(FixPlaceFloor.class);
+        FixTopFloor fixTopFloor = null;
 
-        HangProcess hangProcess = context.getBean(HangProcess.class);
+        FixPlaceFloor fixPlaceFloor = null;
 
-        boolean parse = false;
-        boolean create = false;
-        boolean top = false;
-        boolean hang = false;
-        boolean placeFloor = true;
 
         if (args != null && args.length > 0) {
             for (String s : args) {
-                if (s.equals("parse")) {
-                    parse = true;
-                } else if (s.equals("create")) {
-                    create = true;
-                } else if (s.equals("top")) {
-                    top = true;
-                } else if (s.equals("hang")) {
-                    hang = true;
+                switch (s) {
+                    case "parse":
+                        parseAddressDb = context.getBean(ParseAddressDb.class);
+                        parseAddressDb.start();
+                        break;
+                    case "create":
+                        createBuildingDicTest = context.getBean(CreateBuildingDicTest.class);
+                        createBuildingDicTest.start();
+                        break;
+                    case "top":
+                        fixTopFloor = context.getBean(FixTopFloor.class);
+                        fixTopFloor.start();
+                        break;
+                    case "floor":
+                        fixPlaceFloor = context.getBean(FixPlaceFloor.class);
+                        fixPlaceFloor.start();
+                        break;
                 }
             }
-        }
-
-        if (parse)
-            parseAddressDb.start();
-        if (create) {
-            createBuildingDicTest.start();
-        }
-        if (top) {
-            fixTopFloor.start();
-        }
-        if (hang) {
-            hangProcess.start();
-        }
-        if (placeFloor) {
-        	fixPlaceFloor.start();
         }
     }
 }
