@@ -44,6 +44,8 @@ public class AddressExtractor {
         residenceNameList.add("凉城二村");
         residenceNameList.add("东新路《新湖明珠城一期》");
         residenceNameList.add("《春申景城(一期)》");
+        residenceNameList.add("《金沙雅苑-舒诗康庭》");
+        residenceNameList.add("凤城五村");
         final String residenceNames[] = residenceNameList.toArray(new String[residenceNameList.size()]);
 
         StringBuilder sb = new StringBuilder();
@@ -271,10 +273,12 @@ public class AddressExtractor {
 
         line = line.replace("号幢", "号");
 
-        pattern = Pattern.compile(".+?(\\d+层)[a-zA-Z\\d_一二三四五六七八九十]+.*层?室.*");
+        pattern = Pattern.compile(".+?(\\d+层)([a-zA-Z\\d_一二三四五六七八九十]+.*层?)室");
         matcher = pattern.matcher(line);
         if (matcher.find()) {
-            line = line.replaceFirst(matcher.group(1), "");
+            if (matcher.group(2).length() > 2) {
+                line = line.replaceFirst(matcher.group(1), "");
+            }
         }
 
         //康桥镇沪南路3468弄25幢65号6层602室
@@ -352,6 +356,25 @@ public class AddressExtractor {
         arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路\\d+号).*?(\\d+)号([\\-/\\d\\\\]+)室?$"));
         if (arr != null) {
             Address2 address3 = new Address2(arr[0], arr[1], arr[2]);
+            address3.setScore(99);
+            return filterResult(address3);
+        }
+        //
+        arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路\\d+号)(\\d+)号"));
+        if (arr != null) {
+            String room = extractRoomNo(line);
+
+            Address2 address3 = new Address2(arr[0], arr[1], room);
+            address3.setScore(99);
+            return filterResult(address3);
+        }
+
+        //西闸路75号别墅23幢全幢室
+        arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路\\d+号).*?(\\d+)幢"));
+        if (arr != null) {
+            String room = extractRoomNo(line);
+
+            Address2 address3 = new Address2(arr[0], arr[1], room);
             address3.setScore(99);
             return filterResult(address3);
         }
