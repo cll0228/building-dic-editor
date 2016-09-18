@@ -23,7 +23,7 @@ public interface FangjiaHangMapper {
     void updateResidenceBuildingNum(@Param("residenceId")Integer residenceId,
                                     @Param("buildingNum")String buildingNum);
 
-    List<FangjiaResidenceInfo> getAllFjResidenceInfo();
+    List<FangjiaResidenceInfo> getAllFjResidenceInfo(@Param("buildingNum")Integer buildingNum);
 
     List<FangjiaResidenceInfo> getAllFjResidenceInfoForRoom();
 
@@ -32,4 +32,11 @@ public interface FangjiaHangMapper {
     List<FangjiaRoomInfo> getRoomInfo(@Param("residenceId")Integer residenceId);
 
     void updateRommType(@Param("id")Integer id, @Param("roomType")String roomType);
+
+    void updateResidenceFj(@Param("residenceId")Integer residenceId,
+                             @Param("fjresidenceId")Integer fjresidenceId);
+
+    List<FangjiaResidenceInfo> getAllFjResidence();
+
+    List<FangjiaResidenceInfo> getResidenceByAddress(@Param("fjaddress")String fjaddress);
 }
