@@ -12,6 +12,7 @@ import com.lezhi.buildingdic.model.BuildingModel;
 import com.lezhi.buildingdic.model.HouseModel;
 import com.lezhi.buildingdic.model.ResidenceModel;
 import com.lezhi.buildingdic.service.BuildingDicService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,8 @@ public class BuildingDicServiceImpl implements BuildingDicService {
 
     @Override
     public ResidenceModel parseResidence(String address) {
+        if (StringUtils.isBlank(address))
+            return null;
         AddressModel addressModel = null;
         try {
             addressModel = AddressExtractor.parseAll(address);
