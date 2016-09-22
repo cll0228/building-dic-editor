@@ -293,7 +293,6 @@
         <div style="width: 300px;height: 15px;float: left;text-align: left; padding-left: 10px">已经锁定的的房屋</div>
         <div style="clear: both;width: 1px;height: 6px;"></div>
         <br/>
-        <span>开发数据，随意编辑</span>
     </div>
     </c:if>
     <c:if test="${empty keywords}">

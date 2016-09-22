@@ -9,9 +9,9 @@ import java.util.Date;
  */
 public class TimeUtil {
 
-    static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static String now() {
-        return df.format(new Date());
+        return df.format(new Date()) + " ";
     }
 }

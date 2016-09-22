@@ -11,7 +11,7 @@ public class BatchApp {
         export JAVA_HOME=/usr/local/jdk1.8.0_91; \
         export PATH=$JAVA_HOME/bin:$PATH; \
         export JAVA_OPTS="-Xms2048m -Xmx4096m -Xss1024K"; \
-        /home/sysadmin/jrunner/jrunner.sh -cp "/home/sysadmin/addr_parser;/home/sysadmin/addr_parser/lib" -c BatchApp parse create
+        $JAVA_HOME/bin/java -Djava.ext.dirs=.:lib com.lezhi.app.test.BatchApp parse create top floor
 
     */
     public static void main(String[] args) throws Exception {
@@ -24,14 +24,15 @@ public class BatchApp {
 
         System.out.println("spring framework started");
 
-        ParseAddressDb parseAddressDb = null;
+        Batch parseAddressDb = null;
 
-        CreateBuildingDicTest createBuildingDicTest = null;
+        Batch createBuildingDicTest = null;
 
-        FixTopFloor fixTopFloor = null;
+        Batch fixTopFloor = null;
 
-        FixPlaceFloor fixPlaceFloor = null;
+        Batch fixPlaceFloor = null;
 
+        Batch fixArea = null;
 
         if (args != null && args.length > 0) {
             for (String s : args) {
@@ -51,6 +52,12 @@ public class BatchApp {
                     case "floor":
                         fixPlaceFloor = context.getBean(FixPlaceFloor.class);
                         fixPlaceFloor.start();
+                        break;
+                    case "area":
+                        fixArea = context.getBean(FixArea.class);
+                        fixArea.start();
+                        break;
+                    default:
                         break;
                 }
             }

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.lezhi.app.test.util.FloorUtil;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ import com.lezhi.app.util.PagingUtil;
  * Created by Colin Yan on 2016/8/8.
  */
 @Component
-public class FixPlaceFloor {
+public class FixPlaceFloor implements Batch {
 
 	@Autowired
 	private BuildingDicMapper buildingDicMapper;
@@ -26,6 +27,7 @@ public class FixPlaceFloor {
 	private RoomDicMapper roomDicMapper;
 
 	// 解析到当前楼层
+	@Override
 	public void start() throws IOException {
 		final int PAGE_SIZE = 100000;
 		int houseCount = this.roomDicMapper.count();
@@ -39,21 +41,11 @@ public class FixPlaceFloor {
 					Set<RoomDic> set = new HashSet<>();
 					Integer placeFloor = null;
 					for (RoomDic b : list) {
-						try {
-							int roomNo = Integer.parseInt(b.getName());
-
-							placeFloor = roomNo / 100;
-							int r = roomNo % 100;
-
-							if (placeFloor >= 1 && placeFloor < 50) {
-								if (r > 0 && r < 20) {
-									b.setPlaceFloor(placeFloor.toString());
-									set.add(b);
-								}
-							}
-
-						} catch (Exception ignored) {
-						}
+                        placeFloor = FloorUtil.parseFloor(b.getName());
+                        if (placeFloor != null) {
+                            b.setPlaceFloor(placeFloor.toString());
+                            set.add(b);
+                        }
 					}
 					if (!set.isEmpty()) {
 						roomDicMapper.batchUpdate(set);

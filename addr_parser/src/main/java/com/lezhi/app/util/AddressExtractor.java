@@ -375,7 +375,7 @@ public class AddressExtractor {
             String room = extractRoomNo(line);
 
             Address2 address3 = new Address2(arr[0], arr[1], room);
-            address3.setScore(99);
+            address3.setScore(90);
             return filterResult(address3);
         }
 
