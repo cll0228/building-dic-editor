@@ -44,7 +44,21 @@
     <select id="getAllFjResidenceInfo" resultMap="FangjiaResidenceMap" >
         SELECT *
         FROM fangjia_residence_info
-        WHERE building_num is not NULL
+        WHERE 1=1
+        <if test="buildingNum == 1">
+          building_num is not NULL
+        </if>
+    </select>
+
+    <select id="getAllFjResidence" resultMap="FangjiaResidenceMap" >
+        SELECT DISTINCT(d.residence_id),t.residence_name,t.address
+        FROM fangjia_residence_info t
+        INNER JOIN fangjia_map_data d
+        ON t.residence_id = d.residence_id
+        UNION
+        SELECT residence_id,residence_name,address
+        FROM fangjia_residence_info
+        WHERE  building_num is not NULL
     </select>
 
     <select id="getAllFjResidenceInfoForRoom" resultMap="FangjiaResidenceMap" >
@@ -77,6 +91,10 @@
         select * from sh_residence_info where residenceName = #{residenceName};
     </select>
 
+    <select id="getResidenceByAddress" resultMap="ResidenceMap" >
+        select * from sh_residence_info where residenceAddr LIKE CONCAT('%',#{fjaddress},'%')
+    </select>
+
     <select id="getFjBuildingInfo" resultMap="FangjiaBuildingMap" >
         select * from fangjia_map_data where residence_id = #{fjResidenceId};
     </select>
@@ -104,5 +122,9 @@
         update t_house_dic set room_type = #{roomType}
         where id = #{id}
     </update>
+
+    <insert id="updateResidenceFj">
+        insert into residence_fangjia(residence_id, fangjia_id) VALUES (#{residenceId},#{fjresidenceId})
+    </insert>
 
 </mapper>
