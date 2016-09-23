@@ -30,7 +30,9 @@ public interface RoomDicMapper {
     List<RoomDic> findAll(RowBounds rowBounds);
     
     int batchUpdate(@Param("rooms") Set<RoomDic> roomDic);
-    
+
+    int batchUpdateArea(@Param("rooms") Set<RoomDic> roomDic);
+
     int count();
 
     int updateStatus(@Param("id") int id, @Param("operatorId") int operatorId, @Param("modifyTime") Timestamp modifyTime, @Param("status") int status);

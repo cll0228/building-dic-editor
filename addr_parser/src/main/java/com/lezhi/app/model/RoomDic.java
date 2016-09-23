@@ -26,6 +26,9 @@ public class RoomDic {
     
     private String placeFloor;
 
+    private Integer floorInt;
+    private Integer roomIndex; // 304 -> 4
+
     public Boolean getIsDeal() {
         return isDeal;
     }
@@ -155,4 +158,21 @@ public class RoomDic {
 	public void setPlaceFloor(String placeFloor) {
 		this.placeFloor = placeFloor;
 	}
+
+
+    public Integer getFloorInt() {
+        return floorInt;
+    }
+
+    public void setFloorInt(Integer floorInt) {
+        this.floorInt = floorInt;
+    }
+
+    public Integer getRoomIndex() {
+        return roomIndex;
+    }
+
+    public void setRoomIndex(Integer roomIndex) {
+        this.roomIndex = roomIndex;
+    }
 }

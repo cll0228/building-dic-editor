@@ -23,7 +23,7 @@ public abstract class AddressModel {
 
     public abstract String getRoom();
 
-    public abstract int getScore();
+    public abstract Integer getScore();
 
-    public abstract void setScore(int score);
+    public abstract void setScore(Integer score);
 }

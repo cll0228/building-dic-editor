@@ -20,20 +20,31 @@
     <script type="text/javascript" src="${ctx}/static/scripts/jquery.js"></script>
     <script type="text/javascript" src="${ctx}/bootstrap/js/bootstrap.js"></script>
 
-
+    <link href="${ctx}/layer/skin/layer.css" rel="stylesheet" />
+    <script type="text/javascript" src="${ctx}/layer/layer.js"></script>
     <script>
         function refresh() {
-            $.get("${ctx}/update.do");
-            alert("请求已提交");
+            $("#theone").attr("src", "${ctx}/statistics/data.do?refresh=true");
+            $("#theone").hide();
+            layer.load();
             return false;
         }
+
+        $(function(){
+            //加载层-默认风格
+            layer.load();
+
+            $("#theone").load(function(){
+                layer.closeAll('loading');
+                $("#theone").show();
+            });
+        });
     </script>
     <style type="text/css">
         .simple-title {
             background-color: #2f96b4;
             color: white
         }
-
     </style>
 
 </head>
@@ -43,18 +54,8 @@
 <div class="container">
     <jsp:include page="/WEB-INF/pages/include/header.jsp" flush="true"/>
 
-    <div style="text-align: left; color: #000000;margin-top: 100px;">
-        楼栋数:${buildingCount}<br>
-        房屋总数:${countRoomDeal + countRoomOthers}<br>
-        交易记录获取房屋数:${countRoomDeal}<br>
-        其它来源获取房屋数:${countRoomOthers}<br>
-        已经锁定的房屋数:${countRoomLocked} (来源于交易记录，解析规则严谨)<br>
-        <br>
-    </div>
+    <iframe id="theone" frameborder="0" src="${ctx}/statistics/data.do" scrolling="no" width="100%" height="1800"></iframe>
 
-    <h1 style="font-size: 14px;">
-        更多功能建设中...
-    </h1>
 </div> <!-- /container -->
 
 </body>

@@ -12,7 +12,8 @@ public class Address3 extends AddressModel {
     private Integer score;
 
     @Override
-    public int getScore() {
+    public Integer getScore() {
+        /*
         if (score == null) {
             if (village.matches("^[\\u4E00-\\u9FA5]+村$") && group.matches("^\\d+[组队]$") && no.matches("^\\d+$")) {
                 score = 99;
@@ -20,12 +21,12 @@ public class Address3 extends AddressModel {
                 score = 30;
             }
         }
-
+        */
         return score;
     }
 
     @Override
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 

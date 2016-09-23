@@ -11,13 +11,14 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
  * Created by Colin Yan on 2016/8/5.
  */
 @Component
-public class CreateBuildingDicTest {
+public class CreateBuildingDicTest implements Batch {
 
     @Autowired
     private ResolvedAddrMapper resolvedAddrMapper;
@@ -34,7 +35,8 @@ public class CreateBuildingDicTest {
 
     private Date now;
 
-    public void start() throws Exception {
+    @Override
+    public void start() throws IOException {
 
         resolvedAddrMapper.truncateTable("t_building_dic");
         resolvedAddrMapper.truncateTable("t_house_dic");
@@ -56,7 +58,7 @@ public class CreateBuildingDicTest {
         executeSql();
     }
 
-    private void executeSql() throws Exception {
+    private void executeSql() {
 
         Set<BuildingDic> buildingBuffer = new HashSet<>();
         Set<RoomDic> roomBuffer = new HashSet<>();

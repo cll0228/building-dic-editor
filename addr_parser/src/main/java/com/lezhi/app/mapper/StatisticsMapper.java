@@ -5,7 +5,19 @@ package com.lezhi.app.mapper;
  */
 public interface StatisticsMapper {
     int countBuilding();
+    int buildingWithCoordinate();
+
+    int countRoom();
     int countRoomDeal();
-    int countRoomOthers();
+
     int countRoomLocked();
+
+    int residenceCount();
+    int residenceCoverdCount();
+    int houseWithArea();
+    int houseWithoutArea();
+    int houseWithTowards();
+    int houseWithHuxing();
+    int parseConfirmedHouseCount();
+    int parseUnconfirmedHouseCount();
 }

@@ -26,14 +26,12 @@ import java.util.List;
  * Created by Colin Yan on 2016/8/8.
  */
 @Component
-public class ParseAddressDb {
+public class ParseAddressDb implements Batch {
 
     @Autowired
     private AddrParserMapper addrParserMapper;
     @Autowired
     private ResidenceMatch residenceMatch;
-    @Autowired
-    private ResolvedAddrMapper resolvedAddrMapper;
 
     /**
      * include
@@ -48,7 +46,7 @@ public class ParseAddressDb {
      */
     private boolean clearErrParsed = true;
 
-    private final String fromTable = "popular_residence_address";
+    private final String fromTable = "address_unique";
     private final String primaryKey = "id";
     private final String addressColumn = "address";
     private final String residenceColumn = "residence";
@@ -61,6 +59,7 @@ public class ParseAddressDb {
 
     // 遇到重复地址，优先使用交易，保证交易记录在前，其它在后即可
 
+    @Override
     public void start() throws IOException {
         final int PAGE_SIZE = 100000;
 

@@ -261,7 +261,7 @@
                 <configuration>
                     <path>/</path>
                     <port>9568</port>
-                    <uriEncoding>utf-8</uriEncoding>f
+                    <uriEncoding>utf-8</uriEncoding>
                 </configuration>
             </plugin>
             <plugin>

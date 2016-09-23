@@ -13,19 +13,20 @@ public class Address2 extends AddressModel {
     private Integer score;
 
     @Override
-    public int getScore() {
+    public Integer getScore() {
+        /*
         if (score == null) {
             if (residence.matches("^[\\u4E00-\\u9FA5\\d]+$") && building.matches("^\\d+$") && building.matches("^\\d+$") && room.matches("^\\d{3,4}$")) {
                 score = 99;
             } else {
                 score = 30;
             }
-        }
+        }*/
         return score;
     }
 
     @Override
-    public void setScore(int score) {
+    public void setScore(Integer score) {
         this.score = score;
     }
 
