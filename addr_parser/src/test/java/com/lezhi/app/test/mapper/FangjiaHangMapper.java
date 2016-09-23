@@ -3,6 +3,7 @@ package com.lezhi.app.test.mapper;
 import com.lezhi.app.test.model.FangjiaBuildingInfo;
 import com.lezhi.app.test.model.FangjiaResidenceInfo;
 import com.lezhi.app.test.model.FangjiaRoomInfo;
+import com.lezhi.app.test.model.ResidenceFjInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -39,4 +40,9 @@ public interface FangjiaHangMapper {
     List<FangjiaResidenceInfo> getAllFjResidence();
 
     List<FangjiaResidenceInfo> getResidenceByAddress(@Param("fjaddress")String fjaddress);
+
+    List<ResidenceFjInfo> getSameResidenceList();
+
+    void updateResidenceBuildingNumFromNotNameSameAddr();
+
 }

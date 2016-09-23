@@ -34,6 +34,16 @@
         <result column="block_number" property="blockNumber" />
     </resultMap>
 
+    <resultMap id="ResidenceFjMap" type="com.lezhi.app.test.model.ResidenceFjInfo">
+        <id column="residence_id" property="residenceId" />
+        <result column="residence_name" property="residenceName" />
+        <result column="residence_addr" property="address" />
+        <result column="fangjia_id" property="fjResidenceId" />
+        <result column="fangjia_name" property="fjResidenceName" />
+        <result column="fangjia_addr" property="fjAddress" />
+        <result column="building_num" property="buildingNum" />
+    </resultMap>
+
     <select id="getFjResidenceInfo" resultMap="FangjiaResidenceMap" >
         SELECT DISTINCT(d.residence_id),t.residence_name,t.address
          FROM fangjia_residence_info t
@@ -126,5 +136,28 @@
     <insert id="updateResidenceFj">
         insert into residence_fangjia(residence_id, fangjia_id) VALUES (#{residenceId},#{fjresidenceId})
     </insert>
+
+
+    <update id="updateResidenceBuildingNumFromNotNameSameAddr">
+         update sh_residence_info sh,
+         (select ref.residence_id,fj.residence_id as fangjia_id,fj.building_num from
+              residence_fangjia_名不同地址解析同 ref
+             ,fangjia_residence_info fj
+         where ref.fangjia_id = fj.residence_id) t
+         set sh.buildingNum = t.building_num
+         where sh.ResidenceID = t.residence_id
+    </update>
+
+    <select id="getSameResidenceList" resultMap="ResidenceFjMap" >
+        select ref.*,sum(fj.building_num) as building_num
+         from `residence_fangjia_名不同地址解析同` ref
+        LEFT JOIN fangjia_residence_info fj on ref.fangjia_id = fj.residence_id
+        where ref.residence_id in (
+            select residence_id from residence_fangjia_名不同地址解析同 GROUP BY residence_id HAVING
+             count(residence_id) >1
+         )
+        GROUP BY residence_id
+        ORDER BY residence_id,fangjia_id
+    </select>
 
 </mapper>

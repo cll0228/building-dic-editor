@@ -359,6 +359,35 @@ public class FangjiaDataProcess {
                 sb.toString(), "gbk");
     }
 
+    // 更新名字不匹配地址解析匹配相关小区的楼栋数
+    public void getBuildingNum() throws Exception {
+        // 更新全部小区楼栋
+        fangjiaHangMapper.updateResidenceBuildingNumFromNotNameSameAddr();
+        // 获取小区id有重复的小区
+        List<ResidenceFjInfo> rfList = fangjiaHangMapper.getSameResidenceList();
+        // 更新重复数据的小区楼栋
+        for(ResidenceFjInfo fjInfo :rfList) {
+            fangjiaHangMapper.updateResidenceBuildingNum(fjInfo.getResidenceId(),String.valueOf(
+                    fjInfo.getBuildingNum()));
+            System.out.println("更新成功！");
+        }
+    }
+
+    // 根据银估通业务数据补全楼盘字典
+    public void updateHouseInfoFromYGT() throws Exception {
+        // 更新全部小区楼栋
+        fangjiaHangMapper.updateResidenceBuildingNumFromNotNameSameAddr();
+        // 获取小区id有重复的小区
+        List<ResidenceFjInfo> rfList = fangjiaHangMapper.getSameResidenceList();
+        // 更新重复数据的小区楼栋
+        for(ResidenceFjInfo fjInfo :rfList) {
+            fangjiaHangMapper.updateResidenceBuildingNum(fjInfo.getResidenceId(),String.valueOf(
+                    fjInfo.getBuildingNum()));
+            System.out.println("更新成功！");
+        }
+    }
+
+
     public void addResidenceFj(Integer residenceId, Integer fjResidenceId){
         fangjiaHangMapper.updateResidenceFj(residenceId, fjResidenceId);
     }
@@ -427,6 +456,9 @@ public class FangjiaDataProcess {
         }
         return result;
     }
+
+
+
 
     public static void main(String[] args) {
 
