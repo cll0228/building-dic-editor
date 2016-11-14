@@ -42,6 +42,17 @@
             </properties>
         </profile>
         <profile>
+            <id>test_sit3</id>
+            <properties>
+                <profile.buildingdic.jdbc.url>jdbc\:mysql\://192.168.201.167\:3306/buildingdic?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
+                <profile.buildingdic.jdbc.driver>com.mysql.jdbc.Driver</profile.buildingdic.jdbc.driver>
+                <profile.buildingdic.jdbc.username>deploy</profile.buildingdic.jdbc.username>
+                <profile.buildingdic.jdbc.password>admin*1</profile.buildingdic.jdbc.password>
+
+                <profile.buildingdic.zookeeper>192.168.201.155:2181</profile.buildingdic.zookeeper>
+            </properties>
+        </profile>
+        <profile>
             <id>demo</id>
             <properties>
                 <profile.buildingdic.jdbc.url>jdbc\:mysql\://192.168.100.80\:3306/buildingdic?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
