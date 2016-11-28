@@ -28,8 +28,7 @@ public interface RoomDicMapper {
     List<StdAddr> findRoomExists(@Param("rids") int rids[]);
 
     List<RoomDic> findAll(RowBounds rowBounds);
-    
-    int batchUpdate(@Param("rooms") Set<RoomDic> roomDic);
+
 
     int batchUpdateArea(@Param("rooms") Set<RoomDic> roomDic);
 

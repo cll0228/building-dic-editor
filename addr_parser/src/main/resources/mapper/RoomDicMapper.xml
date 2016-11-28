@@ -31,12 +31,6 @@
         select t.id, t.name, t.place_floor from t_house_dic t
     </select>
 
-	<update id="batchUpdate" parameterType="com.lezhi.app.model.RoomDic">
-        <foreach collection="rooms" item="r" index="index" separator=";">
-            update t_house_dic set place_floor = #{r.placeFloor} where id = #{r.id}
-        </foreach>
-    </update>
-
     <update id="batchUpdateArea" parameterType="com.lezhi.app.model.RoomDic">
         <foreach collection="rooms" item="r" index="index" separator=";">
             update t_house_dic set area = #{r.area} where id = #{r.id}
@@ -90,7 +84,7 @@
     <select id="findById" resultMap="RoomExMap">
         select
         t.id, t.building_id, t.area ,r.ResidenceTypeID as property_type_id, t.place_floor as place_floor, b.total_floor, t.name as room_no,
-        t.residence_id, r.BlockID as block_id, r.DistrictId as district_id, r.ResidenceAccomplishDatetime as accomplish_date
+        t.residence_id, r.BlockID as block_id, r.DistrictId as district_id, r.ResidenceAccomplishDatetime as accomplish_date,t.plane_type as planeType
         from t_house_dic t
         left join t_building_dic b on b.id = t.building_id
         left join sh_residence_info r on r.ResidenceID = t.residence_id
@@ -102,7 +96,7 @@
     <select id="findByNames" resultMap="RoomExMap">
         select
         t.id, t.building_id, t.area ,r.ResidenceTypeID as property_type_id, t.place_floor as place_floor, b.total_floor, t.name as room_no,
-        t.residence_id, r.BlockID as block_id, r.DistrictId as district_id, r.ResidenceAccomplishDatetime as accomplish_date
+        t.residence_id, r.BlockID as block_id, r.DistrictId as district_id, r.ResidenceAccomplishDatetime as accomplish_date,t.plane_type as planeType
         from t_house_dic t
         left join t_building_dic b on b.id = t.building_id
         left join sh_residence_info r on r.ResidenceID = t.residence_id
@@ -113,7 +107,7 @@
     <select id="findByBuildingId" resultMap="RoomExMap">
         select
         t.id, t.building_id, t.area ,r.ResidenceTypeID as property_type_id, t.place_floor as place_floor, b.total_floor, t.name as room_no,
-        t.residence_id, r.BlockID as block_id, r.DistrictId as district_id, r.ResidenceAccomplishDatetime as accomplish_date
+        t.residence_id, r.BlockID as block_id, r.DistrictId as district_id, r.ResidenceAccomplishDatetime as accomplish_date,t.plane_type as planeType
         from t_house_dic t
         left join t_building_dic b on b.id = t.building_id
         left join sh_residence_info r on r.ResidenceID = t.residence_id
@@ -149,12 +143,12 @@
     </update>
 
 	<select id="queryRoomId" resultMap="RMap">
-        SELECT id FROM all_address.t_house_dic where building_id=#{buildingId}
+        SELECT id FROM t_house_dic where building_id=#{buildingId}
     </select>
 
     <select id="findTopRooms" resultMap="RMap">
         SELECT `name` + 0 AS `name`, id, building_id, area
-          FROM all_address.t_house_dic
+          FROM t_house_dic
          WHERE     name NOT LIKE '-%'
                AND LENGTH(name) BETWEEN 3 AND 4
                AND building_id = #{buildingId}

@@ -178,69 +178,13 @@ public class AddressExtractor {
         //10层全幢室
         //    System.out.println(extractRoomNo("石门路39弄89号9层"));
 
-        System.out.println(parseAll("静安区万航渡路458弄6号23Ｅ室\n\n\n\n"));
+        System.out.println(parseAll("静安区万航渡路458弄6号"));
     }
 
 
     private static boolean isMatch(String str, Pattern p) {
         Matcher m = p.matcher(str);
         return m.find();
-    }
-
-    private static String[] regexGroup(String str, Pattern p) {
-        try {
-            Matcher m = p.matcher(str);
-            if (m.find()) {
-                List<String> result = new ArrayList<>();
-                int gn = m.groupCount();
-                for (int i = 1; i <= gn; i++) {
-                    String value = m.group(i);
-                    result.add(value);
-                }
-                return result.toArray(new String[result.size()]);
-            }
-            return null;
-        } catch (Throwable t) {
-            System.err.println("str:" + str + ",p:" + p);
-            t.printStackTrace();
-            throw t;
-        }
-    }
-
-    private static Map<String, String> regexGroup(String str, Pattern p, String... groupNames) {
-        try {
-            Matcher m = p.matcher(str);
-            if (m.find()) {
-                Map<String, String> result = new HashMap<>();
-                for (String n : groupNames) {
-                    result.put(n, m.group(n));
-                }
-                return result;
-            }
-            return null;
-        } catch (Throwable t) {
-            System.err.println("str:" + str + ",p:" + p);
-            t.printStackTrace();
-            throw t;
-        }
-    }
-
-    private static String regexGroup(String str, Pattern p, int group) {
-        try {
-            Matcher m = p.matcher(str);
-            String value = null;
-
-            if (m.find()) {
-                if (group > m.groupCount())
-                    return null;
-                value = m.group(group);
-            }
-            return value;
-        } catch (Throwable t) {
-            System.err.println("str:" + str + ",p:" + p + ",group:" + group);
-            t.printStackTrace();
-            throw t;
-        }
     }
 
     private static String preProcess(String line) {
@@ -324,28 +268,28 @@ public class AddressExtractor {
 
     private static AddressModel parseAll__(String line) {
 
-        String[] arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+[路街])(\\d+)号楼?(\\d+)室?$"));
+        String[] arr = RegexUtil.regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+[路街])(\\d+)号楼?(\\d+)室?$"));
         if (arr != null) {
             String room = PreHandle.filterReduplicate2_3(arr[2], 4);
             Address2 address = new Address2(arr[0] + arr[1] + "号", arr[1], room);
             address.setScore(80);
             return filterResult(address);
         }
-        arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)路(\\d+)弄(\\d+)号(\\d+)室?$"));
+        arr = RegexUtil.regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)路(\\d+)弄(\\d+)号(\\d+)室?$"));
         if (arr != null) {
             String room = PreHandle.filterReduplicate2_3(arr[3], 4);
             Address1 address1 = new Address1(arr[0], arr[1], arr[2], room);
             address1.setScore(95);
             return filterResult(address1);
         }
-        arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)路(\\d+)弄[\\-/]?(\\d+)号?[\\-/](\\d+)$"));
+        arr = RegexUtil.regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)路(\\d+)弄[\\-/]?(\\d+)号?[\\-/](\\d+)$"));
         if (arr != null) {
             String room = PreHandle.filterReduplicate2_3(arr[3], 4);
             Address1 address1 = new Address1(arr[0], arr[1], arr[2], room);
             address1.setScore(90);
             return filterResult(address1);
         }
-        arr = regexGroup(line, Pattern.compile("^(?:五村村|(.+))村([\\d一二三四五六七八九十]+)[组队](\\d+)号([a-zA-Z]?).*$"));
+        arr = RegexUtil.regexGroup(line, Pattern.compile("^(?:五村村|(.+))村([\\d一二三四五六七八九十]+)[组队](\\d+)号([a-zA-Z]?).*$"));
         if (arr != null) {
             Address3 address3 = new Address3(arr[0], arr[1], arr[2]);
             address3.setScore(99);
@@ -353,14 +297,14 @@ public class AddressExtractor {
         }
 
         //七莘路3333号12区17号202
-        arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路\\d+号).*?(\\d+)号([\\-/\\d\\\\]+)室?$"));
+        arr = RegexUtil.regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路\\d+号).*?(\\d+)号([\\-/\\d\\\\]+)室?$"));
         if (arr != null) {
             Address2 address3 = new Address2(arr[0], arr[1], arr[2]);
             address3.setScore(99);
             return filterResult(address3);
         }
         //
-        arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路\\d+号)(\\d+)号"));
+        arr = RegexUtil.regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路\\d+号)(\\d+)号"));
         if (arr != null) {
             String room = extractRoomNo(line);
 
@@ -370,7 +314,7 @@ public class AddressExtractor {
         }
 
         //西闸路75号别墅23幢全幢室
-        arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路\\d+号).*?(\\d+)幢"));
+        arr = RegexUtil.regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+路\\d+号).*?(\\d+)幢"));
         if (arr != null) {
             String room = extractRoomNo(line);
 
@@ -379,7 +323,7 @@ public class AddressExtractor {
             return filterResult(address3);
         }
 
-        Map<String, String> map = regexGroup(line, residenceBuilding_regex, "rn0", "rn2", "b", "be");
+        Map<String, String> map = RegexUtil.regexGroup(line, residenceBuilding_regex, "rn0", "rn2", "b", "be");
         if (map != null && !map.isEmpty()) {
             String rn0 = map.get("rn0");
             String rn2 = map.get("rn2");
@@ -400,13 +344,13 @@ public class AddressExtractor {
                     return filterResult(new Address2(residenceName, building, room));
             }
         }
-        arr = regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)([\\d一二三四五六七八九十]+)[组队](\\d+)号$"));
+        arr = RegexUtil.regexGroup(line, Pattern.compile("^([\\u4E00-\\u9FA5]+)([\\d一二三四五六七八九十]+)[组队](\\d+)号$"));
         if (arr != null) {
             Address3 address3 = new Address3(arr[0], arr[1], arr[2]);
             address3.setScore(59);
             return filterResult(address3);
         }
-        map = regexGroup(line, residenceBuildingRoom_regex, "rn0", "rn1", "rn2", "b", "r");
+        map = RegexUtil.regexGroup(line, residenceBuildingRoom_regex, "rn0", "rn1", "rn2", "b", "r");
         if (map != null && !map.isEmpty()) {
             String rn0 = map.get("rn0");
             String rn1 = map.get("rn1");
@@ -425,7 +369,7 @@ public class AddressExtractor {
 
         }
 
-        map = regexGroup(line, roadBuilding_regex, "rn0", "b", "be");
+        map = RegexUtil.regexGroup(line, roadBuilding_regex, "rn0", "b", "be");
         if (map != null && !map.isEmpty()) {
             String residenceName = map.get("rn0");
 
@@ -446,7 +390,7 @@ public class AddressExtractor {
             }
         }
 
-        map = regexGroup(line, residenceBuilding_lowThanRoad_regex, "rn1", "b", "be");
+        map = RegexUtil.regexGroup(line, residenceBuilding_lowThanRoad_regex, "rn1", "b", "be");
         if (map != null && !map.isEmpty()) {
             String rn1 = map.get("rn1");
             String residenceName = (String) firstNotNull(rn1);

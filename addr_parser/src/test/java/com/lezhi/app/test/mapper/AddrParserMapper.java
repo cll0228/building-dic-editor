@@ -1,10 +1,13 @@
 package com.lezhi.app.test.mapper;
 
 import com.lezhi.app.model.ResolvedAddress;
+import com.lezhi.app.model.RoomDic;
+import com.lezhi.app.test.model.FixPlaceFloorModel;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Colin Yan on 2016/8/8.
@@ -41,4 +44,15 @@ public interface AddrParserMapper {
 
     //void exportToPopular();
 
+    List<FixPlaceFloorModel> findPlaceFloorModels(@Param("tableName") String tableName,
+                                                  @Param("primaryKey") String primaryKey,
+                                                  @Param("roomNoColumn") String roomNoColumn,
+                                                  @Param("placeFloorColumn") String placeFloorColumn,
+                                                  RowBounds rowBounds);
+
+
+    int batchUpdatePlaceFloor(@Param("tableName") String tableName,
+                    @Param("primaryKey") String primaryKey,
+                    @Param("placeFloorColumn") String placeFloorColumn,
+                    @Param("params") Set<FixPlaceFloorModel> params);
 }

@@ -51,12 +51,12 @@ public class BuildingDicServiceImpl implements BuildingDicService {
         }
 
         Residence r = residenceMatch.match(inputAddr);
-        if (r != null) {
-            ResidenceModel model = new ResidenceModel();
-            model.setResidenceId(r.getId());
-            model.setResidenceAddress(r.getAddress());
-            model.setResidenceName(r.getName());
-            return model;
+            if (r != null) {
+                ResidenceModel model = new ResidenceModel();
+                model.setResidenceId(r.getId());
+                model.setResidenceAddress(r.getAddress());
+                model.setResidenceName(r.getName());
+                return model;
         }
         return null;
     }
@@ -77,14 +77,11 @@ public class BuildingDicServiceImpl implements BuildingDicService {
             } catch (Exception ignore) {}
 
             if (addressModel != null) {
-
-                Residence r = residenceMatch.match(addressModel.getResidence());
-                if (r != null) {
-                    if (residenceId == null) {
+                if (residenceId == null) {
+                    Residence r = residenceMatch.match(addressModel.getResidence());
+                    if (r != null)
                         residenceId = r.getId();
-                    }
                 }
-
                 if (residenceId != null) {
                     String buildingNo = addressModel.getBuilding();
                     String roomNo = addressModel.getRoom();
@@ -93,6 +90,7 @@ public class BuildingDicServiceImpl implements BuildingDicService {
                     if (room != null) {
                         HouseModel houseModel = new HouseModel();
                         BeanUtils.copyProperties(room, houseModel);
+
                         return houseModel;
                     }
                 }

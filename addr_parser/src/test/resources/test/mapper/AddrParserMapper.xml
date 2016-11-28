@@ -70,4 +70,14 @@
         FROM address_unique a
         INNER JOIN popular_residence p ON a.residence_id = p.residence_id
     </insert>
+
+    <select id="findPlaceFloorModels" resultType="com.lezhi.app.test.model.FixPlaceFloorModel">
+      select ${primaryKey} as id, ${roomNoColumn} as roomNo, ${placeFloorColumn} as placeFloor from ${tableName}
+    </select>
+
+    <update id="batchUpdatePlaceFloor" parameterType="com.lezhi.app.test.model.FixPlaceFloorModel">
+        <foreach collection="params" item="r" index="index" separator=";">
+            update ${tableName} set ${placeFloorColumn} = #{r.placeFloor} where ${primaryKey} = #{r.id}
+        </foreach>
+    </update>
 </mapper>

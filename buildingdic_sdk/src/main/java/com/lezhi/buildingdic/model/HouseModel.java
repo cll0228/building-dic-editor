@@ -60,6 +60,7 @@ public class HouseModel implements Serializable {
      */
     private String residenceAccomplishData;
 
+    private Integer planeType;
 
     public Integer getHouseId() {
         return houseId;
@@ -163,5 +164,13 @@ public class HouseModel implements Serializable {
 
     public void setRoomNo(String roomNo) {
         this.roomNo = roomNo;
+    }
+
+    public Integer getPlaneType() {
+        return planeType;
+    }
+
+    public void setPlaneType(Integer planeType) {
+        this.planeType = planeType;
     }
 }

@@ -20,7 +20,7 @@ public class FloorUtil {
 
         int floor = roomInt / 100;
 
-        if (floor > 1 && floor < 50) {
+        if (floor >= 1 && floor < 50) {
 
             int r = roomInt % 100;
             if (r > 0 && r < 20) {

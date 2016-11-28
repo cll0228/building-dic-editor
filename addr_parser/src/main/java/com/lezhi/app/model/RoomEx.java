@@ -18,6 +18,7 @@ public class RoomEx {
     private Integer districtId;
     private Integer blockId;
     private String residenceAccomplishData;
+    private Integer planeType;
 
     public Integer getHouseId() {
         return houseId;
@@ -121,5 +122,13 @@ public class RoomEx {
 
     public void setResidenceAccomplishData(String residenceAccomplishData) {
         this.residenceAccomplishData = residenceAccomplishData;
+    }
+
+    public Integer getPlaneType() {
+        return planeType;
+    }
+
+    public void setPlaneType(Integer planeType) {
+        this.planeType = planeType;
     }
 }
