@@ -17,6 +17,8 @@ public class ResidenceFjInfo {
 
     private String fjAddress;
 
+    private Integer buildingNum;
+
     public Integer getResidenceId() {
         return residenceId;
     }
@@ -63,5 +65,13 @@ public class ResidenceFjInfo {
 
     public void setFjAddress(String fjAddress) {
         this.fjAddress = fjAddress;
+    }
+
+    public Integer getBuildingNum() {
+        return buildingNum;
+    }
+
+    public void setBuildingNum(Integer buildingNum) {
+        this.buildingNum = buildingNum;
     }
 }
