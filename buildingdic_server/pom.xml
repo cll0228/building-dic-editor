@@ -33,12 +33,23 @@
         <profile>
             <id>test</id>
             <properties>
-                <profile.buildingdic.jdbc.url>jdbc\:mysql\://192.168.200.110\:3306/buildingdic?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
+                <profile.buildingdic.jdbc.url>jdbc\:mysql\://db-buildingdic.sit1.of.com\:3306/buildingdic?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
                 <profile.buildingdic.jdbc.driver>com.mysql.jdbc.Driver</profile.buildingdic.jdbc.driver>
                 <profile.buildingdic.jdbc.username>deploy</profile.buildingdic.jdbc.username>
                 <profile.buildingdic.jdbc.password>Deploy2016!</profile.buildingdic.jdbc.password>
 
-                <profile.buildingdic.zookeeper>192.168.200.86:2181</profile.buildingdic.zookeeper>
+                <profile.buildingdic.zookeeper>bill-zk.sit1.of.com:2181</profile.buildingdic.zookeeper>
+            </properties>
+        </profile>
+        <profile>
+            <id>test_sit2</id>
+            <properties>
+                <profile.buildingdic.jdbc.url>jdbc\:mysql\://db-est.sit2.of.com\:3306/buildingdic?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
+                <profile.buildingdic.jdbc.driver>com.mysql.jdbc.Driver</profile.buildingdic.jdbc.driver>
+                <profile.buildingdic.jdbc.username>deploy</profile.buildingdic.jdbc.username>
+                <profile.buildingdic.jdbc.password>admin*1</profile.buildingdic.jdbc.password>
+
+                <profile.buildingdic.zookeeper>bill-zk.sit2.of.com</profile.buildingdic.zookeeper>
             </properties>
         </profile>
         <profile>
@@ -49,7 +60,7 @@
                 <profile.buildingdic.jdbc.username>deploy</profile.buildingdic.jdbc.username>
                 <profile.buildingdic.jdbc.password>admin*1</profile.buildingdic.jdbc.password>
 
-                <profile.buildingdic.zookeeper>192.168.201.155:2181</profile.buildingdic.zookeeper>
+                <profile.buildingdic.zookeeper>bill-zk.sit3.of.com:2181</profile.buildingdic.zookeeper>
             </properties>
         </profile>
         <profile>
