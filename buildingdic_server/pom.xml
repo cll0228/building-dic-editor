@@ -49,7 +49,7 @@
                 <profile.buildingdic.jdbc.username>deploy</profile.buildingdic.jdbc.username>
                 <profile.buildingdic.jdbc.password>admin*1</profile.buildingdic.jdbc.password>
 
-                <profile.buildingdic.zookeeper>bill-zk.sit2.of.com</profile.buildingdic.zookeeper>
+                <profile.buildingdic.zookeeper>bill-zk.sit2.of.com:2181</profile.buildingdic.zookeeper>
             </properties>
         </profile>
         <profile>
