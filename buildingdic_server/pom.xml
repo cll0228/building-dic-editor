@@ -74,6 +74,16 @@
                 <profile.buildingdic.zookeeper>192.168.100.74:2181</profile.buildingdic.zookeeper>
             </properties>
         </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <profile.buildingdic.jdbc.url>jdbc\:mysql\:loadbalance\://80.2.34.7,80.2.34.8\:3306/buildingdic?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
+                <profile.buildingdic.jdbc.driver>com.mysql.jdbc.Driver</profile.buildingdic.jdbc.driver>
+                <profile.buildingdic.jdbc.username>ofin</profile.buildingdic.jdbc.username>
+                <profile.buildingdic.jdbc.password>Fl2ak3BW</profile.buildingdic.jdbc.password>
+                <profile.buildingdic.zookeeper>80.2.27.3:2181,80.2.27.4:2181,80.2.27.5:2181</profile.buildingdic.zookeeper>
+            </properties>
+        </profile>
     </profiles>
 
     
