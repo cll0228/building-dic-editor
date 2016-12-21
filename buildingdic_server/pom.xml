@@ -77,7 +77,7 @@
         <profile>
             <id>prod</id>
             <properties>
-                <profile.buildingdic.jdbc.url>jdbc\:mysql\:loadbalance\://80.2.34.7,80.2.34.8\:3306/buildingdic?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
+                <profile.buildingdic.jdbc.url>jdbc\:mysql\:loadbalance\://80.2.34.7\:3306,80.2.34.8\:3306/buildingdic?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true</profile.buildingdic.jdbc.url>
                 <profile.buildingdic.jdbc.driver>com.mysql.jdbc.Driver</profile.buildingdic.jdbc.driver>
                 <profile.buildingdic.jdbc.username>ofin</profile.buildingdic.jdbc.username>
                 <profile.buildingdic.jdbc.password>Fl2ak3BW</profile.buildingdic.jdbc.password>
