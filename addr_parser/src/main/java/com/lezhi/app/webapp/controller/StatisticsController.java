@@ -73,11 +73,11 @@ public class StatisticsController {
         result.put("buildingWithCoordinate", statisticsMapper.buildingWithCoordinate());
 
         final int countRoom = statisticsMapper.countRoom();
-        int countRoomDeal = statisticsMapper.countRoomDeal();
+        /*int countRoomDeal = statisticsMapper.countRoomDeal();
         result.put("countRoomDeal", countRoomDeal);
 
         int countRoomOthers = countRoom - countRoomDeal;
-        result.put("countRoomOthers", countRoomOthers);
+        result.put("countRoomOthers", countRoomOthers);*/
 
         result.put("countRoom", countRoom);
 
@@ -89,10 +89,10 @@ public class StatisticsController {
         result.put("houseWithAreaRate", String.format("%.2f", houseWithArea / 1.0 / countRoom));
 
         result.put("houseWithTowards", statisticsMapper.houseWithTowards());
-        result.put("houseWithHuxing", statisticsMapper.houseWithHuxing());
+//        result.put("houseWithHuxing", statisticsMapper.houseWithHuxing());
 
-        result.put("parseConfirmedHouseCount", statisticsMapper.parseConfirmedHouseCount());
-        result.put("parseUnconfirmedHouseCount", statisticsMapper.parseUnconfirmedHouseCount());
+//        result.put("parseConfirmedHouseCount", statisticsMapper.parseConfirmedHouseCount());
+//        result.put("parseUnconfirmedHouseCount", statisticsMapper.parseUnconfirmedHouseCount());
 
         result.put("lastUpdateTime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         store(result);

@@ -177,7 +177,8 @@ public class AddressExtractor {
     public static void main(String[] args) {
         //10层全幢室
         //    System.out.println(extractRoomNo("石门路39弄89号9层"));
-
+    	//静安区万航渡路458弄6号 分不了
+    	//康桥镇沪南路3468弄25幢65号6层602室 可以分
         System.out.println(parseAll("静安区万航渡路458弄6号"));
     }
 

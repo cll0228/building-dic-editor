@@ -84,7 +84,7 @@
             <td>&nbsp;&nbsp;</td>
             <td style="text-align:left"><fmt:formatNumber value="${countRoom}" pattern="#,#00"/></td>
         </tr>
-        <tr>
+        <%-- <tr>
             <td style="text-align:right">交易/复评获取房屋数</td>
             <td>&nbsp;&nbsp;</td>
             <td style="text-align:left"><fmt:formatNumber value="${countRoomDeal}" pattern="#,#00"/></td>
@@ -93,7 +93,7 @@
             <td style="text-align:right">其它来源获取房屋数</td>
             <td>&nbsp;&nbsp;</td>
             <td style="text-align:left"><fmt:formatNumber value="${countRoomOthers}" pattern="#,#00"/></td>
-        </tr>
+        </tr> --%>
         <tr>
             <td style="text-align:right">已经锁定的房屋数</td>
             <td>&nbsp;&nbsp;</td>
@@ -114,17 +114,17 @@
             <td>&nbsp;&nbsp;</td>
             <td style="text-align:left"><fmt:formatNumber value="${houseWithTowards}" pattern="#,#00" /></td>
         </tr>
-        <tr>
+        <%-- <tr>
             <td style="text-align:right">有户型房屋数</td>
             <td>&nbsp;&nbsp;</td>
             <td style="text-align:left"><fmt:formatNumber value="${houseWithHuxing}" pattern="#,#00" /></td>
-        </tr>
+        </tr> --%>
         <tr>
             <td style="text-align:right"></td>
             <td>&nbsp;&nbsp;</td>
             <td style="text-align:left"></td>
         </tr>
-        <tr>
+        <%-- <tr>
             <td style="text-align:right">房屋中地址解析规则90分以上数量</td>
             <td>&nbsp;&nbsp;</td>
             <td style="text-align:left"><fmt:formatNumber value="${parseConfirmedHouseCount}" pattern="#,#00" /></td>
@@ -133,7 +133,7 @@
             <td style="text-align:right">房屋中地址解析规则90分以下数量</td>
             <td>&nbsp;&nbsp;</td>
             <td style="text-align:left"><fmt:formatNumber value="${parseUnconfirmedHouseCount}" pattern="#,#00" /></td>
-        </tr>
+        </tr> --%>
     </table>
 
     <div style="margin: 0; padding: 80px;">
@@ -288,7 +288,7 @@
                 }
             ]
         });
-        echarts.init(document.getElementById('main5')).setOption({
+        /* echarts.init(document.getElementById('main5')).setOption({
             title : {
                 text: '地址解析准确度',
                 subtext: '参与统计的地址数量<fmt:formatNumber value="${parseConfirmedHouseCount + parseUnconfirmedHouseCount}" pattern="#,#00"/>',
@@ -322,7 +322,7 @@
                     }
                 }
             ]
-        });
+        }); */
     </script>
 
 </div>

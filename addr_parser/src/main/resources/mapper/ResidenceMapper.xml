@@ -10,18 +10,17 @@
     </resultMap>
 
     <select id="findAll" resultMap="RMap">
-        SELECT t.ResidenceId as id, t.ResidenceName as name, t.ResidenceAddr as address
-        FROM sh_residence_info t
-        where t.IsAvailable = 1
+        SELECT t.id as id, t.residence_name as name, t.residence_addr as address
+        FROM of_residence t
     </select>
 
     <select id="find" resultMap="RMap">
-        SELECT t.ResidenceId as id, t.ResidenceName as name, t.ResidenceAddr as address
-        FROM sh_residence_info t
+        SELECT t.id as id, t.residence_name as name, t.residence_addr as address
+        FROM of_residence t
         where
         1=2
         <foreach collection="keywords" item="keyword" separator="">
-            or t.ResidenceName like '%${keyword}%' or t.ResidenceAddr like '%${keyword}%'
+            or t.residence_name like '%${keyword}%' or t.residence_addr like '%${keyword}%'
         </foreach>
     </select>
 </mapper>

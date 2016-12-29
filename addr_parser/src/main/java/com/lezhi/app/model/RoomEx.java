@@ -1,5 +1,7 @@
 package com.lezhi.app.model;
 
+import java.util.Date;
+
 /**
  * Created by Colin Yan on 2016/8/24.
  */
@@ -17,8 +19,8 @@ public class RoomEx {
     private Integer buildingId;
     private Integer districtId;
     private Integer blockId;
-    private String residenceAccomplishData;
     private Integer planeType;
+    private Date accomplishDate;
 
     public Integer getHouseId() {
         return houseId;
@@ -116,14 +118,6 @@ public class RoomEx {
         this.blockId = blockId;
     }
 
-    public String getResidenceAccomplishData() {
-        return residenceAccomplishData;
-    }
-
-    public void setResidenceAccomplishData(String residenceAccomplishData) {
-        this.residenceAccomplishData = residenceAccomplishData;
-    }
-
     public Integer getPlaneType() {
         return planeType;
     }
@@ -131,4 +125,13 @@ public class RoomEx {
     public void setPlaneType(Integer planeType) {
         this.planeType = planeType;
     }
+
+	public Date getAccomplishDate() {
+		return accomplishDate;
+	}
+
+	public void setAccomplishDate(Date accomplishDate) {
+		this.accomplishDate = accomplishDate;
+	}
+
 }

@@ -5,65 +5,65 @@
 
     <select id="countBuilding" resultType="java.lang.Integer">
         SELECT count(1)
-        FROM t_building_dic r
+        FROM of_building r
     </select>
 
     <select id="buildingWithCoordinate" resultType="java.lang.Integer">
         SELECT count(1)
-        FROM t_building_dic r
+        FROM of_building r
         where lat is not null and lon is not null
     </select>
 
     <select id="countRoom" resultType="java.lang.Integer">
         SELECT count(1)
-        FROM t_house_dic r
+        FROM of_house r
     </select>
 
     <select id="countRoomDeal" resultType="java.lang.Integer">
         SELECT count(1)
-        FROM t_house_dic r
+        FROM of_house r
         left join address_unique au on r.uref_id = au.id
         where au.is_deal = 1 or r.src = '复评';
     </select>
 
     <select id="countRoomLocked" resultType="java.lang.Integer">
-        select count(1) from t_house_dic r
+        select count(1) from of_house r
         where status = 40
     </select>
 
     <select id="residenceCount" resultType="java.lang.Integer">
-        select count(1) from sh_residence_info where isavailable = 1
+        select count(1) from of_residence
     </select>
     <select id="residenceCoverdCount" resultType="java.lang.Integer">
-    select count(1) from sh_residence_info where isavailable = 1 and residenceid in
+    select count(1) from of_residence where id in
     (
-    select distinct residence_id from t_house_dic
+    select distinct residence_id from of_house
     )
     </select>
 
     <select id="houseWithArea" resultType="java.lang.Integer">
-        select count(1) from t_house_dic where area is not null;
+        select count(1) from of_house where area is not null;
     </select>
 
     <select id="houseWithoutArea" resultType="java.lang.Integer">
-        select count(1) from t_house_dic where area is null;
+        select count(1) from of_house where area is null;
     </select>
     <select id="houseWithTowards" resultType="java.lang.Integer">
-        select count(1) from t_house_dic where towards is not null;
+        select count(1) from of_house where towards is not null;
     </select>
     <select id="houseWithHuxing" resultType="java.lang.Integer">
-        select count(1) from t_house_dic where room_type is not null;
+        select count(1) from of_house where room_type is not null;
     </select>
 
     <select id="parseConfirmedHouseCount" resultType="java.lang.Integer">
         SELECT count(1)
-        FROM t_house_dic h INNER JOIN address_unique a ON h.uref_id = a.id
+        FROM of_house h INNER JOIN address_unique a ON h.uref_id = a.id
         WHERE parsed_score IS NOT NULL AND parsed_score >= 90;
     </select>
 
     <select id="parseUnconfirmedHouseCount" resultType="java.lang.Integer">
         SELECT count(1)
-        FROM t_house_dic h INNER JOIN address_unique a ON h.uref_id = a.id
+        FROM of_house h INNER JOIN address_unique a ON h.uref_id = a.id
         WHERE parsed_score IS NULL or parsed_score &lt; 90;
     </select>
 </mapper>

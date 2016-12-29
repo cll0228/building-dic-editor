@@ -14,20 +14,20 @@
         <result column="lon" property="lon"/>
     </resultMap>
     <insert id="insert" parameterType="com.lezhi.app.model.BuildingDic">
-        insert into t_building_dic(`name`, `residence_id`, `total_floor`, `del_status`, `operator_id`, `modify_time`) VALUES (
-        #{name}, #{residenceId},1,#{delStatus},#{operatorId},#{modifyTime}
+        insert into of_building(`building_no`, `residence_id`, `total_floor`, `del_status`) VALUES (
+        #{name}, #{residenceId},1,#{delStatus}
         )
     </insert>
 
     <select id="getBuildingByName" parameterType="com.lezhi.app.model.BuildingDic" resultMap="BMap">
-        select * from t_building_dic where name = #{name} and residence_id = #{residenceId}
+        select * from of_building where building_no = #{name} and residence_id = #{residenceId}
     </select>
 
     <select id="find" resultMap="BMap">
-        select t.id, t.name, t.residence_id from t_building_dic t
+        select t.id, t.building_no as name, t.residence_id from of_building t
         <where>
             <if test="name != null">
-                and t.name = #{name}
+                and t.building_no = #{name}
             </if>
             <if test="residenceId != null">
                 and t.residence_id = #{residenceId}
@@ -36,41 +36,41 @@
     </select>
 
     <select id="findAll" resultMap="BMap">
-        select t.id, t.name, t.residence_id from t_building_dic t
+        select t.id, t.building_no as name, t.residence_id from of_building t
     </select>
 
     <select id="count" resultType="java.lang.Integer">
-        select count(1) from t_building_dic
+        select count(1) from of_building
     </select>
     
     <update id="updateBuildingStatus" parameterType="com.lezhi.app.model.BuildingDic">
-        update t_building_dic set del_status = #{delStatus},operator_id = #{operatorId},modify_time = #{modifyTime} where id = #{id}
+        update of_building set del_status = #{delStatus} where id = #{id}
     </update>
 
     <update id="updateTotalFloor">
-        update t_building_dic set total_floor = #{totalFloor},operator_id = #{operatorId},modify_time = #{modifyTime} where id = #{id}
+        update of_building set total_floor = #{totalFloor} where id = #{id}
     </update>
 
     <insert id="batchInsert" parameterType="com.lezhi.app.model.BuildingDic">
-        insert into t_building_dic(`id`, `name`, `residence_id`, `total_floor`, `del_status`, `operator_id`, `modify_time`, `uref_id`) VALUES
+        insert into of_building(`id`, `building_no`, `residence_id`, `total_floor`, `del_status`) VALUES
         <foreach collection="buildings" item="b" index="index" separator=",">
-            (#{b.id}, #{b.name}, #{b.residenceId}, null, 0, 1, CURRENT_TIMESTAMP(), #{b.urefId})
+            (#{b.id}, #{b.name}, #{b.residenceId}, null, 0)
         </foreach>
     </insert>
 
     <update id="batchUpdate" parameterType="com.lezhi.app.model.BuildingDic">
         <foreach collection="buildings" item="b" index="index" separator=";">
-            update t_building_dic set total_floor = #{b.totalFloor} where id = #{b.id}
+            update of_building set total_floor = #{b.totalFloor} where id = #{b.id}
         </foreach>
     </update>
 
     <select id="findBuildingsByResidenceId" resultMap="BMap">
-        SELECT b.id, b.name, b.residence_id, b.total_floor,  x.roomcount as total_room_num, b.lat as lat, b.lon as lon
-          FROM t_building_dic b
+        SELECT b.id, b.building_no, b.residence_id, b.total_floor,  x.roomcount as total_room_num, b.lat as lat, b.lon as lon
+          FROM of_building b
                LEFT JOIN (SELECT a.building_id, count(a.id) roomcount
-                            FROM t_house_dic a
+                            FROM of_house a
                            WHERE a.building_id IN (SELECT id
-                                                     FROM t_building_dic
+                                                     FROM of_building
                                                     WHERE residence_id = #{residenceId})
                           GROUP BY a.building_id) x
                   ON b.id = x.building_id

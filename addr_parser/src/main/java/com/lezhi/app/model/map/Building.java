@@ -33,6 +33,7 @@ public class Building implements Comparable<Building> {
     public void setName(String name) {
         this.name = name;
         try {
+        	name = name.replaceAll("号", "");
             nameInt = Integer.valueOf(name);
         } catch (Exception ignore) {
         }
