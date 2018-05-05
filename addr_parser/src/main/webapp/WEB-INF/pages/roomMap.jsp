@@ -11,9 +11,6 @@
 
     <!-- Le styles -->
     <link href="${ctx}/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-
-    </style>
     <link href="${ctx}/static/css/roomMap.css" rel="stylesheet" />
     <link href="${ctx}/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
     <script type="text/javascript" src="${ctx}/static/scripts/jquery.js"></script>
